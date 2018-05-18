@@ -1,0 +1,19 @@
+<header class="site-header" role="banner">
+  <div class="container">
+    <h1>{{ site.title }}</h1>
+
+    <nav class="site-nav">
+      <a href="/">Home</a>
+
+      {% for page in site.pages %}
+      {% if page.title %}{% unless page.hidden %}
+      <a href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
+      {% endunless %}{% endif %}
+      {% endfor %}
+    </nav>
+  </div>
+
+  <div class="logo">
+    <a href="https://github.com/{{ site.github_username }}" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+  </div>
+</header>
