@@ -1,32 +1,24 @@
 ---
 layout: post
 title: "Cyberstakes CTF 2018: Protocol"
-author: starfleetcadet75
-categories: writeup
-tags: [cat/reversing, tool/binary-ninja, tool/wireshark]
+categories: writeups
 ---
 
 * **Category:** Reverse Engineering
 * **Points:** 150
-
-<br />
 
 Provided files:
 - [challenge.pcap](https://github.com/starfleetcadet75/writeups/raw/master/2018-Cyberstakes/Protocol/challenge.pcap)
 - [bserver](https://github.com/starfleetcadet75/writeups/raw/master/2018-Cyberstakes/Protocol/bserver)
 - [libc.so](https://github.com/starfleetcadet75/writeups/raw/master/2018-Cyberstakes/Protocol/libc.so)
 
-<br />
-
-# Hints
+## Hints
 
 - The provided packet capture is of communication between the client and server.
 - Analyze the server to determine how the communication happens and what it means!
 - The server is runnable, you can try communicating with it locally.
 
-<br />
-
-# Observations
+## Observations
 
 We are provided with a server that implements a custom protocol and a packet capture of the protocol being used. 
 Opening the server in Binary Ninja, we are drawn to a function called `RRQ_handler`. The rest of the `main` function appears to be boilerplate socket programming. 
@@ -49,12 +41,9 @@ This appears to be consistant with TFTP.
 Turning our attention to the pcap file, we can see a lot of extra junk such as SSH packets. 
 We know that TFTP uses UDP so if we filter by UDP packets, we can end up with this: 
 
-![pcap](https://github.com/starfleetcadet75/writeups/raw/master/2018-Cyberstakes/Protocol/wireshark.png)
+![pcap](https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2018-Cyberstakes/Protocol/wireshark.PNG)
 
-
-<br />
-
-# Solution
+## Solution
 
 The lengths of the packets, 262, shows up in calls to `malloc` inside the server program. This confirms that these are probably the right packets. 
 The client is using port 46722 and the server is initially using 1234. The first message from the client is a 1 followed by the requested filename. 
@@ -64,7 +53,7 @@ For each message from the server, we can see the last four bytes contain some ki
    
 Looking back at the `RRQ_handler`, we can see a call to `rand` followed by the highlighted blocks:   
 
-![server](https://github.com/starfleetcadet75/writeups/raw/master/2018-Cyberstakes/Protocol/binja.png)   
+![server](https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2018-Cyberstakes/Protocol/binja.PNG)
 
 This is a loop that will execute 4 times, xoring the current flag character with a random byte value before sending these encoded characters to the client. 
 If we look at the first block in the function, we can also see a call to `srand` with a seed value of 1. Since calls to `rand` will produce the same values given the same seed, we can now determine the exact sequence of random bytes and recover the contents of the flag.   
@@ -89,99 +78,99 @@ int addrlen = sizeof(addr);
 int seqnum = 0;
 
 void hexdump(const void* data, size_t size) {
-	char ascii[17];
-	size_t i, j;
-	ascii[16] = '\0';
-	for (i = 0; i < size; ++i) {
-		printf("%02X ", ((unsigned char*)data)[i]);
-		if (((unsigned char*)data)[i] >= ' ' && ((unsigned char*)data)[i] <= '~') {
-			ascii[i % 16] = ((unsigned char*)data)[i];
-		} else {
-			ascii[i % 16] = '.';
-		}
-		if ((i+1) % 8 == 0 || i+1 == size) {
-			printf(" ");
-			if ((i+1) % 16 == 0) {
-				printf("|  %s \n", ascii);
-			} else if (i+1 == size) {
-				ascii[(i+1) % 16] = '\0';
-				if ((i+1) % 16 <= 8) {
-					printf(" ");
-				}
-				for (j = (i+1) % 16; j < 16; ++j) {
-					printf("   ");
-				}
-				printf("|  %s \n", ascii);
-			}
-		}
-	}
+    char ascii[17];
+    size_t i, j;
+    ascii[16] = '\0';
+    for (i = 0; i < size; ++i) {
+        printf("%02X ", ((unsigned char*)data)[i]);
+        if (((unsigned char*)data)[i] >= ' ' && ((unsigned char*)data)[i] <= '~') {
+            ascii[i % 16] = ((unsigned char*)data)[i];
+        } else {
+            ascii[i % 16] = '.';
+        }
+        if ((i+1) % 8 == 0 || i+1 == size) {
+            printf(" ");
+            if ((i+1) % 16 == 0) {
+                printf("|  %s \n", ascii);
+            } else if (i+1 == size) {
+           	    ascii[(i+1) % 16] = '\0';
+                if ((i+1) % 16 <= 8) {
+                    printf(" ");
+                }
+                for (j = (i+1) % 16; j < 16; ++j) {
+                    printf("   ");
+                }
+                printf("|  %s \n", ascii);
+            }
+        }
+    }
 }
 
 void process_packet(int sockfd) {
-	seqnum++;
+    seqnum++;
 
-	memset(buf, 0, BUFLEN);
-	if (recvfrom(sockfd, buf, BUFLEN, 0, (struct sockaddr*) &addr, &addrlen) < 0) {
-		fprintf(stderr, "recvfrom() failed\n");
-		exit(1);
-	}
+    memset(buf, 0, BUFLEN);
+    if (recvfrom(sockfd, buf, BUFLEN, 0, (struct sockaddr*) &addr, &addrlen) < 0) {
+        fprintf(stderr, "recvfrom() failed\n");
+        exit(1);
+    }
 
-	// Decrypt the message
-	uint8_t key = (uint8_t) rand();
-	printf("%x", key);
-	// for (int i = 0; i< 4; i++) {
-		// printf("%c", buf[258 + i] ^ key);
-	// }
+    // Decrypt the message
+    uint8_t key = (uint8_t) rand();
+    printf("%x", key);
+    // for (int i = 0; i< 4; i++) {
+        // printf("%c", buf[258 + i] ^ key);
+    // }
 
-	memset(buf, 0, BUFLEN);
-	buf[1] = 4;
-	buf[3] = seqnum;
+    memset(buf, 0, BUFLEN);
+    buf[1] = 4;
+    buf[3] = seqnum;
 
-	if (sendto(sockfd, buf, BUFLEN, 0, (struct sockaddr*) &addr, addrlen) < 0) {
-		fprintf(stderr, "sendto() failed\n");
-		exit(1);
-	}
+    if (sendto(sockfd, buf, BUFLEN, 0, (struct sockaddr*) &addr, addrlen) < 0) {
+        fprintf(stderr, "sendto() failed\n");
+        exit(1);
+    }
 }
 
 int main(int argc, char* argv[]) {
-	memset(buf, 0, BUFLEN);
-	srand(1);  // Call `srand()` with the same seed as the server
+    memset(buf, 0, BUFLEN);
+    srand(1);  // Call `srand()` with the same seed as the server
 
-	int sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-	if (sockfd < 0) {
-		fprintf(stderr, "Failed to create socket\n");
-		return 1;
-	}
+    int sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+    if (sockfd < 0) {
+        fprintf(stderr, "Failed to create socket\n");
+        return 1;
+    }
 
-	memset((char*) &addr, 0, addrlen);
-	addr.sin_family = AF_INET;
-	addr.sin_port = htons(PORT);
+    memset((char*) &addr, 0, addrlen);
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(PORT);
 
-	if (inet_aton(SERVER, &addr.sin_addr) == 0) {
-		fprintf(stderr, "inet_aton() failed\n");
-		return 1;
-	}
+    if (inet_aton(SERVER, &addr.sin_addr) == 0) {
+        fprintf(stderr, "inet_aton() failed\n");
+        return 1;
+    }
 
-	printf("Sending initial Request to Read (RRQ)\n");
-	buf[1] = 1;
-	sprintf(&buf[2], "%s", "flag");
+    printf("Sending initial Request to Read (RRQ)\n");
+    buf[1] = 1;
+    sprintf(&buf[2], "%s", "flag");
 
-	if (sendto(sockfd, buf, BUFLEN, 0, (struct sockaddr*) &addr, addrlen) < 0) {
-		fprintf(stderr, "sendto() failed\n");
-		exit(1);
-	}
+    if (sendto(sockfd, buf, BUFLEN, 0, (struct sockaddr*) &addr, addrlen) < 0) {
+        fprintf(stderr, "sendto() failed\n");
+        exit(1);
+    }
 
-	if (recvfrom(sockfd, buf, BUFLEN, 0, (struct sockaddr*) &addr, &addrlen) < 0) {
-		fprintf(stderr, "recvfrom() failed\n");
-		exit(1);
-	}
+    if (recvfrom(sockfd, buf, BUFLEN, 0, (struct sockaddr*) &addr, &addrlen) < 0) {
+        fprintf(stderr, "recvfrom() failed\n");
+        exit(1);
+    }
 
-	while (seqnum < 9) {
-		process_packet(sockfd);
-	}
+    while (seqnum < 9) {
+        process_packet(sockfd);
+    }
 
-	close(sockfd);
-	return 0;
+    close(sockfd);
+    return 0;
 }
 ```
 

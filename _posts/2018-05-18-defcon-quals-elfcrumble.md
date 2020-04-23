@@ -1,15 +1,11 @@
 ---
 layout: post
-title:  "DEFCON CTF Quals 2018: ELF Crumble"
-author: starfleetcadet75
-categories: writeup
-tags: [cat/reversing, tool/binary-ninja, lang/asm]
+title: "DEFCON CTF Quals 2018: ELF Crumble"
+categories: writeups
 ---
 
 * **Category:** warmup
 * **Points:** 102
-
-<br />
 
 Provided files:
 - [broken](https://github.com/starfleetcadet75/writeups/raw/master/2018-DEFCON-CTF-Quals/broken)
@@ -22,10 +18,8 @@ Provided files:
 - [fragment_7.dat](https://github.com/starfleetcadet75/writeups/raw/master/2018-DEFCON-CTF-Quals/fragment_7.dat)
 - [fragment_8.dat](https://github.com/starfleetcadet75/writeups/raw/master/2018-DEFCON-CTF-Quals/fragment_8.dat)
 
-<br />
 
-
-# Observations
+## Observations
 
 For this challenge we start off with a program which is aptly named `broken` as it segfaults when run. Opening it in Binary Ninja shows us why:
 
@@ -48,9 +42,7 @@ We are given 8 fragments so its not a 1-1 match for each function. The fragment 
 The total size of the fragments adds up to 807 bytes which is also the size of the missing region in the binary.
 
 
-<br />
-
-# Solution
+## Solution
 
 The fragments contain the missing instructions for our binary and we need to put them back in the right places.
 This challenge really showed off the great hex editing abilities of Binary Ninja.
@@ -111,8 +103,6 @@ After moving the fragments into place using Binary Ninja, we have a [fixed binar
 **Flag:** `welcOOOme`
 
 
-<br />
-
 ## The Brute Force Option
 
 Looking at other writeups online, it seems the common solution was to write a script that tried going through the possible permutations.
@@ -126,37 +116,32 @@ import time
 import os
 
 def load(filename):
-  with open(filename, "r") as f:
-    return f.read()
+    with open(filename, "r") as f:
+      return f.read()
 
 # 0x5ad 8d3
 with open('broken', 'r') as f:
-  preamble = f.read(0x5ad)
-  f.read(807) # junk
-  postamble = f.read()
+    preamble = f.read(0x5ad)
+    f.read(807) # junk
+    postamble = f.read()
 
 i = 0
 for xs in itertools.permutations([1,2,3,4,5,6,7,8]):
-  content = "".join(map(lambda x: load("fragment_{}.dat".format(x)), xs))
-  filename = "./brokend/broken{}".format(i)
-  with open(filename, "w") as f:
-    f.write(preamble)
-    f.write(content)
-    f.write(postamble)
-  os.chmod(filename, 0755)
-  time.sleep(0.05) 
+    content = "".join(map(lambda x: load("fragment_{}.dat".format(x)), xs))
+    filename = "./brokend/broken{}".format(i)
+    with open(filename, "w") as f:
+        f.write(preamble)
+        f.write(content)
+        f.write(postamble)
+    os.chmod(filename, 0755)
+    time.sleep(0.05) 
+      
+    brok = subprocess.Popen([filename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    i += 1
+    response = brok.stdout.read()
     
-  brok = subprocess.Popen([filename],
-           stdout=subprocess.PIPE,
-           stderr=subprocess.STDOUT)
-  
-  i += 1
-  
-  response = brok.stdout.read()
-  
-  if not response:
-    continue
-  else:
-    print response
+    if not response:
+        continue
+    else:
+        print response
 ```
-

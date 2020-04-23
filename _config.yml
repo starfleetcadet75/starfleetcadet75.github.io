@@ -1,26 +1,21 @@
 # Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
-title: Starfleetcadet75
-email: starfleetcadet75@gmail.com
-description: ""
+title: starfleetcadet75
+author:
+  name: starfleetcadet75
+  email: starfleetcadet75@gmail.com
+description: >
+  Reversing, Vulnerability Research, CTFs
 baseurl: ""
 url: "https://starfleetcadet75.github.io"
-github_username: starfleetcadet75
-rss: rss
+skin: dark
+markdown: kramdown
+date_format: "%b %-d, %Y"
+show_excerpts: true
+social_links:
+  #twitter: jekyllrb
+  github: starfleetcadet75
 
 # Build settings
-markdown: kramdown
-permalink: pretty
-
-kramdown:
-  input: GFM
-  hard_wrap: false
-
-# github gems
-# (see https://help.github.com/categories/github-pages-features/ )
 plugins:
   - jekyll-feed
   - jekyll-sitemap
