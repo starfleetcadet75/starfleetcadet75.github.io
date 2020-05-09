@@ -1,6 +1,5 @@
 ---
 layout: post
-title: "Plaid CTF 2020: golf.so"
 title: "Cyberstakes CTF 2020: National Dex #65"
 categories: writeups
 ---
@@ -58,4 +57,4 @@ msg = cipher.decrypt(ciphertext)
 print(msg)
 ```
 
-**Flag: ACI{7845061bac2563882068e7f7061}**
+**Flag:** `ACI{7845061bac2563882068e7f7061}`
