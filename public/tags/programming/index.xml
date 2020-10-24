@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>programming on starfleetcadet75</title>
+    <link>https://starfleetcadet75.github.io/tags/programming/</link>
+    <description>Recent content in programming on starfleetcadet75</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 03 May 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://starfleetcadet75.github.io/tags/programming/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cyberstakes CTF 2020: Assembly Voyageur</title>
+      <link>https://starfleetcadet75.github.io/posts/cyberstakes-2020-assembly-voyageur/</link>
+      <pubDate>Sun, 03 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://starfleetcadet75.github.io/posts/cyberstakes-2020-assembly-voyageur/</guid>
+      <description>The webpage for this challenge contains five textareas, each holding a snippet of assembly code for a different architecture.</description>
+    </item>
+    
+    <item>
+      <title>Plaid CTF 2020: golf.so</title>
+      <link>https://starfleetcadet75.github.io/posts/plaid-2020-golf-so/</link>
+      <pubDate>Mon, 20 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://starfleetcadet75.github.io/posts/plaid-2020-golf-so/</guid>
+      <description>Upload a 64-bit ELF shared object of size at most 1024 bytes. It should spawn a shell when loaded using LD_PRELOAD</description>
+    </item>
+    
+  </channel>
+</rss>

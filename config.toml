@@ -1,0 +1,21 @@
+baseURL = "https://starfleetcadet75.github.io/"
+languageCode = "en-us"
+title = "starfleetcadet75"
+enableRobotsTXT = true
+paginate = 5
+publishDir = ".."
+
+SectionPagesMenu = "main"
+
+pygmentsStyle = "monokai"
+pygmentsCodeFences = true
+
+[taxonomies]
+  category = "categories"
+  series = "series"
+  tag = "tags"
+
+[params]
+  github = "starfleetcadet75"
+  gitlab = "starfleetcadet75"
+  email = "starfleetcadet75@gmail.com"

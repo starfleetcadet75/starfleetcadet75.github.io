@@ -1,0 +1,110 @@
+:root {
+--note-color:rgb(200,200,200);
+--important-color:rgb(250,250,250);
+--caution-color:rgb(255,255,200);
+--warning-color:rgb(255,200,200);
+--internal-reference-shadow:0 0 3px rgba(255,255,255,.95);
+}
+pre {
+overflow:auto;
+white-space: pre-wrap;
+word-wrap: break-word;
+}
+
+.admonition-block {
+padding:0;
+text-align:left;
+display: flex;
+margin:0.35em 0.2em;
+
+}
+
+.admonition-block h6 {
+margin:0px;
+text-transform: uppercase;
+text-align:center;
+display:flex;
+font-size:1.9em;
+padding: 0.65em 0.3em;
+height:auto;
+width:6em;
+min-width:6em;
+vertical-align:middle;
+}
+
+.admonition-block h6 span.title-label {
+color: var(--main-bg-color);
+display:flex;
+vertical-align:middle;
+text-align:center;
+margin:auto;
+text-decoration:none;
+}
+
+.admonition-block p {
+display:inline-block;
+font-weight:bold;
+margin:auto 0px;
+padding:0.75em;
+vertical-align:middle;
+}
+
+
+.content .note h6  { background-color: var(--note-color); }
+.content .note { border: 1px solid var(--note-color); }
+.content .important h6 {background-color: var(--important-color); }
+.content .important {border: 1px solid var(--important-color); }
+.content .caution h6 {background-color: var(--caution-color); }
+.content .caution {border: 1px solid var(--caution-color); }
+.content .warning h6{background-color: var(--warning-color); }
+.content .warning {border: 1px solid var(--warning-color); }
+.content .tip h6{background-color: var(--main-sec); }
+.content .tip {border: 1px solid var(--main-sec); }
+
+
+.content a[href^="#"]{
+  text-decoration:none;
+  text-shadow:var(--internal-reference-shadow);
+}
+
+.content a[href^="#"]:not(.footnote-ref):not(.footnote-backref)::after {
+content: "⇣";
+vertical-align: super;
+font-size:0.8em;
+line-height:0;
+}
+
+.content div.glossary dt::before {
+content: "⇣";
+}
+
+.content a.footnote-ref {
+vertical-align: super;
+font-size:0.65em;
+line-height:0;
+}
+
+nav.toc, nav.toc2 {
+text-align:left;
+display:block;
+}
+
+nav.toc ol, nav.toc2 ol {
+padding:2em 5em;
+
+}
+
+
+/*
+.post .content nav.toc h2 {
+display:block;
+color: var(--main-text);
+background-color:transparent;
+text-decoration:underline;
+text-decoration-color: var(--main-sec);
+}*/
+
+
+svg {
+filter: invert()  drop-shadow( 0 0 1px rgba(255, 255, 255, 1)) ;
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sparc on starfleetcadet75</title>
+    <link>https://starfleetcadet75.github.io/tags/sparc/</link>
+    <description>Recent content in sparc on starfleetcadet75</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 05 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://starfleetcadet75.github.io/tags/sparc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack-A-Sat 2020: Sun? On my Sat?</title>
+      <link>https://starfleetcadet75.github.io/posts/hackasat-2020-sun-on-my-sat/</link>
+      <pubDate>Fri, 05 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://starfleetcadet75.github.io/posts/hackasat-2020-sun-on-my-sat/</guid>
+      <description>We&amp;rsquo;ve uncovered a strange device listening on a port I&amp;rsquo;ve connected you to on our satellite. At one point one of our engineers captured the firmware from it but says he saw it get patched recently. We&amp;rsquo;ve tried to communicate with it a couple times, and it seems to expect a hex-encoded string of bytes, but all it has ever sent back is complaints about cookies, or something. See if you can pull any valuable information from the device and the cookies we bought to bribe the device are yours!</description>
+    </item>
+    
+  </channel>
+</rss>
