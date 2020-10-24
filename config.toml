@@ -3,7 +3,6 @@ languageCode = "en-us"
 title = "starfleetcadet75"
 enableRobotsTXT = true
 paginate = 5
-publishDir = ".."
 
 SectionPagesMenu = "main"
 
