@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="" />
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.76.2" />
+
+<link rel="canonical" href="https://starfleetcadet75.github.io/posts/flareon-2020-2-garbage/">
+<meta property="og:title" content="Flare-On CTF 2020 Challenge 2: garbage" />
+<meta property="og:description" content="One of our team members developed a Flare-On challenge but accidentally deleted it. We recovered it using extreme digital forensic techniques but it seems to be corrupted." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://starfleetcadet75.github.io/posts/flareon-2020-2-garbage/" />
+<meta property="article:published_time" content="2020-09-18T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-09-18T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Flare-On CTF 2020 Challenge 2: garbage"/>
+<meta name="twitter:description" content="One of our team members developed a Flare-On challenge but accidentally deleted it. We recovered it using extreme digital forensic techniques but it seems to be corrupted."/>
+
+
+<meta itemprop="name" content="Flare-On CTF 2020 Challenge 2: garbage">
+<meta itemprop="description" content="One of our team members developed a Flare-On challenge but accidentally deleted it. We recovered it using extreme digital forensic techniques but it seems to be corrupted.">
+<meta itemprop="datePublished" content="2020-09-18T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-09-18T00:00:00+00:00" />
+<meta itemprop="wordCount" content="325">
+
+
+
+<meta itemprop="keywords" content="reversing," />
+
+
+<link rel="stylesheet" href="/css/layout.css" />
+
+
+<link rel="stylesheet" href="/css/default-dark.css" />
+
+
+<link rel="stylesheet" href="/css/adoc-html5-extension.css" />
+
+
+
+<title>
+
+
+     Flare-On CTF 2020 Challenge 2: garbage 
+
+</title>
+
+</head>
+
+
+<body>
+<div class="main">
+<header>
+
+<div class="header-bar">
+
+  <nav>
+    <div class="siteTitle">
+      <a href="https://starfleetcadet75.github.io/">starfleetcadet75</a>
+    </div> 
+
+    
+    
+    <a class="nav-item" href="/about/"><div class="nav-item-title">About</div></a>
+    
+    <a class="nav-item" href="/readinglist/"><div class="nav-item-title">Reading List</div></a>
+    
+    <a class="nav-item active" href="/posts/"><div class="nav-item-title">Posts</div></a>
+    
+
+  </nav>
+
+  
+<div class="social-links-header" style="visibility:hidden; display:none;">
+
+  
+  <a href="mailto:starfleetcadet75@gmail.com"><div class="social-link">email</div></a>
+  
+
+  
+  <a href="https://github.com/starfleetcadet75" target="_blank"><div class="social-link">gh</div></a>
+  
+
+  
+  <a href="https://gitlab.com/starfleetcadet75" target="_blank"><div class="social-link">gl</div></a>
+  
+
+  
+
+  
+
+</div>
+
+
+</div>
+
+
+</header>
+
+
+<article class="post">
+    <h1 class="title"> Flare-On CTF 2020 Challenge 2: garbage </h1>
+    <div class="content"> <h2 id="challenge">Challenge</h2>
+<blockquote>
+<p>One of our team members developed a Flare-On challenge but accidentally deleted it.
+We recovered it using extreme digital forensic techniques but it seems to be corrupted.
+We would fix it but we are too busy solving today&rsquo;s most important information security threats affecting our global economy.
+You should be able to get it working again, reverse engineer it, and acquire the flag.</p>
+</blockquote>
+<h2 id="observations">Observations</h2>
+<p>The program <code>garbage</code> throws an error when we try to execute it.
+Examining the program in Binary Ninja, we can see that the resource section has been cutoff and is missing part of the manifest.
+We can also see from the section names that the program is packed with UPX.</p>
+<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/garbage/missing_rsrc.PNG" alt="missing_rsrc"></p>
+<h2 id="repairing-the-program">Repairing the Program</h2>
+<p>PE-Bear indicates that the resource section is supposed to be 0x400 bytes long.
+We can use a hex editor to manually fix the manifest and then pad it out to the requested size of 0x400 bytes.</p>
+<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/garbage/fixed_rsrc.png" alt="fixed_rsrc"></p>
+<p>The application now displays a different error that the &ldquo;side-by-side configuration is incorrect&rdquo;.
+It turns out that the size of the manifest in the resource directory must match its actual size in bytes.
+We can use CFF Explorer to change the size to equal the new length in bytes.</p>
+<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/garbage/fixed_size.png" alt="fixed_size"></p>
+<p>The program now runs without displaying an error message but still crashes.
+At this point, CFF can now correctly unpack the program.
+The import table for the unpacked program appears to indicate that it imports functions from two DLLs but it does not list their names.
+Based on the imported function names, we can manually set the names to be kernel32.dll and shell32.dll.</p>
+<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/garbage/missing_imports.PNG" alt="missing_imports"></p>
+<p>The last obstacle we must address are the missing relocations.
+The relocations should appear following the resource section but have been cut off.
+This is simple to fix however since we can just tell the loader to ignore them.</p>
+<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/garbage/fixed_reloc.PNG" alt="fixed_reloc"></p>
+<p>Now that the <a href="https://github.com/starfleetcadet75/writeups/blob/master/2020-Flareon-CTF/garbage/garbage_fixed.exe">program has been repaired</a>, it drops a VBS script to the current directory that displays our flag:</p>
+<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/garbage/flag.PNG" alt="flag"></p>
+ </div>
+    <footer class="post-footer">
+
+  <div class="post-footer-data">
+            
+<div class="tags">
+  
+    
+      <div class="tag">
+        <a href="/tags/reversing">#reversing</a>
+      </div>
+    
+  
+</div>
+
+    <div class="post-footer-meta">Permalink: <a href="https://starfleetcadet75.github.io/posts/flareon-2020-2-garbage/">/posts/flareon-2020-2-garbage/</a> | Date: 2020-09-18 </div>
+    
+    <hr>
+            
+<div class="categories">
+  
+  Published in:
+    
+      <div class="category">
+        <a href="/categories/writeups">writeups</a>
+      </div>
+    
+  
+</div>
+
+            
+<div class="series">
+  
+</div>
+
+    
+  </div>
+</footer>
+
+
+
+</article>
+
+  <footer>
+
+  <div class="social-links-footer">
+
+  
+  <a href="mailto:starfleetcadet75@gmail.com"><div class="social-link">Email</div></a>
+  
+
+  
+  <a href="https://github.com/starfleetcadet75" target="_blank"><div class="social-link">GitHub</div></a>
+  
+
+  
+  <a href="https://gitlab.com/starfleetcadet75" target="_blank"><div class="social-link">GitLab</div></a>
+  
+
+  
+
+  
+
+  <div class="social-link">
+  <a href="https://starfleetcadet75.github.io/index.xml" target="_blank">RSS</a>
+  </div>
+
+</div>
+
+
+  <div class="copyright">  </div>
+
+  <div class="poweredby">
+    Powered by <a href="https://gohugo.io/">Hugo</a>.
+  </div>
+
+  </footer>
+
+</div> 
+
+</body>
+</html>
+

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>reversing on starfleetcadet75</title>
+    <link>https://starfleetcadet75.github.io/tags/reversing/</link>
+    <description>Recent content in reversing on starfleetcadet75</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 18 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://starfleetcadet75.github.io/tags/reversing/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Flare-On CTF 2020 Challenge 1: Fidler</title>
+      <link>https://starfleetcadet75.github.io/posts/flareon-2020-1-fidler/</link>
+      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://starfleetcadet75.github.io/posts/flareon-2020-1-fidler/</guid>
+      <description>This is a simple game. Win it by any means necessary and the victory screen will reveal the flag.</description>
+    </item>
+    
+    <item>
+      <title>Flare-On CTF 2020 Challenge 2: garbage</title>
+      <link>https://starfleetcadet75.github.io/posts/flareon-2020-2-garbage/</link>
+      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://starfleetcadet75.github.io/posts/flareon-2020-2-garbage/</guid>
+      <description>One of our team members developed a Flare-On challenge but accidentally deleted it. We recovered it using extreme digital forensic techniques but it seems to be corrupted.</description>
+    </item>
+    
+    <item>
+      <title>Flare-On CTF 2020 Challenge 3: wednesday</title>
+      <link>https://starfleetcadet75.github.io/posts/flareon-2020-3-wednesday/</link>
+      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://starfleetcadet75.github.io/posts/flareon-2020-3-wednesday/</guid>
+      <description>Unlike challenge 1, you probably won&amp;rsquo;t be able to beat this game the old fashioned way.</description>
+    </item>
+    
+    <item>
+      <title>Flare-On CTF 2020 Challenge 4: report</title>
+      <link>https://starfleetcadet75.github.io/posts/flareon-2020-4-report/</link>
+      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://starfleetcadet75.github.io/posts/flareon-2020-4-report/</guid>
+      <description>Nobody likes analysing infected documents, but it pays the bills. Reverse this macro thrill-ride to discover how to get it to show you the key.</description>
+    </item>
+    
+    <item>
+      <title>Flare-On CTF 2020 Challenge 5: TKApp</title>
+      <link>https://starfleetcadet75.github.io/posts/flareon-2020-5-tkapp/</link>
+      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://starfleetcadet75.github.io/posts/flareon-2020-5-tkapp/</guid>
+      <description>This is the mobile device challenge for 2020 and features a pedometer app for the Tizen operating system.</description>
+    </item>
+    
+    <item>
+      <title>Flare-On CTF 2020 Challenge 6: codeit</title>
+      <link>https://starfleetcadet75.github.io/posts/flareon-2020-6-codeit/</link>
+      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://starfleetcadet75.github.io/posts/flareon-2020-6-codeit/</guid>
+      <description>Reverse engineer this little compiled script to figure out what you need to do to make it give you the flag (as a QR code).</description>
+    </item>
+    
+    <item>
+      <title>Flare-On CTF 2020 Challenge 7: re_crowd</title>
+      <link>https://starfleetcadet75.github.io/posts/flareon-2020-7-recrowd/</link>
+      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://starfleetcadet75.github.io/posts/flareon-2020-7-recrowd/</guid>
+      <description>Here at Reynholm Industries we pride ourselves on everything. It&amp;rsquo;s not easy to admit, but recently one of our most valuable servers was breached. We don&amp;rsquo;t believe in host monitoring so all we have is a network packet capture. We need you to investigate and determine what data was extracted from the server, if any.</description>
+    </item>
+    
+    <item>
+      <title>Flare-On CTF 2020 Challenge 8: Aardvark</title>
+      <link>https://starfleetcadet75.github.io/posts/flareon-2020-8-aardvark/</link>
+      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://starfleetcadet75.github.io/posts/flareon-2020-8-aardvark/</guid>
+      <description>Expect difficulty running this one. I suggest investigating why each error is occuring. Or not, whatever. You do you.</description>
+    </item>
+    
+    <item>
+      <title>Hack-A-Sat 2020: Sun? On my Sat?</title>
+      <link>https://starfleetcadet75.github.io/posts/hackasat-2020-sun-on-my-sat/</link>
+      <pubDate>Fri, 05 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://starfleetcadet75.github.io/posts/hackasat-2020-sun-on-my-sat/</guid>
+      <description>We&amp;rsquo;ve uncovered a strange device listening on a port I&amp;rsquo;ve connected you to on our satellite. At one point one of our engineers captured the firmware from it but says he saw it get patched recently. We&amp;rsquo;ve tried to communicate with it a couple times, and it seems to expect a hex-encoded string of bytes, but all it has ever sent back is complaints about cookies, or something. See if you can pull any valuable information from the device and the cookies we bought to bribe the device are yours!</description>
+    </item>
+    
+    <item>
+      <title>Cyberstakes CTF 2020: Into the Metaverse</title>
+      <link>https://starfleetcadet75.github.io/posts/cyberstakes-2020-into-the-metaverse/</link>
+      <pubDate>Sun, 03 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://starfleetcadet75.github.io/posts/cyberstakes-2020-into-the-metaverse/</guid>
+      <description>We extracted the DRM module from a target device but haven&amp;rsquo;t been able to reverse engineer its validation logic.</description>
+    </item>
+    
+    <item>
+      <title>Cyberstakes CTF 2020: National Dex #65</title>
+      <link>https://starfleetcadet75.github.io/posts/cyberstakes-2020-national-dex-65/</link>
+      <pubDate>Sun, 03 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://starfleetcadet75.github.io/posts/cyberstakes-2020-national-dex-65/</guid>
+      <description>We found the encryptor but it won&amp;rsquo;t decrypt encrypted?</description>
+    </item>
+    
+    <item>
+      <title>Cyberstakes CTF 2020: Say What?</title>
+      <link>https://starfleetcadet75.github.io/posts/cyberstakes-2020-say-what/</link>
+      <pubDate>Sun, 03 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://starfleetcadet75.github.io/posts/cyberstakes-2020-say-what/</guid>
+      <description>We intercepted some foreign documents. We think there&amp;rsquo;s interesting information inside but the file is protected with a unique password algorithm</description>
+    </item>
+    
+    <item>
+      <title>Cyberstakes CTF 2018: Protocol</title>
+      <link>https://starfleetcadet75.github.io/posts/cyberstakes-2018-protocol/</link>
+      <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://starfleetcadet75.github.io/posts/cyberstakes-2018-protocol/</guid>
+      <description>We are provided with a server that implements a custom protocol and a packet capture of the protocol being used.</description>
+    </item>
+    
+    <item>
+      <title>DEFCON CTF Quals 2018: ELF Crumble</title>
+      <link>https://starfleetcadet75.github.io/posts/defcon-quals-2018-elfcrumble/</link>
+      <pubDate>Fri, 18 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://starfleetcadet75.github.io/posts/defcon-quals-2018-elfcrumble/</guid>
+      <description>For this challenge we start off with a program which is aptly named &lt;code&gt;broken&lt;/code&gt; as it segfaults when run.</description>
+    </item>
+    
+  </channel>
+</rss>

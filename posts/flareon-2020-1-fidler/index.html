@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="" />
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.76.2" />
+
+<link rel="canonical" href="https://starfleetcadet75.github.io/posts/flareon-2020-1-fidler/">
+<meta property="og:title" content="Flare-On CTF 2020 Challenge 1: Fidler" />
+<meta property="og:description" content="This is a simple game. Win it by any means necessary and the victory screen will reveal the flag." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://starfleetcadet75.github.io/posts/flareon-2020-1-fidler/" />
+<meta property="article:published_time" content="2020-09-18T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-09-18T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Flare-On CTF 2020 Challenge 1: Fidler"/>
+<meta name="twitter:description" content="This is a simple game. Win it by any means necessary and the victory screen will reveal the flag."/>
+
+
+<meta itemprop="name" content="Flare-On CTF 2020 Challenge 1: Fidler">
+<meta itemprop="description" content="This is a simple game. Win it by any means necessary and the victory screen will reveal the flag.">
+<meta itemprop="datePublished" content="2020-09-18T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-09-18T00:00:00+00:00" />
+<meta itemprop="wordCount" content="327">
+
+
+
+<meta itemprop="keywords" content="reversing," />
+
+
+<link rel="stylesheet" href="/css/layout.css" />
+
+
+<link rel="stylesheet" href="/css/default-dark.css" />
+
+
+<link rel="stylesheet" href="/css/adoc-html5-extension.css" />
+
+
+
+<title>
+
+
+     Flare-On CTF 2020 Challenge 1: Fidler 
+
+</title>
+
+</head>
+
+
+<body>
+<div class="main">
+<header>
+
+<div class="header-bar">
+
+  <nav>
+    <div class="siteTitle">
+      <a href="https://starfleetcadet75.github.io/">starfleetcadet75</a>
+    </div> 
+
+    
+    
+    <a class="nav-item" href="/about/"><div class="nav-item-title">About</div></a>
+    
+    <a class="nav-item" href="/readinglist/"><div class="nav-item-title">Reading List</div></a>
+    
+    <a class="nav-item active" href="/posts/"><div class="nav-item-title">Posts</div></a>
+    
+
+  </nav>
+
+  
+<div class="social-links-header" style="visibility:hidden; display:none;">
+
+  
+  <a href="mailto:starfleetcadet75@gmail.com"><div class="social-link">email</div></a>
+  
+
+  
+  <a href="https://github.com/starfleetcadet75" target="_blank"><div class="social-link">gh</div></a>
+  
+
+  
+  <a href="https://gitlab.com/starfleetcadet75" target="_blank"><div class="social-link">gl</div></a>
+  
+
+  
+
+  
+
+</div>
+
+
+</div>
+
+
+</header>
+
+
+<article class="post">
+    <h1 class="title"> Flare-On CTF 2020 Challenge 1: Fidler </h1>
+    <div class="content"> <h2 id="challenge">Challenge</h2>
+<blockquote>
+<p>This is a simple game.
+Win it by any means necessary and the victory screen will reveal the flag.
+Enter the flag here on this site to score and move on to the next level.
+This challenge is written in Python and is distributed as a runnable EXE and matching source code for your convenience.
+You can run the source code directly on any Python platform with PyGame if you would prefer.</p>
+</blockquote>
+<h2 id="observations">Observations</h2>
+<p>We are provided with the source code for a small game in Python and with a runnable version of the program.</p>
+<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/fidler/password_prompt.PNG" alt="password_prompt"></p>
+<p>An incorrect password yields an excellant failure message:</p>
+<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/fidler/fail_screen.PNG" alt="fail_screen"></p>
+<h2 id="reversing-the-program">Reversing the Program</h2>
+<p>Since we are provided the source code, we can simply look at where the password is checked.
+There is a function called <code>password_check</code> that checks whether the supplied password is &ldquo;ghost&rdquo;:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">password_check</span>(input):
+    altered_key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;hiptu&#39;</span>
+    key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">.</span>join([chr(ord(x) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> altered_key])
+    <span style="color:#66d9ef">return</span> input <span style="color:#f92672">==</span> key
+</code></pre></div><p>We are next presented with a screen that forces us to play some sort of tedious coin game.</p>
+<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/fidler/coin_game.PNG" alt="coin_game"></p>
+<p>There is a function called <code>victory_screen</code> that makes a call to <code>decode_flag</code>.
+It takes a single integer argument derived from the number of coins.
+Since we already have the code, we can just iterate over every possible input and find the flag.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">decode_flag</span>(frob):
+    last_value <span style="color:#f92672">=</span> frob
+    encoded_flag <span style="color:#f92672">=</span> [
+        <span style="color:#ae81ff">1135</span>, <span style="color:#ae81ff">1038</span>, <span style="color:#ae81ff">1126</span>, <span style="color:#ae81ff">1028</span>, <span style="color:#ae81ff">1117</span>, <span style="color:#ae81ff">1071</span>, <span style="color:#ae81ff">1094</span>, <span style="color:#ae81ff">1077</span>, <span style="color:#ae81ff">1121</span>, <span style="color:#ae81ff">1087</span>, <span style="color:#ae81ff">1110</span>, <span style="color:#ae81ff">1092</span>,
+        <span style="color:#ae81ff">1072</span>, <span style="color:#ae81ff">1095</span>, <span style="color:#ae81ff">1090</span>, <span style="color:#ae81ff">1027</span>, <span style="color:#ae81ff">1127</span>, <span style="color:#ae81ff">1040</span>, <span style="color:#ae81ff">1137</span>, <span style="color:#ae81ff">1030</span>, <span style="color:#ae81ff">1127</span>, <span style="color:#ae81ff">1099</span>, <span style="color:#ae81ff">1062</span>, <span style="color:#ae81ff">1101</span>,
+        <span style="color:#ae81ff">1123</span>, <span style="color:#ae81ff">1027</span>, <span style="color:#ae81ff">1136</span>, <span style="color:#ae81ff">1054</span>
+    ]
+    decoded_flag <span style="color:#f92672">=</span> []
+
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(encoded_flag)):
+        c <span style="color:#f92672">=</span> encoded_flag[i]
+        val <span style="color:#f92672">=</span> (c <span style="color:#f92672">-</span> ((i <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> (i <span style="color:#f92672">%</span> <span style="color:#ae81ff">3</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>)) <span style="color:#f92672">^</span> last_value
+        decoded_flag<span style="color:#f92672">.</span>append(val)
+        last_value <span style="color:#f92672">=</span> c
+
+    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join([chr(x) <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> decoded_flag])
+
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1000</span>):
+    <span style="color:#66d9ef">print</span>(decode_flag(i))
+</code></pre></div><p>Its pretty obvious from the output what the correct first letter should be:</p>
+<pre><code class="language-none" data-lang="none">џdle_with_kitty@flare-on.com
+ўdle_with_kitty@flare-on.com
+ѝdle_with_kitty@flare-on.com
+ќdle_with_kitty@flare-on.com
+ћdle_with_kitty@flare-on.com
+њdle_with_kitty@flare-on.com
+љdle_with_kitty@flare-on.com
+јdle_with_kitty@flare-on.com
+їdle_with_kitty@flare-on.com
+**іdle_with_kitty@flare-on.com**  &lt;- flag
+ѕdle_with_kitty@flare-on.com
+єdle_with_kitty@flare-on.com
+ѓdle_with_kitty@flare-on.com
+ђdle_with_kitty@flare-on.com
+ёdle_with_kitty@flare-on.com
+ѐdle_with_kitty@flare-on.com
+Яdle_with_kitty@flare-on.com
+...
+</code></pre> </div>
+    <footer class="post-footer">
+
+  <div class="post-footer-data">
+            
+<div class="tags">
+  
+    
+      <div class="tag">
+        <a href="/tags/reversing">#reversing</a>
+      </div>
+    
+  
+</div>
+
+    <div class="post-footer-meta">Permalink: <a href="https://starfleetcadet75.github.io/posts/flareon-2020-1-fidler/">/posts/flareon-2020-1-fidler/</a> | Date: 2020-09-18 </div>
+    
+    <hr>
+            
+<div class="categories">
+  
+  Published in:
+    
+      <div class="category">
+        <a href="/categories/writeups">writeups</a>
+      </div>
+    
+  
+</div>
+
+            
+<div class="series">
+  
+</div>
+
+    
+  </div>
+</footer>
+
+
+
+</article>
+
+  <footer>
+
+  <div class="social-links-footer">
+
+  
+  <a href="mailto:starfleetcadet75@gmail.com"><div class="social-link">Email</div></a>
+  
+
+  
+  <a href="https://github.com/starfleetcadet75" target="_blank"><div class="social-link">GitHub</div></a>
+  
+
+  
+  <a href="https://gitlab.com/starfleetcadet75" target="_blank"><div class="social-link">GitLab</div></a>
+  
+
+  
+
+  
+
+  <div class="social-link">
+  <a href="https://starfleetcadet75.github.io/index.xml" target="_blank">RSS</a>
+  </div>
+
+</div>
+
+
+  <div class="copyright">  </div>
+
+  <div class="poweredby">
+    Powered by <a href="https://gohugo.io/">Hugo</a>.
+  </div>
+
+  </footer>
+
+</div> 
+
+</body>
+</html>
+
