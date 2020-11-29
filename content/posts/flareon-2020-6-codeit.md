@@ -1,7 +1,7 @@
 ---
 title: "Flare-On CTF 2020 Challenge 6: codeit"
 summary: "Reverse engineer this little compiled script to figure out what you need to do to make it give you the flag (as a QR code)."
-date: 2020-09-18
+date: 2020-09-23
 categories:
   - "writeups"
 tags:

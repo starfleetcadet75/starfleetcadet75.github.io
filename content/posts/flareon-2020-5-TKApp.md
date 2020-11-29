@@ -1,7 +1,7 @@
 ---
 title: "Flare-On CTF 2020 Challenge 5: TKApp"
 summary: "This is the mobile device challenge for 2020 and features a pedometer app for the Tizen operating system."
-date: 2020-09-18
+date: 2020-09-22
 categories:
   - "writeups"
 tags:

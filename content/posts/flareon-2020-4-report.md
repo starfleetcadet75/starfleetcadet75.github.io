@@ -1,7 +1,7 @@
 ---
 title: "Flare-On CTF 2020 Challenge 4: report"
 summary: "Nobody likes analysing infected documents, but it pays the bills. Reverse this macro thrill-ride to discover how to get it to show you the key."
-date: 2020-09-18
+date: 2020-09-21
 categories:
   - "writeups"
 tags:

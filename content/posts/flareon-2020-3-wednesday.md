@@ -1,7 +1,7 @@
 ---
 title: "Flare-On CTF 2020 Challenge 3: wednesday"
 summary: "Unlike challenge 1, you probably won't be able to beat this game the old fashioned way."
-date: 2020-09-18
+date: 2020-09-20
 categories:
   - "writeups"
 tags:

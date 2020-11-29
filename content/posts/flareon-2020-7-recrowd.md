@@ -1,7 +1,7 @@
 ---
 title: "Flare-On CTF 2020 Challenge 7: re_crowd"
 summary: "Here at Reynholm Industries we pride ourselves on everything. It's not easy to admit, but recently one of our most valuable servers was breached. We don't believe in host monitoring so all we have is a network packet capture. We need you to investigate and determine what data was extracted from the server, if any."
-date: 2020-09-18
+date: 2020-09-24
 categories:
   - "writeups"
 tags:

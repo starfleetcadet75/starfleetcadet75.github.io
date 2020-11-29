@@ -1,7 +1,7 @@
 ---
 title: "Flare-On CTF 2020 Challenge 2: garbage"
 summary: "One of our team members developed a Flare-On challenge but accidentally deleted it. We recovered it using extreme digital forensic techniques but it seems to be corrupted."
-date: 2020-09-18
+date: 2020-09-19
 categories:
   - "writeups"
 tags:

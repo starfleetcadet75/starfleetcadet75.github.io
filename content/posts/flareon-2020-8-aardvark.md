@@ -1,7 +1,7 @@
 ---
 title: "Flare-On CTF 2020 Challenge 8: Aardvark"
 summary: "Expect difficulty running this one. I suggest investigating why each error is occuring. Or not, whatever. You do you."
-date: 2020-09-18
+date: 2020-09-25
 categories:
   - "writeups"
 tags:
