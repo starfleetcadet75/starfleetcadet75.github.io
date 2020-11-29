@@ -12,91 +12,101 @@
   
   <url>
     <loc>https://starfleetcadet75.github.io/categories/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+    <lastmod>2020-11-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://starfleetcadet75.github.io/tags/dotnet/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://starfleetcadet75.github.io/posts/flareon-2020-1-fidler/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://starfleetcadet75.github.io/posts/flareon-2020-2-garbage/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://starfleetcadet75.github.io/posts/flareon-2020-3-wednesday/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://starfleetcadet75.github.io/posts/flareon-2020-4-report/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://starfleetcadet75.github.io/posts/flareon-2020-5-tkapp/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://starfleetcadet75.github.io/posts/flareon-2020-6-codeit/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://starfleetcadet75.github.io/posts/flareon-2020-7-recrowd/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://starfleetcadet75.github.io/posts/flareon-2020-8-aardvark/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://starfleetcadet75.github.io/tags/forensics/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://starfleetcadet75.github.io/tags/mobile/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+    <loc>https://starfleetcadet75.github.io/posts/flareon-2020-9-crackinstaller/</loc>
+    <lastmod>2020-11-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://starfleetcadet75.github.io/posts/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+    <lastmod>2020-11-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://starfleetcadet75.github.io/tags/reversing/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+    <lastmod>2020-11-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://starfleetcadet75.github.io/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+    <lastmod>2020-11-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://starfleetcadet75.github.io/tags/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+    <lastmod>2020-11-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://starfleetcadet75.github.io/tags/vba/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+    <loc>https://starfleetcadet75.github.io/tags/windows-drivers/</loc>
+    <lastmod>2020-11-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://starfleetcadet75.github.io/categories/writeups/</loc>
+    <lastmod>2020-11-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://starfleetcadet75.github.io/posts/flareon-2020-8-aardvark/</loc>
+    <lastmod>2020-09-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://starfleetcadet75.github.io/posts/flareon-2020-7-recrowd/</loc>
+    <lastmod>2020-09-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://starfleetcadet75.github.io/tags/forensics/</loc>
+    <lastmod>2020-09-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://starfleetcadet75.github.io/posts/flareon-2020-6-codeit/</loc>
+    <lastmod>2020-09-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://starfleetcadet75.github.io/tags/dotnet/</loc>
+    <lastmod>2020-09-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://starfleetcadet75.github.io/posts/flareon-2020-5-tkapp/</loc>
+    <lastmod>2020-09-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://starfleetcadet75.github.io/tags/mobile/</loc>
+    <lastmod>2020-09-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://starfleetcadet75.github.io/posts/flareon-2020-4-report/</loc>
+    <lastmod>2020-09-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://starfleetcadet75.github.io/tags/vba/</loc>
+    <lastmod>2020-09-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://starfleetcadet75.github.io/posts/flareon-2020-3-wednesday/</loc>
+    <lastmod>2020-09-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://starfleetcadet75.github.io/posts/flareon-2020-2-garbage/</loc>
+    <lastmod>2020-09-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://starfleetcadet75.github.io/posts/flareon-2020-1-fidler/</loc>
     <lastmod>2020-09-18T00:00:00+00:00</lastmod>
   </url>
   

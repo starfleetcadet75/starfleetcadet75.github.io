@@ -6,32 +6,32 @@
     <description>Recent content in forensics on starfleetcadet75</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 18 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://starfleetcadet75.github.io/tags/forensics/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 24 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://starfleetcadet75.github.io/tags/forensics/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Flare-On CTF 2020 Challenge 4: report</title>
-      <link>https://starfleetcadet75.github.io/posts/flareon-2020-4-report/</link>
-      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      <title>Flare-On CTF 2020 Challenge 7: re_crowd</title>
+      <link>https://starfleetcadet75.github.io/posts/flareon-2020-7-recrowd/</link>
+      <pubDate>Thu, 24 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://starfleetcadet75.github.io/posts/flareon-2020-4-report/</guid>
-      <description>Nobody likes analysing infected documents, but it pays the bills. Reverse this macro thrill-ride to discover how to get it to show you the key.</description>
+      <guid>https://starfleetcadet75.github.io/posts/flareon-2020-7-recrowd/</guid>
+      <description>Here at Reynholm Industries we pride ourselves on everything. It&amp;rsquo;s not easy to admit, but recently one of our most valuable servers was breached. We don&amp;rsquo;t believe in host monitoring so all we have is a network packet capture. We need you to investigate and determine what data was extracted from the server, if any.</description>
     </item>
     
     <item>
       <title>Flare-On CTF 2020 Challenge 6: codeit</title>
       <link>https://starfleetcadet75.github.io/posts/flareon-2020-6-codeit/</link>
-      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 23 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://starfleetcadet75.github.io/posts/flareon-2020-6-codeit/</guid>
       <description>Reverse engineer this little compiled script to figure out what you need to do to make it give you the flag (as a QR code).</description>
     </item>
     
     <item>
-      <title>Flare-On CTF 2020 Challenge 7: re_crowd</title>
-      <link>https://starfleetcadet75.github.io/posts/flareon-2020-7-recrowd/</link>
-      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      <title>Flare-On CTF 2020 Challenge 4: report</title>
+      <link>https://starfleetcadet75.github.io/posts/flareon-2020-4-report/</link>
+      <pubDate>Mon, 21 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://starfleetcadet75.github.io/posts/flareon-2020-7-recrowd/</guid>
-      <description>Here at Reynholm Industries we pride ourselves on everything. It&amp;rsquo;s not easy to admit, but recently one of our most valuable servers was breached. We don&amp;rsquo;t believe in host monitoring so all we have is a network packet capture. We need you to investigate and determine what data was extracted from the server, if any.</description>
+      <guid>https://starfleetcadet75.github.io/posts/flareon-2020-4-report/</guid>
+      <description>Nobody likes analysing infected documents, but it pays the bills. Reverse this macro thrill-ride to discover how to get it to show you the key.</description>
     </item>
     
     <item>
