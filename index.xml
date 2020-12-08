@@ -6,7 +6,7 @@
     <description>Recent content on starfleetcadet75</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 11 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://starfleetcadet75.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 07 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://starfleetcadet75.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About</title>
       <link>https://starfleetcadet75.github.io/about/</link>
@@ -25,6 +25,15 @@
       <guid>https://starfleetcadet75.github.io/readinglist/</guid>
       <description>Books Sorted by recommended reading order:
  Hacking: The Art of Exploitation Practical Malware Analysis Practical Binary Analysis The Shellcoder&amp;rsquo;s Handbook The IDA Pro Book The Ghidra Book A Bug Hunter&amp;rsquo;s Diary Serious Cryptography Introduction to Modern Cryptography Security Engineering Windows Internals A Guide to Kernel Exploitation Rootkits and Bootkits  Training  Cryptopals CSAW365 Microcorruption pwnable.kr pwnable.tw The Fuzzing Book  </description>
+    </item>
+    
+    <item>
+      <title>Perfect Blue CTF 2020: Amazing ROP</title>
+      <link>https://starfleetcadet75.github.io/posts/pbctf-2020-amazing-rop/</link>
+      <pubDate>Mon, 07 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://starfleetcadet75.github.io/posts/pbctf-2020-amazing-rop/</guid>
+      <description>Should be a baby ROP challenge. Just need to follow directions and get first flag.</description>
     </item>
     
     <item>
