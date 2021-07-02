@@ -1,375 +1,147 @@
-<!DOCTYPE html>
-<html lang="en-us">
-
-<head>
-<meta charset="utf-8" />
-<meta name="author" content="" />
-<meta name="description" content="" />
-<meta name="keywords" content="" />
-<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-<meta name="generator" content="Hugo 0.76.2" />
-
-<link rel="canonical" href="https://starfleetcadet75.github.io/posts/cyberstakes-2018-protocol/">
-<meta property="og:title" content="Cyberstakes CTF 2018: Protocol" />
-<meta property="og:description" content="We are provided with a server that implements a custom protocol and a packet capture of the protocol being used." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://starfleetcadet75.github.io/posts/cyberstakes-2018-protocol/" />
-<meta property="article:published_time" content="2018-11-30T00:00:00+00:00" />
-<meta property="article:modified_time" content="2018-11-30T00:00:00+00:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Cyberstakes CTF 2018: Protocol"/>
-<meta name="twitter:description" content="We are provided with a server that implements a custom protocol and a packet capture of the protocol being used."/>
-
-
-<meta itemprop="name" content="Cyberstakes CTF 2018: Protocol">
-<meta itemprop="description" content="We are provided with a server that implements a custom protocol and a packet capture of the protocol being used.">
-<meta itemprop="datePublished" content="2018-11-30T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2018-11-30T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1023">
-
-
-
-<meta itemprop="keywords" content="reversing,forensics," />
-
-
-<link rel="stylesheet" href="/css/layout.css" />
-
-
-<link rel="stylesheet" href="/css/default-dark.css" />
-
-
-<link rel="stylesheet" href="/css/adoc-html5-extension.css" />
-
-
-
-<title>
-
-
-     Cyberstakes CTF 2018: Protocol 
-
-</title>
-
-</head>
-
-
-<body>
-<div class="main">
-<header>
-
-<div class="header-bar">
-
-  <nav>
-    <div class="siteTitle">
-      <a href="https://starfleetcadet75.github.io/">starfleetcadet75</a>
-    </div> 
-
-    
-    
-    <a class="nav-item" href="/about/"><div class="nav-item-title">About</div></a>
-    
-    <a class="nav-item" href="/readinglist/"><div class="nav-item-title">Reading List</div></a>
-    
-    <a class="nav-item active" href="/posts/"><div class="nav-item-title">Posts</div></a>
-    
-
-  </nav>
-
-  
-<div class="social-links-header" style="visibility:hidden; display:none;">
-
-  
-  <a href="mailto:starfleetcadet75@gmail.com"><div class="social-link">email</div></a>
-  
-
-  
-  <a href="https://github.com/starfleetcadet75" target="_blank"><div class="social-link">gh</div></a>
-  
-
-  
-  <a href="https://gitlab.com/starfleetcadet75" target="_blank"><div class="social-link">gl</div></a>
-  
-
-  
-
-  
-
-</div>
-
-
-</div>
-
-
-</header>
-
-
-<article class="post">
-    <h1 class="title"> Cyberstakes CTF 2018: Protocol </h1>
-    <div class="content"> <p><strong>Category:</strong> Reverse Engineering<br>
-<strong>Points:</strong> 150<br>
-<strong>Provided:</strong></p>
-<ul>
-<li><a href="https://github.com/starfleetcadet75/writeups/raw/master/2018-Cyberstakes/Protocol/challenge.pcap">challenge.pcap</a></li>
-<li><a href="https://github.com/starfleetcadet75/writeups/raw/master/2018-Cyberstakes/Protocol/bserver">bserver</a></li>
-<li><a href="https://github.com/starfleetcadet75/writeups/raw/master/2018-Cyberstakes/Protocol/libc.so">libc.so</a></li>
-</ul>
-<h4 id="hints">Hints</h4>
-<ul>
-<li>The provided packet capture is of communication between the client and server.</li>
-<li>Analyze the server to determine how the communication happens and what it means!</li>
-<li>The server is runnable, you can try communicating with it locally.</li>
-</ul>
-<h2 id="observations">Observations</h2>
-<p>We are provided with a server that implements a custom protocol and a packet capture of the protocol being used.
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=author content><meta name=description content><meta name=keywords content><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><meta name=generator content="Hugo 0.84.4"><link rel=canonical href=https://starfleetcadet75.github.io/posts/cyberstakes-2018-protocol/><meta property="og:title" content="Cyberstakes CTF 2018: Protocol"><meta property="og:description" content="We are provided with a server that implements a custom protocol and a packet capture of the protocol being used."><meta property="og:type" content="article"><meta property="og:url" content="https://starfleetcadet75.github.io/posts/cyberstakes-2018-protocol/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2018-11-30T00:00:00+00:00"><meta property="article:modified_time" content="2018-11-30T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Cyberstakes CTF 2018: Protocol"><meta name=twitter:description content="We are provided with a server that implements a custom protocol and a packet capture of the protocol being used."><meta itemprop=name content="Cyberstakes CTF 2018: Protocol"><meta itemprop=description content="We are provided with a server that implements a custom protocol and a packet capture of the protocol being used."><meta itemprop=datePublished content="2018-11-30T00:00:00+00:00"><meta itemprop=dateModified content="2018-11-30T00:00:00+00:00"><meta itemprop=wordCount content="1023"><meta itemprop=keywords content="reversing,forensics,"><link rel=stylesheet href=/css/layout.css><link rel=stylesheet href=/css/default-dark.css><link rel=stylesheet href=/css/adoc-html5-extension.css><title>Cyberstakes CTF 2018: Protocol</title></head><body><div class=main><header><div class=header-bar><nav><div class=siteTitle><a href=https://starfleetcadet75.github.io/>starfleetcadet75</a></div><a class=nav-item href=/about/><div class=nav-item-title>About</div></a><a class=nav-item href=/readinglist/><div class=nav-item-title>Reading List</div></a><a class="nav-item active" href=/posts/><div class=nav-item-title>Posts</div></a></nav><div class=social-links-header style=visibility:hidden;display:none><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>gh</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>gl</div></a></div></div></header><article class=post><h1 class=title>Cyberstakes CTF 2018: Protocol</h1><div class=content><p><strong>Category:</strong> Reverse Engineering<br><strong>Points:</strong> 150<br><strong>Provided:</strong></p><ul><li><a href=https://github.com/starfleetcadet75/writeups/raw/master/2018-Cyberstakes/Protocol/challenge.pcap>challenge.pcap</a></li><li><a href=https://github.com/starfleetcadet75/writeups/raw/master/2018-Cyberstakes/Protocol/bserver>bserver</a></li><li><a href=https://github.com/starfleetcadet75/writeups/raw/master/2018-Cyberstakes/Protocol/libc.so>libc.so</a></li></ul><h4 id=hints>Hints</h4><ul><li>The provided packet capture is of communication between the client and server.</li><li>Analyze the server to determine how the communication happens and what it means!</li><li>The server is runnable, you can try communicating with it locally.</li></ul><h2 id=observations>Observations</h2><p>We are provided with a server that implements a custom protocol and a packet capture of the protocol being used.
 Opening the server in Binary Ninja, we are drawn to a function called <code>RRQ_handler</code>. The rest of the <code>main</code> function appears to be boilerplate socket programming.
-A simple Google for <code>RRQ</code> points us to the Wikipedia page for <a href="https://en.wikipedia.org/wiki/Trivial_File_Transfer_Protocol">TFTP</a>.
-TFTP, as the name implies, is used for transferring files over a network and uses UDP as the transfer protocol.</p>
-<p>A TFTP server will listen on one specific port for an initial connection.
+A simple Google for <code>RRQ</code> points us to the Wikipedia page for <a href=https://en.wikipedia.org/wiki/Trivial_File_Transfer_Protocol>TFTP</a>.
+TFTP, as the name implies, is used for transferring files over a network and uses UDP as the transfer protocol.</p><p>A TFTP server will listen on one specific port for an initial connection.
 Once a client has connected, the server chooses a random data transfer port to use for the remainder of the exchange.
 Looking at the <code>RRQ_handler</code> function, we can see a call to <code>fork</code> and then subsequent calls to create a new socket within the new process.
-This appears to be consistant with TFTP.</p>
-<h3 id="tftp">TFTP</h3>
-<ol>
-<li>Client sends a RRQ (read request) to the server at port number 69, containing the filename, transfer mode, and any other options.</li>
-<li>Server responds with a DATA packet to the RRQ. Packet is sent from a randomly allocated ephemeral port, and all future packets to the server should be directed to this port.</li>
-<li>Server sends numbered DATA packets to the client.</li>
-<li>Client replies with numbered ACK packets for all DATA packets.</li>
-</ol>
-<h3 id="packet-capture">Packet Capture</h3>
-<p>Turning our attention to the pcap file, we can see a lot of extra junk such as SSH packets.
-We know that TFTP uses UDP so we can filter out non-UDP packets:</p>
-<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2018-Cyberstakes/Protocol/wireshark.PNG" alt="pcap"></p>
-<h2 id="solution">Solution</h2>
-<p>The common packet length (262) shows up in calls to <code>malloc</code> inside the server program. This confirms that these are probably the right packets.
+This appears to be consistant with TFTP.</p><h3 id=tftp>TFTP</h3><ol><li>Client sends a RRQ (read request) to the server at port number 69, containing the filename, transfer mode, and any other options.</li><li>Server responds with a DATA packet to the RRQ. Packet is sent from a randomly allocated ephemeral port, and all future packets to the server should be directed to this port.</li><li>Server sends numbered DATA packets to the client.</li><li>Client replies with numbered ACK packets for all DATA packets.</li></ol><h3 id=packet-capture>Packet Capture</h3><p>Turning our attention to the pcap file, we can see a lot of extra junk such as SSH packets.
+We know that TFTP uses UDP so we can filter out non-UDP packets:</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2018-Cyberstakes/Protocol/wireshark.PNG alt=pcap></p><h2 id=solution>Solution</h2><p>The common packet length (262) shows up in calls to <code>malloc</code> inside the server program. This confirms that these are probably the right packets.
 The client is using port 46722 and the server is initially using port 1234. The first message from the client is a 1 followed by the requested filename.
 The server, upon reciept of the RRQ, forks off the child process that then opens a new socket and the rest of the transmission uses port 47639.
 Each packet seems to start off with a sequence number that is used for ACKing data packets.
-For each message from the server, we can see the last four bytes contain some kind of data. The server is sending us the contents of the requested flag file, but only four bytes at a time. These bytes appear to be encoded in some manner.</p>
-<p>Looking back at the <code>RRQ_handler</code>, we can see a call to <code>rand</code> followed by the highlighted blocks:</p>
-<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2018-Cyberstakes/Protocol/binja.PNG" alt="server"></p>
-<p>This is a loop that will execute 4 times, xoring the current flag character with a random byte value before sending these encoded characters to the client.
-If we look at the first block in the function, we can also see a call to <code>srand</code> with a seed value of 1. Since calls to <code>rand</code> will produce the same values given the same seed, we can now determine the exact sequence of random bytes and recover the contents of the flag.</p>
-<p>The <a href="https://github.com/starfleetcadet75/writeups/raw/master/2018-Cyberstakes/Protocol/client.c">client.c</a> file provides an implementation of a client that can communicate with the given server program.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;arpa/inet.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/socket.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#define SERVER &#34;127.0.0.1&#34;
-</span><span style="color:#75715e">#define PORT 1234
-</span><span style="color:#75715e">#define BUFLEN 262
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">char</span> buf[BUFLEN];
-<span style="color:#66d9ef">struct</span> sockaddr_in addr;
-<span style="color:#66d9ef">int</span> addrlen <span style="color:#f92672">=</span> <span style="color:#66d9ef">sizeof</span>(addr);
-<span style="color:#66d9ef">int</span> seqnum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+For each message from the server, we can see the last four bytes contain some kind of data. The server is sending us the contents of the requested flag file, but only four bytes at a time. These bytes appear to be encoded in some manner.</p><p>Looking back at the <code>RRQ_handler</code>, we can see a call to <code>rand</code> followed by the highlighted blocks:</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2018-Cyberstakes/Protocol/binja.PNG alt=server></p><p>This is a loop that will execute 4 times, xoring the current flag character with a random byte value before sending these encoded characters to the client.
+If we look at the first block in the function, we can also see a call to <code>srand</code> with a seed value of 1. Since calls to <code>rand</code> will produce the same values given the same seed, we can now determine the exact sequence of random bytes and recover the contents of the flag.</p><p>The <a href=https://github.com/starfleetcadet75/writeups/raw/master/2018-Cyberstakes/Protocol/client.c>client.c</a> file provides an implementation of a client that can communicate with the given server program.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;stdio.h&gt;</span><span style=color:#75715e>
+</span><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;string.h&gt;</span><span style=color:#75715e>
+</span><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;stdlib.h&gt;</span><span style=color:#75715e>
+</span><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;unistd.h&gt;</span><span style=color:#75715e>
+</span><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;arpa/inet.h&gt;</span><span style=color:#75715e>
+</span><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;sys/socket.h&gt;</span><span style=color:#75715e>
+</span><span style=color:#75715e></span>
+<span style=color:#75715e>#define SERVER &#34;127.0.0.1&#34;
+</span><span style=color:#75715e>#define PORT 1234
+</span><span style=color:#75715e>#define BUFLEN 262
+</span><span style=color:#75715e></span>
+<span style=color:#66d9ef>char</span> buf[BUFLEN];
+<span style=color:#66d9ef>struct</span> sockaddr_in addr;
+<span style=color:#66d9ef>int</span> addrlen <span style=color:#f92672>=</span> <span style=color:#66d9ef>sizeof</span>(addr);
+<span style=color:#66d9ef>int</span> seqnum <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
 
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hexdump</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> data, size_t size) {
-    <span style="color:#66d9ef">char</span> ascii[<span style="color:#ae81ff">17</span>];
+<span style=color:#66d9ef>void</span> <span style=color:#a6e22e>hexdump</span>(<span style=color:#66d9ef>const</span> <span style=color:#66d9ef>void</span><span style=color:#f92672>*</span> data, size_t size) {
+    <span style=color:#66d9ef>char</span> ascii[<span style=color:#ae81ff>17</span>];
     size_t i, j;
-    ascii[<span style="color:#ae81ff">16</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;\0&#39;</span>;
-    <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> size; <span style="color:#f92672">++</span>i) {
-        printf(<span style="color:#e6db74">&#34;%02X &#34;</span>, ((<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span>)data)[i]);
-        <span style="color:#66d9ef">if</span> (((<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span>)data)[i] <span style="color:#f92672">&gt;=</span> <span style="color:#e6db74">&#39; &#39;</span> <span style="color:#f92672">&amp;&amp;</span> ((<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span>)data)[i] <span style="color:#f92672">&lt;=</span> <span style="color:#e6db74">&#39;~&#39;</span>) {
-            ascii[i <span style="color:#f92672">%</span> <span style="color:#ae81ff">16</span>] <span style="color:#f92672">=</span> ((<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span>)data)[i];
-        } <span style="color:#66d9ef">else</span> {
-            ascii[i <span style="color:#f92672">%</span> <span style="color:#ae81ff">16</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;.&#39;</span>;
+    ascii[<span style=color:#ae81ff>16</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;\0&#39;</span>;
+    <span style=color:#66d9ef>for</span> (i <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; i <span style=color:#f92672>&lt;</span> size; <span style=color:#f92672>++</span>i) {
+        printf(<span style=color:#e6db74>&#34;%02X &#34;</span>, ((<span style=color:#66d9ef>unsigned</span> <span style=color:#66d9ef>char</span><span style=color:#f92672>*</span>)data)[i]);
+        <span style=color:#66d9ef>if</span> (((<span style=color:#66d9ef>unsigned</span> <span style=color:#66d9ef>char</span><span style=color:#f92672>*</span>)data)[i] <span style=color:#f92672>&gt;=</span> <span style=color:#e6db74>&#39; &#39;</span> <span style=color:#f92672>&amp;&amp;</span> ((<span style=color:#66d9ef>unsigned</span> <span style=color:#66d9ef>char</span><span style=color:#f92672>*</span>)data)[i] <span style=color:#f92672>&lt;=</span> <span style=color:#e6db74>&#39;~&#39;</span>) {
+            ascii[i <span style=color:#f92672>%</span> <span style=color:#ae81ff>16</span>] <span style=color:#f92672>=</span> ((<span style=color:#66d9ef>unsigned</span> <span style=color:#66d9ef>char</span><span style=color:#f92672>*</span>)data)[i];
+        } <span style=color:#66d9ef>else</span> {
+            ascii[i <span style=color:#f92672>%</span> <span style=color:#ae81ff>16</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;.&#39;</span>;
         }
-        <span style="color:#66d9ef">if</span> ((i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> <span style="color:#ae81ff">8</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">==</span> size) {
-            printf(<span style="color:#e6db74">&#34; &#34;</span>);
-            <span style="color:#66d9ef">if</span> ((i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> <span style="color:#ae81ff">16</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
-                printf(<span style="color:#e6db74">&#34;|  %s </span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, ascii);
-            } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">==</span> size) {
-                ascii[(i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> <span style="color:#ae81ff">16</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;\0&#39;</span>;
-                <span style="color:#66d9ef">if</span> ((i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> <span style="color:#ae81ff">16</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">8</span>) {
-                    printf(<span style="color:#e6db74">&#34; &#34;</span>);
+        <span style=color:#66d9ef>if</span> ((i<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>) <span style=color:#f92672>%</span> <span style=color:#ae81ff>8</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span> <span style=color:#f92672>||</span> i<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span> <span style=color:#f92672>==</span> size) {
+            printf(<span style=color:#e6db74>&#34; &#34;</span>);
+            <span style=color:#66d9ef>if</span> ((i<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>) <span style=color:#f92672>%</span> <span style=color:#ae81ff>16</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>) {
+                printf(<span style=color:#e6db74>&#34;|  %s </span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>, ascii);
+            } <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> (i<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span> <span style=color:#f92672>==</span> size) {
+                ascii[(i<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>) <span style=color:#f92672>%</span> <span style=color:#ae81ff>16</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;\0&#39;</span>;
+                <span style=color:#66d9ef>if</span> ((i<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>) <span style=color:#f92672>%</span> <span style=color:#ae81ff>16</span> <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>8</span>) {
+                    printf(<span style=color:#e6db74>&#34; &#34;</span>);
                 }
-                <span style="color:#66d9ef">for</span> (j <span style="color:#f92672">=</span> (i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> <span style="color:#ae81ff">16</span>; j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">16</span>; <span style="color:#f92672">++</span>j) {
-                    printf(<span style="color:#e6db74">&#34;   &#34;</span>);
+                <span style=color:#66d9ef>for</span> (j <span style=color:#f92672>=</span> (i<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>) <span style=color:#f92672>%</span> <span style=color:#ae81ff>16</span>; j <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>16</span>; <span style=color:#f92672>++</span>j) {
+                    printf(<span style=color:#e6db74>&#34;   &#34;</span>);
                 }
-                printf(<span style="color:#e6db74">&#34;|  %s </span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, ascii);
+                printf(<span style=color:#e6db74>&#34;|  %s </span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>, ascii);
             }
         }
     }
 }
 
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">process_packet</span>(<span style="color:#66d9ef">int</span> sockfd) {
-    seqnum<span style="color:#f92672">++</span>;
+<span style=color:#66d9ef>void</span> <span style=color:#a6e22e>process_packet</span>(<span style=color:#66d9ef>int</span> sockfd) {
+    seqnum<span style=color:#f92672>++</span>;
 
-    memset(buf, <span style="color:#ae81ff">0</span>, BUFLEN);
-    <span style="color:#66d9ef">if</span> (recvfrom(sockfd, buf, BUFLEN, <span style="color:#ae81ff">0</span>, (<span style="color:#66d9ef">struct</span> sockaddr<span style="color:#f92672">*</span>) <span style="color:#f92672">&amp;</span>addr, <span style="color:#f92672">&amp;</span>addrlen) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
-        fprintf(stderr, <span style="color:#e6db74">&#34;recvfrom() failed</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-        exit(<span style="color:#ae81ff">1</span>);
+    memset(buf, <span style=color:#ae81ff>0</span>, BUFLEN);
+    <span style=color:#66d9ef>if</span> (recvfrom(sockfd, buf, BUFLEN, <span style=color:#ae81ff>0</span>, (<span style=color:#66d9ef>struct</span> sockaddr<span style=color:#f92672>*</span>) <span style=color:#f92672>&amp;</span>addr, <span style=color:#f92672>&amp;</span>addrlen) <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>0</span>) {
+        fprintf(stderr, <span style=color:#e6db74>&#34;recvfrom() failed</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>);
+        exit(<span style=color:#ae81ff>1</span>);
     }
 
-    <span style="color:#75715e">// Decrypt the message
-</span><span style="color:#75715e"></span>    uint8_t key <span style="color:#f92672">=</span> (uint8_t) rand();
-    printf(<span style="color:#e6db74">&#34;%x&#34;</span>, key);
-    <span style="color:#75715e">// for (int i = 0; i&lt; 4; i++) {
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// printf(&#34;%c&#34;, buf[258 + i] ^ key);
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// }
-</span><span style="color:#75715e"></span>
-    memset(buf, <span style="color:#ae81ff">0</span>, BUFLEN);
-    buf[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>;
-    buf[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">=</span> seqnum;
+    <span style=color:#75715e>// Decrypt the message
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>uint8_t</span> key <span style=color:#f92672>=</span> (<span style=color:#66d9ef>uint8_t</span>) rand();
+    printf(<span style=color:#e6db74>&#34;%x&#34;</span>, key);
+    <span style=color:#75715e>// for (int i = 0; i&lt; 4; i++) {
+</span><span style=color:#75715e></span>        <span style=color:#75715e>// printf(&#34;%c&#34;, buf[258 + i] ^ key);
+</span><span style=color:#75715e></span>    <span style=color:#75715e>// }
+</span><span style=color:#75715e></span>
+    memset(buf, <span style=color:#ae81ff>0</span>, BUFLEN);
+    buf[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#ae81ff>4</span>;
+    buf[<span style=color:#ae81ff>3</span>] <span style=color:#f92672>=</span> seqnum;
 
-    <span style="color:#66d9ef">if</span> (sendto(sockfd, buf, BUFLEN, <span style="color:#ae81ff">0</span>, (<span style="color:#66d9ef">struct</span> sockaddr<span style="color:#f92672">*</span>) <span style="color:#f92672">&amp;</span>addr, addrlen) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
-        fprintf(stderr, <span style="color:#e6db74">&#34;sendto() failed</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-        exit(<span style="color:#ae81ff">1</span>);
+    <span style=color:#66d9ef>if</span> (sendto(sockfd, buf, BUFLEN, <span style=color:#ae81ff>0</span>, (<span style=color:#66d9ef>struct</span> sockaddr<span style=color:#f92672>*</span>) <span style=color:#f92672>&amp;</span>addr, addrlen) <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>0</span>) {
+        fprintf(stderr, <span style=color:#e6db74>&#34;sendto() failed</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>);
+        exit(<span style=color:#ae81ff>1</span>);
     }
 }
 
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> argv[]) {
-    memset(buf, <span style="color:#ae81ff">0</span>, BUFLEN);
-    srand(<span style="color:#ae81ff">1</span>);  <span style="color:#75715e">// Call `srand()` with the same seed as the server
-</span><span style="color:#75715e"></span>
-    <span style="color:#66d9ef">int</span> sockfd <span style="color:#f92672">=</span> socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-    <span style="color:#66d9ef">if</span> (sockfd <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
-        fprintf(stderr, <span style="color:#e6db74">&#34;Failed to create socket</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+<span style=color:#66d9ef>int</span> <span style=color:#a6e22e>main</span>(<span style=color:#66d9ef>int</span> argc, <span style=color:#66d9ef>char</span><span style=color:#f92672>*</span> argv[]) {
+    memset(buf, <span style=color:#ae81ff>0</span>, BUFLEN);
+    srand(<span style=color:#ae81ff>1</span>);  <span style=color:#75715e>// Call `srand()` with the same seed as the server
+</span><span style=color:#75715e></span>
+    <span style=color:#66d9ef>int</span> sockfd <span style=color:#f92672>=</span> socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+    <span style=color:#66d9ef>if</span> (sockfd <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>0</span>) {
+        fprintf(stderr, <span style=color:#e6db74>&#34;Failed to create socket</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>);
+        <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>1</span>;
     }
 
-    memset((<span style="color:#66d9ef">char</span><span style="color:#f92672">*</span>) <span style="color:#f92672">&amp;</span>addr, <span style="color:#ae81ff">0</span>, addrlen);
-    addr.sin_family <span style="color:#f92672">=</span> AF_INET;
-    addr.sin_port <span style="color:#f92672">=</span> htons(PORT);
+    memset((<span style=color:#66d9ef>char</span><span style=color:#f92672>*</span>) <span style=color:#f92672>&amp;</span>addr, <span style=color:#ae81ff>0</span>, addrlen);
+    addr.sin_family <span style=color:#f92672>=</span> AF_INET;
+    addr.sin_port <span style=color:#f92672>=</span> htons(PORT);
 
-    <span style="color:#66d9ef">if</span> (inet_aton(SERVER, <span style="color:#f92672">&amp;</span>addr.sin_addr) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
-        fprintf(stderr, <span style="color:#e6db74">&#34;inet_aton() failed</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+    <span style=color:#66d9ef>if</span> (inet_aton(SERVER, <span style=color:#f92672>&amp;</span>addr.sin_addr) <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>) {
+        fprintf(stderr, <span style=color:#e6db74>&#34;inet_aton() failed</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>);
+        <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>1</span>;
     }
 
-    printf(<span style="color:#e6db74">&#34;Sending initial Request to Read (RRQ)</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-    buf[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
-    sprintf(<span style="color:#f92672">&amp;</span>buf[<span style="color:#ae81ff">2</span>], <span style="color:#e6db74">&#34;%s&#34;</span>, <span style="color:#e6db74">&#34;flag&#34;</span>);
+    printf(<span style=color:#e6db74>&#34;Sending initial Request to Read (RRQ)</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>);
+    buf[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>;
+    sprintf(<span style=color:#f92672>&amp;</span>buf[<span style=color:#ae81ff>2</span>], <span style=color:#e6db74>&#34;%s&#34;</span>, <span style=color:#e6db74>&#34;flag&#34;</span>);
 
-    <span style="color:#66d9ef">if</span> (sendto(sockfd, buf, BUFLEN, <span style="color:#ae81ff">0</span>, (<span style="color:#66d9ef">struct</span> sockaddr<span style="color:#f92672">*</span>) <span style="color:#f92672">&amp;</span>addr, addrlen) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
-        fprintf(stderr, <span style="color:#e6db74">&#34;sendto() failed</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-        exit(<span style="color:#ae81ff">1</span>);
+    <span style=color:#66d9ef>if</span> (sendto(sockfd, buf, BUFLEN, <span style=color:#ae81ff>0</span>, (<span style=color:#66d9ef>struct</span> sockaddr<span style=color:#f92672>*</span>) <span style=color:#f92672>&amp;</span>addr, addrlen) <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>0</span>) {
+        fprintf(stderr, <span style=color:#e6db74>&#34;sendto() failed</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>);
+        exit(<span style=color:#ae81ff>1</span>);
     }
 
-    <span style="color:#66d9ef">if</span> (recvfrom(sockfd, buf, BUFLEN, <span style="color:#ae81ff">0</span>, (<span style="color:#66d9ef">struct</span> sockaddr<span style="color:#f92672">*</span>) <span style="color:#f92672">&amp;</span>addr, <span style="color:#f92672">&amp;</span>addrlen) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
-        fprintf(stderr, <span style="color:#e6db74">&#34;recvfrom() failed</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-        exit(<span style="color:#ae81ff">1</span>);
+    <span style=color:#66d9ef>if</span> (recvfrom(sockfd, buf, BUFLEN, <span style=color:#ae81ff>0</span>, (<span style=color:#66d9ef>struct</span> sockaddr<span style=color:#f92672>*</span>) <span style=color:#f92672>&amp;</span>addr, <span style=color:#f92672>&amp;</span>addrlen) <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>0</span>) {
+        fprintf(stderr, <span style=color:#e6db74>&#34;recvfrom() failed</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>);
+        exit(<span style=color:#ae81ff>1</span>);
     }
 
-    <span style="color:#66d9ef">while</span> (seqnum <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">9</span>) {
+    <span style=color:#66d9ef>while</span> (seqnum <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>9</span>) {
         process_packet(sockfd);
     }
 
     close(sockfd);
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>;
 }
 </code></pre></div><p>By creating a fake flag file with known contents and then running the client program, we can recover the random byte values.
-The following Scapy script then uses these values to iterate through the UDP packets in the pcap and decode the flag.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> scapy.all <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+The following Scapy script then uses these values to iterate through the UDP packets in the pcap and decode the flag.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>from</span> scapy.all <span style=color:#f92672>import</span> <span style=color:#f92672>*</span>
 
-pkts <span style="color:#f92672">=</span> rdpcap(<span style="color:#e6db74">&#34;./challenge.pcap&#34;</span>)
+pkts <span style=color:#f92672>=</span> rdpcap(<span style=color:#e6db74>&#34;./challenge.pcap&#34;</span>)
 
-<span style="color:#75715e"># The random bytes determined from running the client program</span>
-key <span style="color:#f92672">=</span> bytearray(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x67\xc6\x69\x73\x51\xff\x4a\xec\x29</span><span style="color:#e6db74">&#39;</span>)
-index <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-flag <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>
+<span style=color:#75715e># The random bytes determined from running the client program</span>
+key <span style=color:#f92672>=</span> bytearray(<span style=color:#e6db74>b</span><span style=color:#e6db74>&#39;</span><span style=color:#ae81ff>\x67\xc6\x69\x73\x51\xff\x4a\xec\x29</span><span style=color:#e6db74>&#39;</span>)
+index <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
+flag <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;&#39;</span>
 
-<span style="color:#66d9ef">for</span> pkt <span style="color:#f92672">in</span> pkts:
-    <span style="color:#75715e"># Only care about UDP packets</span>
-    <span style="color:#66d9ef">if</span> (pkt<span style="color:#f92672">.</span>haslayer(UDP)):
-        chars <span style="color:#f92672">=</span> bytes(pkt[UDP]<span style="color:#f92672">.</span>payload)[<span style="color:#f92672">-</span><span style="color:#ae81ff">4</span>:]
+<span style=color:#66d9ef>for</span> pkt <span style=color:#f92672>in</span> pkts:
+    <span style=color:#75715e># Only care about UDP packets</span>
+    <span style=color:#66d9ef>if</span> (pkt<span style=color:#f92672>.</span>haslayer(UDP)):
+        chars <span style=color:#f92672>=</span> bytes(pkt[UDP]<span style=color:#f92672>.</span>payload)[<span style=color:#f92672>-</span><span style=color:#ae81ff>4</span>:]
 
-        <span style="color:#75715e"># Check if this payload has part of the flag</span>
-        <span style="color:#66d9ef">if</span> chars <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00\x00\x00\x00</span><span style="color:#e6db74">&#39;</span>:
-            <span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> chars:
-                flag <span style="color:#f92672">+=</span> chr(ord(c) <span style="color:#f92672">^</span> key[index])
+        <span style=color:#75715e># Check if this payload has part of the flag</span>
+        <span style=color:#66d9ef>if</span> chars <span style=color:#f92672>!=</span> <span style=color:#e6db74>&#39;</span><span style=color:#ae81ff>\x00\x00\x00\x00</span><span style=color:#e6db74>&#39;</span>:
+            <span style=color:#66d9ef>for</span> c <span style=color:#f92672>in</span> chars:
+                flag <span style=color:#f92672>+=</span> chr(ord(c) <span style=color:#f92672>^</span> key[index])
 
-            index <span style="color:#f92672">=</span> index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+            index <span style=color:#f92672>=</span> index <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>
 
-<span style="color:#66d9ef">print</span>(flag)
-</code></pre></div><p><strong>Flag:</strong> <code>ACI{1128d2e3744e402cd3cd594b30b}</code></p>
- </div>
-    <footer class="post-footer">
-
-  <div class="post-footer-data">
-            
-<div class="tags">
-  
-    
-      <div class="tag">
-        <a href="/tags/reversing">#reversing</a>
-      </div>
-    
-      <div class="tag">
-        <a href="/tags/forensics">#forensics</a>
-      </div>
-    
-  
-</div>
-
-    <div class="post-footer-meta">Permalink: <a href="https://starfleetcadet75.github.io/posts/cyberstakes-2018-protocol/">/posts/cyberstakes-2018-protocol/</a> | Date: 2018-11-30 </div>
-    
-    <hr>
-            
-<div class="categories">
-  
-  Published in:
-    
-      <div class="category">
-        <a href="/categories/writeups">writeups</a>
-      </div>
-    
-  
-</div>
-
-            
-<div class="series">
-  
-</div>
-
-    
-  </div>
-</footer>
-
-
-
-</article>
-
-  <footer>
-
-  <div class="social-links-footer">
-
-  
-  <a href="mailto:starfleetcadet75@gmail.com"><div class="social-link">Email</div></a>
-  
-
-  
-  <a href="https://github.com/starfleetcadet75" target="_blank"><div class="social-link">GitHub</div></a>
-  
-
-  
-  <a href="https://gitlab.com/starfleetcadet75" target="_blank"><div class="social-link">GitLab</div></a>
-  
-
-  
-
-  
-
-  <div class="social-link">
-  <a href="https://starfleetcadet75.github.io/index.xml" target="_blank">RSS</a>
-  </div>
-
-</div>
-
-
-  <div class="copyright">  </div>
-
-  <div class="poweredby">
-    Powered by <a href="https://gohugo.io/">Hugo</a>.
-  </div>
-
-  </footer>
-
-</div> 
-
-</body>
-</html>
-
+print(flag)
+</code></pre></div><p><strong>Flag:</strong> <code>ACI{1128d2e3744e402cd3cd594b30b}</code></p></div><footer class=post-footer><div class=post-footer-data><div class=tags><div class=tag><a href=/tags/reversing>#reversing</a></div><div class=tag><a href=/tags/forensics>#forensics</a></div></div><div class=post-footer-meta>Permalink: <a href=https://starfleetcadet75.github.io/posts/cyberstakes-2018-protocol/>/posts/cyberstakes-2018-protocol/</a> | Date: 2018-11-30</div><hr><div class=categories>Published in:<div class=category><a href=/categories/writeups>writeups</a></div></div><div class=series></div></div></footer></article><footer><div class=social-links-footer><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>Email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>GitHub</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>GitLab</div></a><div class=social-link><a href=https://starfleetcadet75.github.io/index.xml target=_blank>RSS</a></div></div><div class=copyright></div><div class=poweredby>Powered by <a href=https://gohugo.io/>Hugo</a>.</div></footer></div></body></html>

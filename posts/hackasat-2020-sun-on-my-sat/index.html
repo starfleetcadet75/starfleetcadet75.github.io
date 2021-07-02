@@ -1,124 +1,8 @@
-<!DOCTYPE html>
-<html lang="en-us">
-
-<head>
-<meta charset="utf-8" />
-<meta name="author" content="" />
-<meta name="description" content="" />
-<meta name="keywords" content="" />
-<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-<meta name="generator" content="Hugo 0.76.2" />
-
-<link rel="canonical" href="https://starfleetcadet75.github.io/posts/hackasat-2020-sun-on-my-sat/">
-<meta property="og:title" content="Hack-A-Sat 2020: Sun? On my Sat?" />
-<meta property="og:description" content="We&rsquo;ve uncovered a strange device listening on a port I&rsquo;ve connected you to on our satellite. At one point one of our engineers captured the firmware from it but says he saw it get patched recently. We&rsquo;ve tried to communicate with it a couple times, and it seems to expect a hex-encoded string of bytes, but all it has ever sent back is complaints about cookies, or something. See if you can pull any valuable information from the device and the cookies we bought to bribe the device are yours!" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://starfleetcadet75.github.io/posts/hackasat-2020-sun-on-my-sat/" />
-<meta property="article:published_time" content="2020-06-05T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-06-05T00:00:00+00:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Hack-A-Sat 2020: Sun? On my Sat?"/>
-<meta name="twitter:description" content="We&rsquo;ve uncovered a strange device listening on a port I&rsquo;ve connected you to on our satellite. At one point one of our engineers captured the firmware from it but says he saw it get patched recently. We&rsquo;ve tried to communicate with it a couple times, and it seems to expect a hex-encoded string of bytes, but all it has ever sent back is complaints about cookies, or something. See if you can pull any valuable information from the device and the cookies we bought to bribe the device are yours!"/>
-
-
-<meta itemprop="name" content="Hack-A-Sat 2020: Sun? On my Sat?">
-<meta itemprop="description" content="We&rsquo;ve uncovered a strange device listening on a port I&rsquo;ve connected you to on our satellite. At one point one of our engineers captured the firmware from it but says he saw it get patched recently. We&rsquo;ve tried to communicate with it a couple times, and it seems to expect a hex-encoded string of bytes, but all it has ever sent back is complaints about cookies, or something. See if you can pull any valuable information from the device and the cookies we bought to bribe the device are yours!">
-<meta itemprop="datePublished" content="2020-06-05T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2020-06-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1665">
-
-
-
-<meta itemprop="keywords" content="reversing,exploitation,sparc," />
-
-
-<link rel="stylesheet" href="/css/layout.css" />
-
-
-<link rel="stylesheet" href="/css/default-dark.css" />
-
-
-<link rel="stylesheet" href="/css/adoc-html5-extension.css" />
-
-
-
-<title>
-
-
-     Hack-A-Sat 2020: Sun? On my Sat? 
-
-</title>
-
-</head>
-
-
-<body>
-<div class="main">
-<header>
-
-<div class="header-bar">
-
-  <nav>
-    <div class="siteTitle">
-      <a href="https://starfleetcadet75.github.io/">starfleetcadet75</a>
-    </div> 
-
-    
-    
-    <a class="nav-item" href="/about/"><div class="nav-item-title">About</div></a>
-    
-    <a class="nav-item" href="/readinglist/"><div class="nav-item-title">Reading List</div></a>
-    
-    <a class="nav-item active" href="/posts/"><div class="nav-item-title">Posts</div></a>
-    
-
-  </nav>
-
-  
-<div class="social-links-header" style="visibility:hidden; display:none;">
-
-  
-  <a href="mailto:starfleetcadet75@gmail.com"><div class="social-link">email</div></a>
-  
-
-  
-  <a href="https://github.com/starfleetcadet75" target="_blank"><div class="social-link">gh</div></a>
-  
-
-  
-  <a href="https://gitlab.com/starfleetcadet75" target="_blank"><div class="social-link">gl</div></a>
-  
-
-  
-
-  
-
-</div>
-
-
-</div>
-
-
-</header>
-
-
-<article class="post">
-    <h1 class="title"> Hack-A-Sat 2020: Sun? On my Sat? </h1>
-    <div class="content"> <p><strong>Category:</strong> Reverse Engineering / Exploitation<br>
-<strong>Points:</strong> 324<br>
-<strong>Provided:</strong> <a href="https://github.com/starfleetcadet75/writeups/blob/master/2020-Hack-A-Sat/sun-on-my-sat/test.elf?raw=true">test.elf</a></p>
-<h2 id="challenge">Challenge</h2>
-<blockquote>
-<p>We&rsquo;ve uncovered a strange device listening on a port I&rsquo;ve connected you to on our satellite.
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=author content><meta name=description content><meta name=keywords content><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><meta name=generator content="Hugo 0.84.4"><link rel=canonical href=https://starfleetcadet75.github.io/posts/hackasat-2020-sun-on-my-sat/><meta property="og:title" content="Hack-A-Sat 2020: Sun? On my Sat?"><meta property="og:description" content="We&rsquo;ve uncovered a strange device listening on a port I&rsquo;ve connected you to on our satellite. At one point one of our engineers captured the firmware from it but says he saw it get patched recently. We&rsquo;ve tried to communicate with it a couple times, and it seems to expect a hex-encoded string of bytes, but all it has ever sent back is complaints about cookies, or something. See if you can pull any valuable information from the device and the cookies we bought to bribe the device are yours!"><meta property="og:type" content="article"><meta property="og:url" content="https://starfleetcadet75.github.io/posts/hackasat-2020-sun-on-my-sat/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-06-05T00:00:00+00:00"><meta property="article:modified_time" content="2020-06-05T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Hack-A-Sat 2020: Sun? On my Sat?"><meta name=twitter:description content="We&rsquo;ve uncovered a strange device listening on a port I&rsquo;ve connected you to on our satellite. At one point one of our engineers captured the firmware from it but says he saw it get patched recently. We&rsquo;ve tried to communicate with it a couple times, and it seems to expect a hex-encoded string of bytes, but all it has ever sent back is complaints about cookies, or something. See if you can pull any valuable information from the device and the cookies we bought to bribe the device are yours!"><meta itemprop=name content="Hack-A-Sat 2020: Sun? On my Sat?"><meta itemprop=description content="We&rsquo;ve uncovered a strange device listening on a port I&rsquo;ve connected you to on our satellite. At one point one of our engineers captured the firmware from it but says he saw it get patched recently. We&rsquo;ve tried to communicate with it a couple times, and it seems to expect a hex-encoded string of bytes, but all it has ever sent back is complaints about cookies, or something. See if you can pull any valuable information from the device and the cookies we bought to bribe the device are yours!"><meta itemprop=datePublished content="2020-06-05T00:00:00+00:00"><meta itemprop=dateModified content="2020-06-05T00:00:00+00:00"><meta itemprop=wordCount content="1665"><meta itemprop=keywords content="reversing,exploitation,sparc,"><link rel=stylesheet href=/css/layout.css><link rel=stylesheet href=/css/default-dark.css><link rel=stylesheet href=/css/adoc-html5-extension.css><title>Hack-A-Sat 2020: Sun? On my Sat?</title></head><body><div class=main><header><div class=header-bar><nav><div class=siteTitle><a href=https://starfleetcadet75.github.io/>starfleetcadet75</a></div><a class=nav-item href=/about/><div class=nav-item-title>About</div></a><a class=nav-item href=/readinglist/><div class=nav-item-title>Reading List</div></a><a class="nav-item active" href=/posts/><div class=nav-item-title>Posts</div></a></nav><div class=social-links-header style=visibility:hidden;display:none><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>gh</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>gl</div></a></div></div></header><article class=post><h1 class=title>Hack-A-Sat 2020: Sun? On my Sat?</h1><div class=content><p><strong>Category:</strong> Reverse Engineering / Exploitation<br><strong>Points:</strong> 324<br><strong>Provided:</strong> <a href="https://github.com/starfleetcadet75/writeups/blob/master/2020-Hack-A-Sat/sun-on-my-sat/test.elf?raw=true">test.elf</a></p><h2 id=challenge>Challenge</h2><blockquote><p>We&rsquo;ve uncovered a strange device listening on a port I&rsquo;ve connected you to on our satellite.
 At one point one of our engineers captured the firmware from it but says he saw it get patched recently.
 We&rsquo;ve tried to communicate with it a couple times, and it seems to expect a hex-encoded string of bytes, but all it has ever sent back is complaints about cookies, or something.
-See if you can pull any valuable information from the device and the cookies we bought to bribe the device are yours!</p>
-</blockquote>
-<h2 id="observations">Observations</h2>
-<p>The challenge provides us with a 32-bit ELF program written for SPARC.
-Ghidra&rsquo;s import summary shows that the program still contains debugging information including some of the source filenames.</p>
-<pre><code class="language-none" data-lang="none">Program Name: test.elf
+See if you can pull any valuable information from the device and the cookies we bought to bribe the device are yours!</p></blockquote><h2 id=observations>Observations</h2><p>The challenge provides us with a 32-bit ELF program written for SPARC.
+Ghidra&rsquo;s import summary shows that the program still contains debugging information including some of the source filenames.</p><pre><code class=language-none data-lang=none>Program Name: test.elf
 Processor: Sparc
 Endian: Big
 Address Size: 32
@@ -133,337 +17,184 @@ ELF Source File [4]: crc.c
 ELF Source File [5]: /tmp/ccnsQBw2.o
 ELF Source File [6]: bspclean.c
 ... snip ...
-</code></pre><p>Searching for the string “LEON” leads to the radiation-tolerant <a href="https://en.wikipedia.org/wiki/LEON">LEON</a> microprocessor that implements the SPARC V8 ISA.
-The end of the Wikipedia article mentions that <a href="https://www.rtems.org/">RTEMS</a> is a RTOS that supports it.</p>
-<h2 id="debugging-the-program">Debugging the Program</h2>
-<p>The RTEMS project includes plenty of documentation and we can browse through its source code.
-Some further Googling turns up this <a href="https://lists.rtems.org/pipermail/users/2014-September/028224.html">link</a> that indicates we might be able to run this program in QEMU.
-It seems that the latest QEMU release has <a href="https://github.com/qemu/qemu/blob/master/hw/sparc/leon3.c">source code</a> that references the LEON but it doesn&rsquo;t seem to run.</p>
-<p>Following the instructions from the mailing list, we can download QEMU from source and checkout the v4.1.0 tagged release.
+</code></pre><p>Searching for the string “LEON” leads to the radiation-tolerant <a href=https://en.wikipedia.org/wiki/LEON>LEON</a> microprocessor that implements the SPARC V8 ISA.
+The end of the Wikipedia article mentions that <a href=https://www.rtems.org/>RTEMS</a> is a RTOS that supports it.</p><h2 id=debugging-the-program>Debugging the Program</h2><p>The RTEMS project includes plenty of documentation and we can browse through its source code.
+Some further Googling turns up this <a href=https://lists.rtems.org/pipermail/users/2014-September/028224.html>link</a> that indicates we might be able to run this program in QEMU.
+It seems that the latest QEMU release has <a href=https://github.com/qemu/qemu/blob/master/hw/sparc/leon3.c>source code</a> that references the LEON but it doesn&rsquo;t seem to run.</p><p>Following the instructions from the mailing list, we can download QEMU from source and checkout the v4.1.0 tagged release.
 We then apply the provided patch file and build QEMU.
-We are now able to run the application on our own system with <code>qemu-system-sparc -no-reboot -nographic -M leon3_generic -m 64M -kernel test.elf -gdb tcp::9000</code> and attach to it with GDB using <code>gdb-multiarch test.elf</code>.</p>
-<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Hack-A-Sat/sun-on-my-sat/debugging.PNG" alt="debugging"></p>
-<h2 id="reversing-the-protocol">Reversing the Protocol</h2>
-<p>Since debugging information is included in the program, locating the functions for the main application such as <code>readMsg()</code> and <code>msgHandler()</code> is straight forward.
-The cross-references all lead us back to the <code>Init()</code> function, which implements the main program loop.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">Init</span>() {
-  lastId <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-  puts(<span style="color:#e6db74">&#34;Configuration Server: Running&#34;</span>);
+We are now able to run the application on our own system with <code>qemu-system-sparc -no-reboot -nographic -M leon3_generic -m 64M -kernel test.elf -gdb tcp::9000</code> and attach to it with GDB using <code>gdb-multiarch test.elf</code>.</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Hack-A-Sat/sun-on-my-sat/debugging.PNG alt=debugging></p><h2 id=reversing-the-protocol>Reversing the Protocol</h2><p>Since debugging information is included in the program, locating the functions for the main application such as <code>readMsg()</code> and <code>msgHandler()</code> is straight forward.
+The cross-references all lead us back to the <code>Init()</code> function, which implements the main program loop.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=color:#66d9ef>void</span> <span style=color:#a6e22e>Init</span>() {
+  lastId <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+  puts(<span style=color:#e6db74>&#34;Configuration Server: Running&#34;</span>);
 
-  <span style="color:#66d9ef">do</span> {
-    sleep(<span style="color:#ae81ff">1</span>);
-    <span style="color:#66d9ef">int</span> msgLength <span style="color:#f92672">=</span> readMsg(msg, <span style="color:#ae81ff">64</span>);
+  <span style=color:#66d9ef>do</span> {
+    sleep(<span style=color:#ae81ff>1</span>);
+    <span style=color:#66d9ef>int</span> msgLength <span style=color:#f92672>=</span> readMsg(msg, <span style=color:#ae81ff>64</span>);
     msgHandler(msg, msgLength);
-  } <span style="color:#66d9ef">while</span> (true);
+  } <span style=color:#66d9ef>while</span> (true);
 }
 </code></pre></div><p>First it calls <code>readMsg()</code> which reads 64 bytes into a global array called <code>msg</code> and returns the count of the total bytes read.
-The first byte from the hex-encoded string indicates the total message size.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">readMsg</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>msg, <span style="color:#66d9ef">int</span> length) {
-  <span style="color:#66d9ef">int</span> input_length <span style="color:#f92672">=</span> (<span style="color:#66d9ef">int</span>) hexRead();
-  <span style="color:#66d9ef">if</span> (length <span style="color:#f92672">&lt;</span> input_length) {
-    hangup(<span style="color:#e6db74">&#34;Message Too Long</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+The first byte from the hex-encoded string indicates the total message size.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=color:#66d9ef>int</span> <span style=color:#a6e22e>readMsg</span>(<span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span>msg, <span style=color:#66d9ef>int</span> length) {
+  <span style=color:#66d9ef>int</span> input_length <span style=color:#f92672>=</span> (<span style=color:#66d9ef>int</span>) hexRead();
+  <span style=color:#66d9ef>if</span> (length <span style=color:#f92672>&lt;</span> input_length) {
+    hangup(<span style=color:#e6db74>&#34;Message Too Long</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>);
   }
 
-  <span style="color:#66d9ef">if</span> (input_length <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>) {
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+  <span style=color:#66d9ef>if</span> (input_length <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>2</span>) {
+    <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>;
   }
 
-  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; input_length <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">!=</span> i; i<span style="color:#f92672">++</span>) {
-    msg[i] <span style="color:#f92672">=</span> hexRead();
+  <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; input_length <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span> <span style=color:#f92672>!=</span> i; i<span style=color:#f92672>++</span>) {
+    msg[i] <span style=color:#f92672>=</span> hexRead();
   }
 
-  <span style="color:#66d9ef">return</span> i;
+  <span style=color:#66d9ef>return</span> i;
 }
 </code></pre></div><p>The received message is then parsed by the <code>msgHandler()</code> function.
 It is broken up into commands where the first byte indicates the command&rsquo;s length and the second byte indicates the command type.
-The command types are:</p>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Command</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td>Header</td>
-</tr>
-<tr>
-<td>1</td>
-<td>GetInfo</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Shutdown</td>
-</tr>
-<tr>
-<td>3</td>
-<td>GetFlag</td>
-</tr>
-</tbody>
-</table>
-<p>The <code>getFlag()</code> function is a red haring that just prints &ldquo;try harder&rdquo; so we can safely ignore it.
-Once a command has been parsed, the command length is added to the message pointer in order to move onto the next command in the buffer.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">msgHandler</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>msg, <span style="color:#66d9ef">int</span> msgLength) {
-  <span style="color:#66d9ef">bool</span> headerReceived;
-  <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>msgPtr;
+The command types are:</p><table><thead><tr><th>Value</th><th>Command</th></tr></thead><tbody><tr><td>0</td><td>Header</td></tr><tr><td>1</td><td>GetInfo</td></tr><tr><td>2</td><td>Shutdown</td></tr><tr><td>3</td><td>GetFlag</td></tr></tbody></table><p>The <code>getFlag()</code> function is a red haring that just prints &ldquo;try harder&rdquo; so we can safely ignore it.
+Once a command has been parsed, the command length is added to the message pointer in order to move onto the next command in the buffer.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>msgHandler</span>(<span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span>msg, <span style=color:#66d9ef>int</span> msgLength) {
+  <span style=color:#66d9ef>bool</span> headerReceived;
+  <span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span>msgPtr;
   
-  <span style="color:#66d9ef">if</span> (<span style="color:#ae81ff">0</span> <span style="color:#f92672">&lt;</span> msgLength) {
-    headerReceived <span style="color:#f92672">=</span> false;
+  <span style=color:#66d9ef>if</span> (<span style=color:#ae81ff>0</span> <span style=color:#f92672>&lt;</span> msgLength) {
+    headerReceived <span style=color:#f92672>=</span> false;
 
-    <span style="color:#66d9ef">do</span> {
-      <span style="color:#66d9ef">while</span> (true) {
-        msgPtr <span style="color:#f92672">=</span> msg;
-        <span style="color:#66d9ef">int</span> cmdLength <span style="color:#f92672">=</span> getCmdLen(msgPtr);  <span style="color:#75715e">// Get the byte at msg[0]
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> cmdType <span style="color:#f92672">=</span> getCmdType(msgPtr);   <span style="color:#75715e">// Get the byte at msg[1]
-</span><span style="color:#75715e"></span>
-        <span style="color:#66d9ef">if</span> (headerReceived <span style="color:#f92672">==</span> false <span style="color:#f92672">&amp;&amp;</span> cmdType <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
-          hangup(<span style="color:#e6db74">&#34;Missing Header&#34;</span>);
+    <span style=color:#66d9ef>do</span> {
+      <span style=color:#66d9ef>while</span> (true) {
+        msgPtr <span style=color:#f92672>=</span> msg;
+        <span style=color:#66d9ef>int</span> cmdLength <span style=color:#f92672>=</span> getCmdLen(msgPtr);  <span style=color:#75715e>// Get the byte at msg[0]
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>int</span> cmdType <span style=color:#f92672>=</span> getCmdType(msgPtr);   <span style=color:#75715e>// Get the byte at msg[1]
+</span><span style=color:#75715e></span>
+        <span style=color:#66d9ef>if</span> (headerReceived <span style=color:#f92672>==</span> false <span style=color:#f92672>&amp;&amp;</span> cmdType <span style=color:#f92672>!=</span> <span style=color:#ae81ff>0</span>) {
+          hangup(<span style=color:#e6db74>&#34;Missing Header&#34;</span>);
         }
 
-        <span style="color:#66d9ef">if</span> (cmdType <span style="color:#f92672">!=</span> <span style="color:#ae81ff">1</span>)
-            <span style="color:#66d9ef">break</span>;
+        <span style=color:#66d9ef>if</span> (cmdType <span style=color:#f92672>!=</span> <span style=color:#ae81ff>1</span>)
+            <span style=color:#66d9ef>break</span>;
 
-        <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>info <span style="color:#f92672">=</span> handleGetInfo(msgPtr);
-        msgLength <span style="color:#f92672">-=</span> cmdLength;
+        <span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span>info <span style=color:#f92672>=</span> handleGetInfo(msgPtr);
+        msgLength <span style=color:#f92672>-=</span> cmdLength;
         puts(info);
 
-        msg <span style="color:#f92672">=</span> msgPtr <span style="color:#f92672">+</span> cmdLength;
+        msg <span style=color:#f92672>=</span> msgPtr <span style=color:#f92672>+</span> cmdLength;
 
-        <span style="color:#66d9ef">if</span> (msgLength <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1</span>)
-            <span style="color:#66d9ef">goto</span> LAB_40001414;
+        <span style=color:#66d9ef>if</span> (msgLength <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>1</span>)
+            <span style=color:#66d9ef>goto</span> LAB_40001414;
       }
 
-      <span style="color:#66d9ef">if</span> (cmdType <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>) {
-        headerReceived <span style="color:#f92672">=</span> true;
+      <span style=color:#66d9ef>if</span> (cmdType <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>2</span>) {
+        headerReceived <span style=color:#f92672>=</span> true;
         handleHeader(msgPtr);
       }
-      <span style="color:#66d9ef">else</span> {
-        <span style="color:#66d9ef">if</span> (cmdType <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) {
-          hangup(<span style="color:#e6db74">&#34;Shutdown Requested&#34;</span>);
+      <span style=color:#66d9ef>else</span> {
+        <span style=color:#66d9ef>if</span> (cmdType <span style=color:#f92672>==</span> <span style=color:#ae81ff>2</span>) {
+          hangup(<span style=color:#e6db74>&#34;Shutdown Requested&#34;</span>);
         }
 
-        <span style="color:#66d9ef">if</span> (cmdType <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>) {
+        <span style=color:#66d9ef>if</span> (cmdType <span style=color:#f92672>==</span> <span style=color:#ae81ff>3</span>) {
           getFlag(msgPtr);
         }
 
-        hangup(<span style="color:#e6db74">&#34;Unexpected Message Section&#34;</span>);
+        hangup(<span style=color:#e6db74>&#34;Unexpected Message Section&#34;</span>);
       }
 
-      msgLength <span style="color:#f92672">-=</span> cmdLength;
-      msg <span style="color:#f92672">=</span> msgPtr <span style="color:#f92672">+</span> cmdLength;
-    } <span style="color:#66d9ef">while</span> (<span style="color:#ae81ff">0</span> <span style="color:#f92672">&lt;</span> msgLength);
+      msgLength <span style=color:#f92672>-=</span> cmdLength;
+      msg <span style=color:#f92672>=</span> msgPtr <span style=color:#f92672>+</span> cmdLength;
+    } <span style=color:#66d9ef>while</span> (<span style=color:#ae81ff>0</span> <span style=color:#f92672>&lt;</span> msgLength);
 
 LAB_40001414:
-    msg <span style="color:#f92672">=</span> msgPtr <span style="color:#f92672">+</span> cmdLength;
+    msg <span style=color:#f92672>=</span> msgPtr <span style=color:#f92672>+</span> cmdLength;
   }
 
-  puts(<span style="color:#e6db74">&#34;ACK&#34;</span>);
-  <span style="color:#66d9ef">return</span> msg;
+  puts(<span style=color:#e6db74>&#34;ACK&#34;</span>);
+  <span style=color:#66d9ef>return</span> msg;
 }
-</code></pre></div><h3 id="header-command">Header Command</h3>
-<p>The header check logic indicates that the first command received must be a header of command type 0 that gets parsed by the <code>handleHeader()</code> function.
-We will need to send a valid header before it will accept any other commands.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">handleHeader</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>msg) {
-  <span style="color:#66d9ef">bool</span> valid <span style="color:#f92672">=</span> check_checksum(msg <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
-  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>valid) {
-    hangup(<span style="color:#e6db74">&#34;Bad Checksum&#34;</span>);
+</code></pre></div><h3 id=header-command>Header Command</h3><p>The header check logic indicates that the first command received must be a header of command type 0 that gets parsed by the <code>handleHeader()</code> function.
+We will need to send a valid header before it will accept any other commands.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=color:#66d9ef>int</span> <span style=color:#a6e22e>handleHeader</span>(<span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span>msg) {
+  <span style=color:#66d9ef>bool</span> valid <span style=color:#f92672>=</span> check_checksum(msg <span style=color:#f92672>+</span> <span style=color:#ae81ff>2</span>);
+  <span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span>valid) {
+    hangup(<span style=color:#e6db74>&#34;Bad Checksum&#34;</span>);
   }
 
-  <span style="color:#75715e">// Check the cookie value
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">*</span>(uint <span style="color:#f92672">*</span>)(msg <span style="color:#f92672">+</span> <span style="color:#ae81ff">4</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0xf9b16b6c</span>) {
-    <span style="color:#66d9ef">short</span> msgId <span style="color:#f92672">=</span> getMsgId(msg);  <span style="color:#75715e">// Reads two bytes from [msg+8]
-</span><span style="color:#75715e"></span>
-    <span style="color:#75715e">// Check the received message Id with the previous one
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (lastId <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">==</span> msgId) {
-      lastId <span style="color:#f92672">=</span> msgId;
-      <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+  <span style=color:#75715e>// Check the cookie value
+</span><span style=color:#75715e></span>  <span style=color:#66d9ef>if</span> (<span style=color:#f92672>*</span>(uint <span style=color:#f92672>*</span>)(msg <span style=color:#f92672>+</span> <span style=color:#ae81ff>4</span>) <span style=color:#f92672>==</span> <span style=color:#ae81ff>0xf9b16b6c</span>) {
+    <span style=color:#66d9ef>short</span> msgId <span style=color:#f92672>=</span> getMsgId(msg);  <span style=color:#75715e>// Reads two bytes from [msg+8]
+</span><span style=color:#75715e></span>
+    <span style=color:#75715e>// Check the received message Id with the previous one
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>if</span> (lastId <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span> <span style=color:#f92672>==</span> msgId) {
+      lastId <span style=color:#f92672>=</span> msgId;
+      <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>1</span>;
     }
-    hangup(<span style="color:#e6db74">&#34;Unexpected Msg Id&#34;</span>);
+    hangup(<span style=color:#e6db74>&#34;Unexpected Msg Id&#34;</span>);
   }
-  hangup(<span style="color:#e6db74">&#34;Bad Cookie&#34;</span>);
+  hangup(<span style=color:#e6db74>&#34;Bad Cookie&#34;</span>);
 }
 </code></pre></div><p>First the function computes a CRC8 checksum over the contents of the message starting at the first byte following the checksum value.
-The byte preceeding the checksum is the checksum length and specifies how many bytes the checksum should be computed over.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">check_checksum</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>msg) {
-  <span style="color:#66d9ef">char</span> msgChecksum <span style="color:#f92672">=</span> msg[<span style="color:#ae81ff">1</span>];  <span style="color:#75715e">// Get the checksum from the msg
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">char</span> computedChecksum <span style="color:#f92672">=</span> crc8(msg <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>, msg[<span style="color:#ae81ff">0</span>]);  <span style="color:#75715e">// Compute the checksum over msg[0] bytes
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">return</span> msgChecksum <span style="color:#f92672">-</span> computedChecksum;
+The byte preceeding the checksum is the checksum length and specifies how many bytes the checksum should be computed over.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=color:#66d9ef>bool</span> <span style=color:#a6e22e>check_checksum</span>(<span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span>msg) {
+  <span style=color:#66d9ef>char</span> msgChecksum <span style=color:#f92672>=</span> msg[<span style=color:#ae81ff>1</span>];  <span style=color:#75715e>// Get the checksum from the msg
+</span><span style=color:#75715e></span>  <span style=color:#66d9ef>char</span> computedChecksum <span style=color:#f92672>=</span> crc8(msg <span style=color:#f92672>+</span> <span style=color:#ae81ff>2</span>, msg[<span style=color:#ae81ff>0</span>]);  <span style=color:#75715e>// Compute the checksum over msg[0] bytes
+</span><span style=color:#75715e></span>  <span style=color:#66d9ef>return</span> msgChecksum <span style=color:#f92672>-</span> computedChecksum;
 }
 </code></pre></div><p>If the checksum is valid, the function then checks that the next four bytes are equal to the <code>COOKIE</code> value of 0xf9b16b6c.
-Lastly, the message Id is extracted and compared with the global variable <code>lastId + 1</code> to ensure that it is the next expected command.</p>
-<p>The protocol for the header command (with the initial provided message length at the start) is as follows:</p>
-<pre><code class="language-none" data-lang="none">+--------------------+--------------------+------------------+---------------------+----------+------------+----------------+
+Lastly, the message Id is extracted and compared with the global variable <code>lastId + 1</code> to ensure that it is the next expected command.</p><p>The protocol for the header command (with the initial provided message length at the start) is as follows:</p><pre><code class=language-none data-lang=none>+--------------------+--------------------+------------------+---------------------+----------+------------+----------------+
 | Message Length (1) | Command Length (1) | Command Type (1) | Checksum Length (1) | CRC8 (1) | Cookie (4) | Message ID (2) |
 +--------------------+--------------------+------------------+---------------------+----------+------------+----------------+
-</code></pre><h3 id="getinfo-command">GetInfo Command</h3>
-<p>A command type of 1 is handled by the <code>handleGetInfo()</code> function.
+</code></pre><h3 id=getinfo-command>GetInfo Command</h3><p>A command type of 1 is handled by the <code>handleGetInfo()</code> function.
 <code>getStrIdx()</code> extracts the next byte from the message which is used as an index into a global array containing 3 different strings.
 The third string is the flag.
-<code>clipStrIdx()</code> performs a bounds-check on the index value before it accesses the array.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">handleGetInfo</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>msg) {
-  <span style="color:#66d9ef">int</span> idx <span style="color:#f92672">=</span> getStrIdx(msg);
-  <span style="color:#66d9ef">int</span> idx <span style="color:#f92672">=</span> clipStrIdx(idx);
+<code>clipStrIdx()</code> performs a bounds-check on the index value before it accesses the array.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>handleGetInfo</span>(<span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span>msg) {
+  <span style=color:#66d9ef>int</span> idx <span style=color:#f92672>=</span> getStrIdx(msg);
+  <span style=color:#66d9ef>int</span> idx <span style=color:#f92672>=</span> clipStrIdx(idx);
 
-  <span style="color:#66d9ef">if</span> ((idx <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>) <span style="color:#f92672">&amp;&amp;</span> (CSWTCH<span style="color:#ae81ff">.6</span>[idx <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">!=</span> NULL)) {
-    <span style="color:#66d9ef">return</span> CSWTCH<span style="color:#ae81ff">.6</span>[idx <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+  <span style=color:#66d9ef>if</span> ((idx <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span> <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>3</span>) <span style=color:#f92672>&amp;&amp;</span> (CSWTCH<span style=color:#ae81ff>.6</span>[idx <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>!=</span> NULL)) {
+    <span style=color:#66d9ef>return</span> CSWTCH<span style=color:#ae81ff>.6</span>[idx <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>];
   }
 
-  hangup(<span style="color:#e6db74">&#34;Invalid Config Option&#34;</span>);
+  hangup(<span style=color:#e6db74>&#34;Invalid Config Option&#34;</span>);
 }
-</code></pre></div><p>With the message protocol reversed, we can now craft messages that will print the version and serial strings from the <code>CSWTCH.6</code> array.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Create an empty message</span>
-msg <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;00&#34;</span>] <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span>
+</code></pre></div><p>With the message protocol reversed, we can now craft messages that will print the version and serial strings from the <code>CSWTCH.6</code> array.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#75715e># Create an empty message</span>
+msg <span style=color:#f92672>=</span> [<span style=color:#e6db74>&#34;00&#34;</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>60</span>
 
-<span style="color:#75715e"># Header command</span>
-msg[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;0a&#34;</span>  <span style="color:#75715e"># Command length</span>
-msg[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;00&#34;</span>  <span style="color:#75715e"># Command type</span>
-msg[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;04&#34;</span>  <span style="color:#75715e"># Checksum length</span>
-msg[<span style="color:#ae81ff">4</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;45&#34;</span>  <span style="color:#75715e"># Checksum</span>
-msg[<span style="color:#ae81ff">5</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;f9&#34;</span>  <span style="color:#75715e"># Cookie value</span>
-msg[<span style="color:#ae81ff">6</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;b1&#34;</span>
-msg[<span style="color:#ae81ff">7</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;6b&#34;</span>
-msg[<span style="color:#ae81ff">8</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;6c&#34;</span>
-msg[<span style="color:#ae81ff">9</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;00&#34;</span>  <span style="color:#75715e"># Message Id</span>
-msg[<span style="color:#ae81ff">10</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;01&#34;</span>
+<span style=color:#75715e># Header command</span>
+msg[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;0a&#34;</span>  <span style=color:#75715e># Command length</span>
+msg[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;00&#34;</span>  <span style=color:#75715e># Command type</span>
+msg[<span style=color:#ae81ff>3</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;04&#34;</span>  <span style=color:#75715e># Checksum length</span>
+msg[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;45&#34;</span>  <span style=color:#75715e># Checksum</span>
+msg[<span style=color:#ae81ff>5</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;f9&#34;</span>  <span style=color:#75715e># Cookie value</span>
+msg[<span style=color:#ae81ff>6</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;b1&#34;</span>
+msg[<span style=color:#ae81ff>7</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;6b&#34;</span>
+msg[<span style=color:#ae81ff>8</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;6c&#34;</span>
+msg[<span style=color:#ae81ff>9</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;00&#34;</span>  <span style=color:#75715e># Message Id</span>
+msg[<span style=color:#ae81ff>10</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;01&#34;</span>
 
-<span style="color:#75715e"># GetInfo command</span>
-msg[<span style="color:#ae81ff">11</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;02&#34;</span>  <span style="color:#75715e"># Command length</span>
-msg[<span style="color:#ae81ff">12</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;01&#34;</span>  <span style="color:#75715e"># Command type</span>
+<span style=color:#75715e># GetInfo command</span>
+msg[<span style=color:#ae81ff>11</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;02&#34;</span>  <span style=color:#75715e># Command length</span>
+msg[<span style=color:#ae81ff>12</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;01&#34;</span>  <span style=color:#75715e># Command type</span>
 
-<span style="color:#75715e"># 1: Prints the program version</span>
-<span style="color:#75715e"># 2: Prints the serial</span>
-<span style="color:#75715e"># 3: Prints the flag</span>
-msg[<span style="color:#ae81ff">13</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;02&#34;</span>
+<span style=color:#75715e># 1: Prints the program version</span>
+<span style=color:#75715e># 2: Prints the serial</span>
+<span style=color:#75715e># 3: Prints the flag</span>
+msg[<span style=color:#ae81ff>13</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;02&#34;</span>
 
-msg[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;0d&#34;</span>  <span style="color:#75715e"># Set the total message length</span>
-msg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join(msg[:<span style="color:#ae81ff">14</span>])
-<span style="color:#66d9ef">print</span>(msg)
-</code></pre></div><p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Hack-A-Sat/sun-on-my-sat/space_broker_msg.PNG" alt="space_broker_msg"></p>
-<h2 id="bypassing-the-bounds-check">Bypassing the Bounds Check</h2>
-<p>The function <code>clipStrIdx()</code>, which is called immediately prior to the array access, limits the index we can request to be 0, 1, or 2.
-In order to access the flag, we need the index variable to be equal to 3.</p>
-<p>There are two branch instructions inside <code>clipStrIdx()</code>.
-The second one is an <a href="https://stackoverflow.com/questions/604119/how-is-an-annulled-branch-different-from-a-regular-branch"><em>annulled</em></a> branch that is indicated by the &ldquo;,a&rdquo; appended at the end of the mnemonic.
+msg[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;0d&#34;</span>  <span style=color:#75715e># Set the total message length</span>
+msg <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;</span><span style=color:#f92672>.</span>join(msg[:<span style=color:#ae81ff>14</span>])
+print(msg)
+</code></pre></div><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Hack-A-Sat/sun-on-my-sat/space_broker_msg.PNG alt=space_broker_msg></p><h2 id=bypassing-the-bounds-check>Bypassing the Bounds Check</h2><p>The function <code>clipStrIdx()</code>, which is called immediately prior to the array access, limits the index we can request to be 0, 1, or 2.
+In order to access the flag, we need the index variable to be equal to 3.</p><p>There are two branch instructions inside <code>clipStrIdx()</code>.
+The second one is an <a href=https://stackoverflow.com/questions/604119/how-is-an-annulled-branch-different-from-a-regular-branch><em>annulled</em></a> branch that is indicated by the &ldquo;,a&rdquo; appended at the end of the mnemonic.
 All branches in SPARC are delayed branches with the special case that if the branch is annulled, the instruction in the delay slot is ignored if the branch is not taken.
-Ghidra does not seem to understand how annulment works and we can see that IDA produces a more accurate CFG.</p>
-<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Hack-A-Sat/sun-on-my-sat/ghidra_bug.PNG" alt="ghidra_bug"></p>
-<p>This branch tests whether the index is greater than the value of %g0, which holds a constant value of zero on SPARC.
+Ghidra does not seem to understand how annulment works and we can see that IDA produces a more accurate CFG.</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Hack-A-Sat/sun-on-my-sat/ghidra_bug.PNG alt=ghidra_bug></p><p>This branch tests whether the index is greater than the value of %g0, which holds a constant value of zero on SPARC.
 If the index is greater than zero the function will move the index into the return value of %l7.
 However, if the index is equal to zero, the <code>mov %i0, %l7</code> instruction will <strong>not</strong> be executed.
 This means that the value returned from the function in %l7 will be equal to whatever its value was from before the function executed.
-%l7 is an uninitialized variable when the index is equal to zero.</p>
-<p>If we can control the value of %l7 and set it to 3, the program will print the flag.
-Searching for all references to register %l7 throughout the program shows that the only application code that references it is inside the function <code>check_checksum()</code>.</p>
-<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Hack-A-Sat/sun-on-my-sat/register_references.PNG" alt="register_references"></p>
-<p>The result of the CRC8 calculation is passed through some useless shift operations.
-%l7 is used as a temporary register to hold the value of the computed checksum and will retain that value when the function returns.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">sll</span> <span style="color:#66d9ef">computedChecksum</span>, <span style="color:#ae81ff">0x18</span>, <span style="color:#66d9ef">l7</span>
-<span style="color:#a6e22e">srl</span> <span style="color:#66d9ef">l7</span>, <span style="color:#ae81ff">0x18</span>, <span style="color:#66d9ef">l7</span>
-<span style="color:#a6e22e">sub</span> <span style="color:#66d9ef">msgChecksum</span>, <span style="color:#66d9ef">l7</span>, <span style="color:#66d9ef">i0</span>
+%l7 is an uninitialized variable when the index is equal to zero.</p><p>If we can control the value of %l7 and set it to 3, the program will print the flag.
+Searching for all references to register %l7 throughout the program shows that the only application code that references it is inside the function <code>check_checksum()</code>.</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Hack-A-Sat/sun-on-my-sat/register_references.PNG alt=register_references></p><p>The result of the CRC8 calculation is passed through some useless shift operations.
+%l7 is used as a temporary register to hold the value of the computed checksum and will retain that value when the function returns.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-asm data-lang=asm><span style=color:#a6e22e>sll</span> <span style=color:#66d9ef>computedChecksum</span>, <span style=color:#ae81ff>0x18</span>, <span style=color:#66d9ef>l7</span>
+<span style=color:#a6e22e>srl</span> <span style=color:#66d9ef>l7</span>, <span style=color:#ae81ff>0x18</span>, <span style=color:#66d9ef>l7</span>
+<span style=color:#a6e22e>sub</span> <span style=color:#66d9ef>msgChecksum</span>, <span style=color:#66d9ef>l7</span>, <span style=color:#66d9ef>i0</span>
 </code></pre></div><p>If we set the message checksum field equal to 3, then %l7 will be set to 3.
 We then need to make the actual index variable in our GetInfo command equal to 0 so that the program will use the uninitialized variable.
 The final step is to make the checksum of the message actually equal to 3 so that it does not produce a bad checksum error.
 To accomplish this, we can use CyberChef to determine how many null bytes we need to add to produce a CRC8 of 3.
-Since the message buffer has a total size of 255 and the remaining unused bytes are initialized to zero, we can simply increase the checksum length field to include more null bytes.</p>
-<figure>
-    <img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Hack-A-Sat/sun-on-my-sat/calc_crc.PNG"
-         alt="Adding null bytes until the output is 3"/> <figcaption>
-            <p>Adding null bytes until the output is 3</p>
-        </figcaption>
-</figure>
-
-<p>Sending the message <code>120a000d03f9b16b6c000102010000000000</code> to the server prints our flag:</p>
-<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Hack-A-Sat/sun-on-my-sat/flag.PNG" alt="flag"></p>
- </div>
-    <footer class="post-footer">
-
-  <div class="post-footer-data">
-            
-<div class="tags">
-  
-    
-      <div class="tag">
-        <a href="/tags/reversing">#reversing</a>
-      </div>
-    
-      <div class="tag">
-        <a href="/tags/exploitation">#exploitation</a>
-      </div>
-    
-      <div class="tag">
-        <a href="/tags/sparc">#sparc</a>
-      </div>
-    
-  
-</div>
-
-    <div class="post-footer-meta">Permalink: <a href="https://starfleetcadet75.github.io/posts/hackasat-2020-sun-on-my-sat/">/posts/hackasat-2020-sun-on-my-sat/</a> | Date: 2020-06-05 </div>
-    
-    <hr>
-            
-<div class="categories">
-  
-  Published in:
-    
-      <div class="category">
-        <a href="/categories/writeups">writeups</a>
-      </div>
-    
-  
-</div>
-
-            
-<div class="series">
-  
-</div>
-
-    
-  </div>
-</footer>
-
-
-
-</article>
-
-  <footer>
-
-  <div class="social-links-footer">
-
-  
-  <a href="mailto:starfleetcadet75@gmail.com"><div class="social-link">Email</div></a>
-  
-
-  
-  <a href="https://github.com/starfleetcadet75" target="_blank"><div class="social-link">GitHub</div></a>
-  
-
-  
-  <a href="https://gitlab.com/starfleetcadet75" target="_blank"><div class="social-link">GitLab</div></a>
-  
-
-  
-
-  
-
-  <div class="social-link">
-  <a href="https://starfleetcadet75.github.io/index.xml" target="_blank">RSS</a>
-  </div>
-
-</div>
-
-
-  <div class="copyright">  </div>
-
-  <div class="poweredby">
-    Powered by <a href="https://gohugo.io/">Hugo</a>.
-  </div>
-
-  </footer>
-
-</div> 
-
-</body>
-</html>
-
+Since the message buffer has a total size of 255 and the remaining unused bytes are initialized to zero, we can simply increase the checksum length field to include more null bytes.</p><figure><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Hack-A-Sat/sun-on-my-sat/calc_crc.PNG alt="Adding null bytes until the output is 3"><figcaption><p>Adding null bytes until the output is 3</p></figcaption></figure><p>Sending the message <code>120a000d03f9b16b6c000102010000000000</code> to the server prints our flag:</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Hack-A-Sat/sun-on-my-sat/flag.PNG alt=flag></p></div><footer class=post-footer><div class=post-footer-data><div class=tags><div class=tag><a href=/tags/reversing>#reversing</a></div><div class=tag><a href=/tags/exploitation>#exploitation</a></div><div class=tag><a href=/tags/sparc>#sparc</a></div></div><div class=post-footer-meta>Permalink: <a href=https://starfleetcadet75.github.io/posts/hackasat-2020-sun-on-my-sat/>/posts/hackasat-2020-sun-on-my-sat/</a> | Date: 2020-06-05</div><hr><div class=categories>Published in:<div class=category><a href=/categories/writeups>writeups</a></div></div><div class=series></div></div></footer></article><footer><div class=social-links-footer><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>Email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>GitHub</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>GitLab</div></a><div class=social-link><a href=https://starfleetcadet75.github.io/index.xml target=_blank>RSS</a></div></div><div class=copyright></div><div class=poweredby>Powered by <a href=https://gohugo.io/>Hugo</a>.</div></footer></div></body></html>

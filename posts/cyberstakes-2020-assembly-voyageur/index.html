@@ -1,309 +1,175 @@
-<!DOCTYPE html>
-<html lang="en-us">
-
-<head>
-<meta charset="utf-8" />
-<meta name="author" content="" />
-<meta name="description" content="" />
-<meta name="keywords" content="" />
-<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-<meta name="generator" content="Hugo 0.76.2" />
-
-<link rel="canonical" href="https://starfleetcadet75.github.io/posts/cyberstakes-2020-assembly-voyageur/">
-<meta property="og:title" content="Cyberstakes CTF 2020: Assembly Voyageur" />
-<meta property="og:description" content="The webpage for this challenge contains five textareas, each holding a snippet of assembly code for a different architecture." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://starfleetcadet75.github.io/posts/cyberstakes-2020-assembly-voyageur/" />
-<meta property="article:published_time" content="2020-05-03T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-05-03T00:00:00+00:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Cyberstakes CTF 2020: Assembly Voyageur"/>
-<meta name="twitter:description" content="The webpage for this challenge contains five textareas, each holding a snippet of assembly code for a different architecture."/>
-
-
-<meta itemprop="name" content="Cyberstakes CTF 2020: Assembly Voyageur">
-<meta itemprop="description" content="The webpage for this challenge contains five textareas, each holding a snippet of assembly code for a different architecture.">
-<meta itemprop="datePublished" content="2020-05-03T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2020-05-03T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1173">
-
-
-
-<meta itemprop="keywords" content="programming,qemu," />
-
-
-<link rel="stylesheet" href="/css/layout.css" />
-
-
-<link rel="stylesheet" href="/css/default-dark.css" />
-
-
-<link rel="stylesheet" href="/css/adoc-html5-extension.css" />
-
-
-
-<title>
-
-
-     Cyberstakes CTF 2020: Assembly Voyageur 
-
-</title>
-
-</head>
-
-
-<body>
-<div class="main">
-<header>
-
-<div class="header-bar">
-
-  <nav>
-    <div class="siteTitle">
-      <a href="https://starfleetcadet75.github.io/">starfleetcadet75</a>
-    </div> 
-
-    
-    
-    <a class="nav-item" href="/about/"><div class="nav-item-title">About</div></a>
-    
-    <a class="nav-item" href="/readinglist/"><div class="nav-item-title">Reading List</div></a>
-    
-    <a class="nav-item active" href="/posts/"><div class="nav-item-title">Posts</div></a>
-    
-
-  </nav>
-
-  
-<div class="social-links-header" style="visibility:hidden; display:none;">
-
-  
-  <a href="mailto:starfleetcadet75@gmail.com"><div class="social-link">email</div></a>
-  
-
-  
-  <a href="https://github.com/starfleetcadet75" target="_blank"><div class="social-link">gh</div></a>
-  
-
-  
-  <a href="https://gitlab.com/starfleetcadet75" target="_blank"><div class="social-link">gl</div></a>
-  
-
-  
-
-  
-
-</div>
-
-
-</div>
-
-
-</header>
-
-
-<article class="post">
-    <h1 class="title"> Cyberstakes CTF 2020: Assembly Voyageur </h1>
-    <div class="content"> <p><strong>Category:</strong> Misc<br>
-<strong>Points:</strong> 300</p>
-<h2 id="challenge">Challenge</h2>
-<blockquote>
-<p>It&rsquo;s time for an adventure.
-Begin your travels <a href="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Cyberstakes/assembly-voyageur/AssemblyVoyageur.html">here</a></p>
-</blockquote>
-<h4 id="hints">Hints</h4>
-<ul>
-<li>A good traveler knows that you should bring the right tools for the job: <code>sudo apt install gcc gcc-aarch64-linux-gnu gcc-mips-linux-gnu gcc-powerpc-linux-gnu gdb-multiarch qemu-user-static</code></li>
-<li>Some assemblers support pseudo-instructions that aren&rsquo;t defined in the Instruction Set. Other assemblers may not support those pseudo-instructions, but do support the underlying instruction.</li>
-</ul>
-<h2 id="observations">Observations</h2>
-<p>The webpage for this challenge contains five textareas, each holding a snippet of assembly code for a different architecture.</p>
-<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Cyberstakes/assembly-voyageur/challenge.png" alt="challenge"></p>
-<p>Above each snippet is a set of initial conditions for the register state and a description that indicates the architecture type.
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=author content><meta name=description content><meta name=keywords content><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><meta name=generator content="Hugo 0.84.4"><link rel=canonical href=https://starfleetcadet75.github.io/posts/cyberstakes-2020-assembly-voyageur/><meta property="og:title" content="Cyberstakes CTF 2020: Assembly Voyageur"><meta property="og:description" content="The webpage for this challenge contains five textareas, each holding a snippet of assembly code for a different architecture."><meta property="og:type" content="article"><meta property="og:url" content="https://starfleetcadet75.github.io/posts/cyberstakes-2020-assembly-voyageur/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-05-03T00:00:00+00:00"><meta property="article:modified_time" content="2020-05-03T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Cyberstakes CTF 2020: Assembly Voyageur"><meta name=twitter:description content="The webpage for this challenge contains five textareas, each holding a snippet of assembly code for a different architecture."><meta itemprop=name content="Cyberstakes CTF 2020: Assembly Voyageur"><meta itemprop=description content="The webpage for this challenge contains five textareas, each holding a snippet of assembly code for a different architecture."><meta itemprop=datePublished content="2020-05-03T00:00:00+00:00"><meta itemprop=dateModified content="2020-05-03T00:00:00+00:00"><meta itemprop=wordCount content="1173"><meta itemprop=keywords content="programming,qemu,"><link rel=stylesheet href=/css/layout.css><link rel=stylesheet href=/css/default-dark.css><link rel=stylesheet href=/css/adoc-html5-extension.css><title>Cyberstakes CTF 2020: Assembly Voyageur</title></head><body><div class=main><header><div class=header-bar><nav><div class=siteTitle><a href=https://starfleetcadet75.github.io/>starfleetcadet75</a></div><a class=nav-item href=/about/><div class=nav-item-title>About</div></a><a class=nav-item href=/readinglist/><div class=nav-item-title>Reading List</div></a><a class="nav-item active" href=/posts/><div class=nav-item-title>Posts</div></a></nav><div class=social-links-header style=visibility:hidden;display:none><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>gh</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>gl</div></a></div></div></header><article class=post><h1 class=title>Cyberstakes CTF 2020: Assembly Voyageur</h1><div class=content><p><strong>Category:</strong> Misc<br><strong>Points:</strong> 300</p><h2 id=challenge>Challenge</h2><blockquote><p>It&rsquo;s time for an adventure.
+Begin your travels <a href=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Cyberstakes/assembly-voyageur/AssemblyVoyageur.html>here</a></p></blockquote><h4 id=hints>Hints</h4><ul><li>A good traveler knows that you should bring the right tools for the job: <code>sudo apt install gcc gcc-aarch64-linux-gnu gcc-mips-linux-gnu gcc-powerpc-linux-gnu gdb-multiarch qemu-user-static</code></li><li>Some assemblers support pseudo-instructions that aren&rsquo;t defined in the Instruction Set. Other assemblers may not support those pseudo-instructions, but do support the underlying instruction.</li></ul><h2 id=observations>Observations</h2><p>The webpage for this challenge contains five textareas, each holding a snippet of assembly code for a different architecture.</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Cyberstakes/assembly-voyageur/challenge.png alt=challenge></p><p>Above each snippet is a set of initial conditions for the register state and a description that indicates the architecture type.
 The register values that are output by executing one set of assembly are provided as inputs into the next one.
-If we enter an incorrect solution into the challenge, the initial register values and assembly code are regenerated.</p>
-<h2 id="solution">Solution</h2>
-<p>The ideal solution to this challenge would have been to use <a href="https://github.com/keystone-engine/keystone">Keystone</a> to compile the individual assembly and then feed its output into <a href="https://github.com/unicorn-engine/unicorn">Unicorn</a> to emulate it and get a final result.
+If we enter an incorrect solution into the challenge, the initial register values and assembly code are regenerated.</p><h2 id=solution>Solution</h2><p>The ideal solution to this challenge would have been to use <a href=https://github.com/keystone-engine/keystone>Keystone</a> to compile the individual assembly and then feed its output into <a href=https://github.com/unicorn-engine/unicorn>Unicorn</a> to emulate it and get a final result.
 Unfortunately, even after regenerating the challenge multiple times, we run into issues.
-Keystone would either fail to assemble certain instructions or Unicorn would fail while emulating the code.</p>
-<p>This is not surprising given how unusual some of the assembly looks.
+Keystone would either fail to assemble certain instructions or Unicorn would fail while emulating the code.</p><p>This is not surprising given how unusual some of the assembly looks.
 We will have to assemble these programs somewhat manually.
-For the i386 and amd64 code, we can just use NASM:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nasm -f elf32 i386.asm -o i386.o
+For the i386 and amd64 code, we can just use NASM:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>nasm -f elf32 i386.asm -o i386.o
 gcc i386.o -m32 -o i386.bin -static
 </code></pre></div><p>For the other non-Intel code, we need to use the GCC toolchain for that specific architecture.
 These can be installed with <code>sudo apt install gcc-{arch}-linux-gnu</code> just as the provided hint tells us.
-The ARM assembly builds with no issues:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aarch64-linux-gnu-as aarch64.asm -o aarch64.o
+The ARM assembly builds with no issues:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>aarch64-linux-gnu-as aarch64.asm -o aarch64.o
 aarch64-linux-gnu-gcc aarch64.o -o aarch64.bin -static
 </code></pre></div><p>We do encounter some errors attempting to assemble the MIPS code.
 The assembler complains about register names not being valid.
 There are multiple names that can be used to refer to certain registers in MIPS assembly and apparently this assembler does not recognize all of them.
-To solve this issue without modifying the actual code, we can add define statments at the top to provide the alternate register names:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#define zero $0
-</span><span style="color:#75715e">#define AT   $1
-</span><span style="color:#75715e">#define v0   $2
-</span><span style="color:#75715e">#define v1   $3
-</span><span style="color:#75715e">#define a0   $4
-</span><span style="color:#75715e">#define a1   $5
-</span><span style="color:#75715e">#define a2   $6
-</span><span style="color:#75715e">#define a3   $7
-</span><span style="color:#75715e">#define s0   $16
-</span><span style="color:#75715e">#define s1   $17
-</span><span style="color:#75715e">#define s2   $18
-</span><span style="color:#75715e">#define s3   $19
-</span><span style="color:#75715e">#define s4   $20
-</span><span style="color:#75715e">#define s5   $21
-</span><span style="color:#75715e">#define s6   $22
-</span><span style="color:#75715e">#define s7   $23
-</span><span style="color:#75715e">#define t8   $24
-</span><span style="color:#75715e">#define t9   $25
-</span><span style="color:#75715e">#define jp   $25
-</span><span style="color:#75715e">#define k0   $26
-</span><span style="color:#75715e">#define k1   $27
-</span><span style="color:#75715e">#define gp   $28
-</span><span style="color:#75715e">#define sp   $29
-</span><span style="color:#75715e">#define fp   $30
-</span><span style="color:#75715e">#define s8   $30
-</span><span style="color:#75715e">#define ra   $31
+To solve this issue without modifying the actual code, we can add define statments at the top to provide the alternate register names:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#75715e>#define zero $0
+</span><span style=color:#75715e>#define AT   $1
+</span><span style=color:#75715e>#define v0   $2
+</span><span style=color:#75715e>#define v1   $3
+</span><span style=color:#75715e>#define a0   $4
+</span><span style=color:#75715e>#define a1   $5
+</span><span style=color:#75715e>#define a2   $6
+</span><span style=color:#75715e>#define a3   $7
+</span><span style=color:#75715e>#define s0   $16
+</span><span style=color:#75715e>#define s1   $17
+</span><span style=color:#75715e>#define s2   $18
+</span><span style=color:#75715e>#define s3   $19
+</span><span style=color:#75715e>#define s4   $20
+</span><span style=color:#75715e>#define s5   $21
+</span><span style=color:#75715e>#define s6   $22
+</span><span style=color:#75715e>#define s7   $23
+</span><span style=color:#75715e>#define t8   $24
+</span><span style=color:#75715e>#define t9   $25
+</span><span style=color:#75715e>#define jp   $25
+</span><span style=color:#75715e>#define k0   $26
+</span><span style=color:#75715e>#define k1   $27
+</span><span style=color:#75715e>#define gp   $28
+</span><span style=color:#75715e>#define sp   $29
+</span><span style=color:#75715e>#define fp   $30
+</span><span style=color:#75715e>#define s8   $30
+</span><span style=color:#75715e>#define ra   $31
 </span></code></pre></div><p>We run into this same issue again with the PPC assembly.
-With PPC however, the assembler supports an extra command line argument <code>-mregnames</code> which handles this for us:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">powerpc-linux-gnu-as ppc.asm -mregnames -o ppc.o
+With PPC however, the assembler supports an extra command line argument <code>-mregnames</code> which handles this for us:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>powerpc-linux-gnu-as ppc.asm -mregnames -o ppc.o
 powerpc-linux-gnu-gcc ppc.o -o ppc.bin -static
-</code></pre></div><p>To automate this process, we can collect the above commands into a <a href="https://github.com/starfleetcadet75/writeups/blob/master/2020-Cyberstakes/assembly-voyageur/Makefile">Makefile</a>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-makefile" data-lang="makefile"><span style="color:#a6e22e">all</span><span style="color:#f92672">:</span> i368 amd64 aarch64 mips ppc
+</code></pre></div><p>To automate this process, we can collect the above commands into a <a href=https://github.com/starfleetcadet75/writeups/blob/master/2020-Cyberstakes/assembly-voyageur/Makefile>Makefile</a>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-makefile data-lang=makefile><span style=color:#a6e22e>all</span><span style=color:#f92672>:</span> i368 amd64 aarch64 mips ppc
 
-<span style="color:#a6e22e">i386</span><span style="color:#f92672">:</span> i386.asm
+<span style=color:#a6e22e>i386</span><span style=color:#f92672>:</span> i386.asm
   nasm -f elf32 i386.asm -o i386.o
   gcc i386.o -m32 -o i386.bin -static
 
-<span style="color:#a6e22e">amd64</span><span style="color:#f92672">:</span> amd64.asm
+<span style=color:#a6e22e>amd64</span><span style=color:#f92672>:</span> amd64.asm
   nasm -f elf64 amd64.asm -o amd64.o
   gcc amd64.o -o amd64.bin -static
 
-<span style="color:#a6e22e">aarch64</span><span style="color:#f92672">:</span> aarch64.asm
+<span style=color:#a6e22e>aarch64</span><span style=color:#f92672>:</span> aarch64.asm
   aarch64-linux-gnu-as aarch64.asm -o aarch64.o
   aarch64-linux-gnu-gcc aarch64.o -o aarch64.bin -static
 
-<span style="color:#a6e22e">mips</span><span style="color:#f92672">:</span> mips.S
+<span style=color:#a6e22e>mips</span><span style=color:#f92672>:</span> mips.S
   mips-linux-gnu-gcc mips.S -o mips.bin -static
 
-<span style="color:#a6e22e">ppc</span><span style="color:#f92672">:</span> ppc.asm
+<span style=color:#a6e22e>ppc</span><span style=color:#f92672>:</span> ppc.asm
   powerpc-linux-gnu-as ppc.asm -mregnames -o ppc.o
   powerpc-linux-gnu-gcc ppc.o -o ppc.bin -static
 
-<span style="color:#a6e22e">clean</span><span style="color:#f92672">:</span>
+<span style=color:#a6e22e>clean</span><span style=color:#f92672>:</span>
   rm -rf *.o *.bin
-</code></pre></div><p>We can also write a parser that will extract each snippet of assembly and write it to the source files.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> bs4 <span style="color:#f92672">import</span> BeautifulSoup
+</code></pre></div><p>We can also write a parser that will extract each snippet of assembly and write it to the source files.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>from</span> bs4 <span style=color:#f92672>import</span> BeautifulSoup
 
-<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;AssemblyVoyageur.html&#34;</span>, <span style="color:#e6db74">&#34;r&#34;</span>) <span style="color:#66d9ef">as</span> f:
-    page <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>read()
+<span style=color:#66d9ef>with</span> open(<span style=color:#e6db74>&#34;AssemblyVoyageur.html&#34;</span>, <span style=color:#e6db74>&#34;r&#34;</span>) <span style=color:#66d9ef>as</span> f:
+    page <span style=color:#f92672>=</span> f<span style=color:#f92672>.</span>read()
 
-soup <span style="color:#f92672">=</span> BeautifulSoup(page, <span style="color:#e6db74">&#39;html.parser&#39;</span>)
-<span style="color:#66d9ef">print</span>(soup<span style="color:#f92672">.</span>prettify())
+soup <span style=color:#f92672>=</span> BeautifulSoup(page, <span style=color:#e6db74>&#39;html.parser&#39;</span>)
+print(soup<span style=color:#f92672>.</span>prettify())
 
-regstate <span style="color:#f92672">=</span> soup<span style="color:#f92672">.</span>body<span style="color:#f92672">.</span>find_all(<span style="color:#e6db74">&#34;ul&#34;</span>)[<span style="color:#ae81ff">0</span>]
-snippets <span style="color:#f92672">=</span> soup<span style="color:#f92672">.</span>body<span style="color:#f92672">.</span>find_all(<span style="color:#e6db74">&#34;textarea&#34;</span>)
-i386 <span style="color:#f92672">=</span> snippets[<span style="color:#ae81ff">0</span>]
-amd64 <span style="color:#f92672">=</span> snippets[<span style="color:#ae81ff">1</span>]
-aarch64 <span style="color:#f92672">=</span> snippets[<span style="color:#ae81ff">2</span>]
-mips <span style="color:#f92672">=</span> snippets[<span style="color:#ae81ff">3</span>]
-ppc <span style="color:#f92672">=</span> snippets[<span style="color:#ae81ff">4</span>]
+regstate <span style=color:#f92672>=</span> soup<span style=color:#f92672>.</span>body<span style=color:#f92672>.</span>find_all(<span style=color:#e6db74>&#34;ul&#34;</span>)[<span style=color:#ae81ff>0</span>]
+snippets <span style=color:#f92672>=</span> soup<span style=color:#f92672>.</span>body<span style=color:#f92672>.</span>find_all(<span style=color:#e6db74>&#34;textarea&#34;</span>)
+i386 <span style=color:#f92672>=</span> snippets[<span style=color:#ae81ff>0</span>]
+amd64 <span style=color:#f92672>=</span> snippets[<span style=color:#ae81ff>1</span>]
+aarch64 <span style=color:#f92672>=</span> snippets[<span style=color:#ae81ff>2</span>]
+mips <span style=color:#f92672>=</span> snippets[<span style=color:#ae81ff>3</span>]
+ppc <span style=color:#f92672>=</span> snippets[<span style=color:#ae81ff>4</span>]
 
-<span style="color:#75715e"># Create i386</span>
-<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;i386.asm&#34;</span>, <span style="color:#e6db74">&#34;w&#34;</span>) <span style="color:#66d9ef">as</span> f:
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;BITS 32</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;SECTION .text</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;global main</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;main:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+<span style=color:#75715e># Create i386</span>
+<span style=color:#66d9ef>with</span> open(<span style=color:#e6db74>&#34;i386.asm&#34;</span>, <span style=color:#e6db74>&#34;w&#34;</span>) <span style=color:#66d9ef>as</span> f:
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;BITS 32</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;SECTION .text</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;global main</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;main:</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
 
-    <span style="color:#75715e"># Add the initial register state</span>
-    <span style="color:#66d9ef">for</span> reg <span style="color:#f92672">in</span> regstate<span style="color:#f92672">.</span>find_all(<span style="color:#e6db74">&#34;li&#34;</span>):
-        v, r <span style="color:#f92672">=</span> reg<span style="color:#f92672">.</span>contents[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>split()
-        r <span style="color:#f92672">=</span> r[:<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>lower()
-        f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;mov &#34;</span> <span style="color:#f92672">+</span> r <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;, &#34;</span> <span style="color:#f92672">+</span> v <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+    <span style=color:#75715e># Add the initial register state</span>
+    <span style=color:#66d9ef>for</span> reg <span style=color:#f92672>in</span> regstate<span style=color:#f92672>.</span>find_all(<span style=color:#e6db74>&#34;li&#34;</span>):
+        v, r <span style=color:#f92672>=</span> reg<span style=color:#f92672>.</span>contents[<span style=color:#ae81ff>0</span>]<span style=color:#f92672>.</span>split()
+        r <span style=color:#f92672>=</span> r[:<span style=color:#f92672>-</span><span style=color:#ae81ff>2</span>]<span style=color:#f92672>.</span>lower()
+        f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;mov &#34;</span> <span style=color:#f92672>+</span> r <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;, &#34;</span> <span style=color:#f92672>+</span> v <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
 
-    <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> i386<span style="color:#f92672">.</span>contents:
-        f<span style="color:#f92672">.</span>write(line)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;db 0xcc&#34;</span>)
+    <span style=color:#66d9ef>for</span> line <span style=color:#f92672>in</span> i386<span style=color:#f92672>.</span>contents:
+        f<span style=color:#f92672>.</span>write(line)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;db 0xcc&#34;</span>)
 
-<span style="color:#75715e"># Create amd64</span>
-<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;amd64.asm&#34;</span>, <span style="color:#e6db74">&#34;w&#34;</span>) <span style="color:#66d9ef">as</span> f:
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;BITS 64</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;SECTION .text</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;global main</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;main:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+<span style=color:#75715e># Create amd64</span>
+<span style=color:#66d9ef>with</span> open(<span style=color:#e6db74>&#34;amd64.asm&#34;</span>, <span style=color:#e6db74>&#34;w&#34;</span>) <span style=color:#66d9ef>as</span> f:
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;BITS 64</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;SECTION .text</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;global main</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;main:</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
 
-    <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> amd64<span style="color:#f92672">.</span>contents:
-        f<span style="color:#f92672">.</span>write(line)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;db 0xcc&#34;</span>)
+    <span style=color:#66d9ef>for</span> line <span style=color:#f92672>in</span> amd64<span style=color:#f92672>.</span>contents:
+        f<span style=color:#f92672>.</span>write(line)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;db 0xcc&#34;</span>)
 
-<span style="color:#75715e"># Create aarch64</span>
-<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;aarch64.asm&#34;</span>, <span style="color:#e6db74">&#34;w&#34;</span>) <span style="color:#66d9ef">as</span> f:
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;.global main</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;.text</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;main:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+<span style=color:#75715e># Create aarch64</span>
+<span style=color:#66d9ef>with</span> open(<span style=color:#e6db74>&#34;aarch64.asm&#34;</span>, <span style=color:#e6db74>&#34;w&#34;</span>) <span style=color:#66d9ef>as</span> f:
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;.global main</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;.text</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;main:</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
 
-    <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> aarch64<span style="color:#f92672">.</span>contents:
-        f<span style="color:#f92672">.</span>write(line)
+    <span style=color:#66d9ef>for</span> line <span style=color:#f92672>in</span> aarch64<span style=color:#f92672>.</span>contents:
+        f<span style=color:#f92672>.</span>write(line)
 
-<span style="color:#75715e"># Create mips</span>
-<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;mips.S&#34;</span>, <span style="color:#e6db74">&#34;w&#34;</span>) <span style="color:#66d9ef">as</span> f:
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define zero $0</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define AT   $1</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define v0   $2</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define v1   $3</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define a0   $4</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define a1   $5</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define a2   $6</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define a3   $7</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define s0   $16</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define s1   $17</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define s2   $18</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define s3   $19</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define s4   $20</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define s5   $21</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define s6   $22</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define s7   $23</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define t8   $24</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define t9   $25</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define jp   $25</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define k0   $26</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define k1   $27</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define gp   $28</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define sp   $29</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define fp   $30</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define s8   $30</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;#define ra   $31</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+<span style=color:#75715e># Create mips</span>
+<span style=color:#66d9ef>with</span> open(<span style=color:#e6db74>&#34;mips.S&#34;</span>, <span style=color:#e6db74>&#34;w&#34;</span>) <span style=color:#66d9ef>as</span> f:
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define zero $0</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define AT   $1</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define v0   $2</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define v1   $3</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define a0   $4</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define a1   $5</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define a2   $6</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define a3   $7</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define s0   $16</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define s1   $17</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define s2   $18</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define s3   $19</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define s4   $20</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define s5   $21</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define s6   $22</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define s7   $23</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define t8   $24</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define t9   $25</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define jp   $25</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define k0   $26</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define k1   $27</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define gp   $28</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define sp   $29</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define fp   $30</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define s8   $30</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;#define ra   $31</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
 
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;.global main</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;.text</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;main:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;.global main</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;.text</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;main:</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
 
-    <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> mips<span style="color:#f92672">.</span>contents:
-        f<span style="color:#f92672">.</span>write(line)
+    <span style=color:#66d9ef>for</span> line <span style=color:#f92672>in</span> mips<span style=color:#f92672>.</span>contents:
+        f<span style=color:#f92672>.</span>write(line)
 
-<span style="color:#75715e"># Create ppc</span>
-<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;ppc.asm&#34;</span>, <span style="color:#e6db74">&#34;w&#34;</span>) <span style="color:#66d9ef">as</span> f:
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;.global main</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;.text</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-    f<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;main:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+<span style=color:#75715e># Create ppc</span>
+<span style=color:#66d9ef>with</span> open(<span style=color:#e6db74>&#34;ppc.asm&#34;</span>, <span style=color:#e6db74>&#34;w&#34;</span>) <span style=color:#66d9ef>as</span> f:
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;.global main</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;.text</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+    f<span style=color:#f92672>.</span>write(<span style=color:#e6db74>&#34;main:</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
 
-    <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> ppc<span style="color:#f92672">.</span>contents:
-        f<span style="color:#f92672">.</span>write(line)
-</code></pre></div><p>The full solution code can be found <a href="https://github.com/starfleetcadet75/writeups/tree/master/2020-Cyberstakes/assembly-voyageur">here</a>.</p>
-<p>We can now easily create executables for each source file.
+    <span style=color:#66d9ef>for</span> line <span style=color:#f92672>in</span> ppc<span style=color:#f92672>.</span>contents:
+        f<span style=color:#f92672>.</span>write(line)
+</code></pre></div><p>The full solution code can be found <a href=https://github.com/starfleetcadet75/writeups/tree/master/2020-Cyberstakes/assembly-voyageur>here</a>.</p><p>We can now easily create executables for each source file.
 The last step is to run each program with the correct initial register values.
-Instead of attempting to manually add new instructions to the beginning of each file, we can run each program with GDB and set the register values ourselves.</p>
-<p>To debug the non-Intel programs, we can use QEMU&rsquo;s user-space emulation mode along with <code>gdb-multiarch</code>.
+Instead of attempting to manually add new instructions to the beginning of each file, we can run each program with GDB and set the register values ourselves.</p><p>To debug the non-Intel programs, we can use QEMU&rsquo;s user-space emulation mode along with <code>gdb-multiarch</code>.
 We compiled each program with the <code>-static</code> option, which means all of our programs are statically linked and should have no issues running in QEMU.
-Each program can be debugged with the following:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">qemu-<span style="color:#f92672">{</span>arch<span style="color:#f92672">}</span>-static -g <span style="color:#ae81ff">12345</span> ./<span style="color:#f92672">{</span>arch<span style="color:#f92672">}</span>.bin
-gdb-multiarch ./<span style="color:#f92672">{</span>arch<span style="color:#f92672">}</span>.bin
-</code></pre></div><p>The commands to enter in GDB, with the register values changed manually, are as follows:</p>
-<pre><code class="language-none" data-lang="none">// i386.bin
+Each program can be debugged with the following:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>qemu-<span style=color:#f92672>{</span>arch<span style=color:#f92672>}</span>-static -g <span style=color:#ae81ff>12345</span> ./<span style=color:#f92672>{</span>arch<span style=color:#f92672>}</span>.bin
+gdb-multiarch ./<span style=color:#f92672>{</span>arch<span style=color:#f92672>}</span>.bin
+</code></pre></div><p>The commands to enter in GDB, with the register values changed manually, are as follows:</p><pre><code class=language-none data-lang=none>// i386.bin
 start
 continue
 info registers eax ebx ecx edx esi edi
@@ -363,94 +229,4 @@ set $r5 = 0
 set $r6 = 0
 continue
 info registers r1 r2 r3 r4 r5 r6
-</code></pre><p>Running the PPC program gives us the final register values we need.</p>
-<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Cyberstakes/assembly-voyageur/running_ppc.PNG" alt="ppc_running"></p>
-<p>We can compute the final result from these registers and get the flag.</p>
-<p><img src="https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Cyberstakes/assembly-voyageur/flag.PNG" alt="flag"></p>
- </div>
-    <footer class="post-footer">
-
-  <div class="post-footer-data">
-            
-<div class="tags">
-  
-    
-      <div class="tag">
-        <a href="/tags/programming">#programming</a>
-      </div>
-    
-      <div class="tag">
-        <a href="/tags/qemu">#qemu</a>
-      </div>
-    
-  
-</div>
-
-    <div class="post-footer-meta">Permalink: <a href="https://starfleetcadet75.github.io/posts/cyberstakes-2020-assembly-voyageur/">/posts/cyberstakes-2020-assembly-voyageur/</a> | Date: 2020-05-03 </div>
-    
-    <hr>
-            
-<div class="categories">
-  
-  Published in:
-    
-      <div class="category">
-        <a href="/categories/writeups">writeups</a>
-      </div>
-    
-  
-</div>
-
-            
-<div class="series">
-  
-</div>
-
-    
-  </div>
-</footer>
-
-
-
-</article>
-
-  <footer>
-
-  <div class="social-links-footer">
-
-  
-  <a href="mailto:starfleetcadet75@gmail.com"><div class="social-link">Email</div></a>
-  
-
-  
-  <a href="https://github.com/starfleetcadet75" target="_blank"><div class="social-link">GitHub</div></a>
-  
-
-  
-  <a href="https://gitlab.com/starfleetcadet75" target="_blank"><div class="social-link">GitLab</div></a>
-  
-
-  
-
-  
-
-  <div class="social-link">
-  <a href="https://starfleetcadet75.github.io/index.xml" target="_blank">RSS</a>
-  </div>
-
-</div>
-
-
-  <div class="copyright">  </div>
-
-  <div class="poweredby">
-    Powered by <a href="https://gohugo.io/">Hugo</a>.
-  </div>
-
-  </footer>
-
-</div> 
-
-</body>
-</html>
-
+</code></pre><p>Running the PPC program gives us the final register values we need.</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Cyberstakes/assembly-voyageur/running_ppc.PNG alt=ppc_running></p><p>We can compute the final result from these registers and get the flag.</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Cyberstakes/assembly-voyageur/flag.PNG alt=flag></p></div><footer class=post-footer><div class=post-footer-data><div class=tags><div class=tag><a href=/tags/programming>#programming</a></div><div class=tag><a href=/tags/qemu>#qemu</a></div></div><div class=post-footer-meta>Permalink: <a href=https://starfleetcadet75.github.io/posts/cyberstakes-2020-assembly-voyageur/>/posts/cyberstakes-2020-assembly-voyageur/</a> | Date: 2020-05-03</div><hr><div class=categories>Published in:<div class=category><a href=/categories/writeups>writeups</a></div></div><div class=series></div></div></footer></article><footer><div class=social-links-footer><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>Email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>GitHub</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>GitLab</div></a><div class=social-link><a href=https://starfleetcadet75.github.io/index.xml target=_blank>RSS</a></div></div><div class=copyright></div><div class=poweredby>Powered by <a href=https://gohugo.io/>Hugo</a>.</div></footer></div></body></html>
