@@ -24,6 +24,7 @@ Sorted by recommended reading order:
 
 ## Training
 
+- [pwn.college](https://pwn.college/)
 - [Cryptopals](https://cryptopals.com/)
 - [CSAW365](https://365.csaw.io/)
 - [Microcorruption](https://microcorruption.com/)

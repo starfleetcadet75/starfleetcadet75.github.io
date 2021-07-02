@@ -35,7 +35,7 @@ We can compile it with `gcc golf.c -shared -s -nostdlib -nodefaultlibs -nostartf
 To test that our function gets called, we run the library with `strace -E LD_PRELOAD=./golf.so /bin/true`.
 The last line of the strace output prints `exit_group(42)`, which confirms that our code did indeed execute when loaded by `/bin/true`.
 
-Despite stripping the binary, using only three assembly instructions, and avoiding the standard library, we still end up with an object of over 13k in size.
+Despite stripping the binary, using only three assembly instructions, and avoiding the standard library, we still end up with an object of over 13k bytes in size.
 
 ## Custom ELF Binary
 
