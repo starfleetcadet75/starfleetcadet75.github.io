@@ -1,8 +1,73 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=author content><meta name=description content><meta name=keywords content><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><meta name=generator content="Hugo 0.84.4"><link rel=canonical href=https://starfleetcadet75.github.io/posts/flareon-2020-6-codeit/><meta property="og:title" content="Flare-On CTF 2020 Challenge 6: codeit"><meta property="og:description" content="Reverse engineer this little compiled script to figure out what you need to do to make it give you the flag (as a QR code)."><meta property="og:type" content="article"><meta property="og:url" content="https://starfleetcadet75.github.io/posts/flareon-2020-6-codeit/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-09-23T00:00:00+00:00"><meta property="article:modified_time" content="2020-09-23T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Flare-On CTF 2020 Challenge 6: codeit"><meta name=twitter:description content="Reverse engineer this little compiled script to figure out what you need to do to make it give you the flag (as a QR code)."><meta itemprop=name content="Flare-On CTF 2020 Challenge 6: codeit"><meta itemprop=description content="Reverse engineer this little compiled script to figure out what you need to do to make it give you the flag (as a QR code)."><meta itemprop=datePublished content="2020-09-23T00:00:00+00:00"><meta itemprop=dateModified content="2020-09-23T00:00:00+00:00"><meta itemprop=wordCount content="1547"><meta itemprop=keywords content="reversing,forensics,"><link rel=stylesheet href=/css/layout.css><link rel=stylesheet href=/css/default-dark.css><link rel=stylesheet href=/css/adoc-html5-extension.css><title>Flare-On CTF 2020 Challenge 6: codeit</title></head><body><div class=main><header><div class=header-bar><nav><div class=siteTitle><a href=https://starfleetcadet75.github.io/>starfleetcadet75</a></div><a class=nav-item href=/about/><div class=nav-item-title>About</div></a><a class=nav-item href=/readinglist/><div class=nav-item-title>Reading List</div></a><a class="nav-item active" href=/posts/><div class=nav-item-title>Posts</div></a></nav><div class=social-links-header style=visibility:hidden;display:none><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>gh</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>gl</div></a></div></div></header><article class=post><h1 class=title>Flare-On CTF 2020 Challenge 6: codeit</h1><div class=content><h2 id=challenge>Challenge</h2><blockquote><p>Reverse engineer this little compiled script to figure out what you need to do to make it give you the flag (as a QR code).</p></blockquote><h2 id=observations>Observations</h2><p>We are provided with a UPX-packed executable that prompts us to enter text to be encoded as a QR code.</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/codeit/prompt.PNG alt=prompt></p><h2 id=extracting-the-script>Extracting the Script</h2><p>Loading the unpacked program into Binary Ninja, we can see that it is pretty large.
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta name=author content>
+<meta name=description content>
+<meta name=keywords content>
+<meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name=generator content="Hugo 0.88.1">
+<link rel=canonical href=https://starfleetcadet75.github.io/posts/flareon-2020-6-codeit/>
+<meta property="og:title" content="Flare-On CTF 2020 Challenge 6: codeit">
+<meta property="og:description" content="Reverse engineer this little compiled script to figure out what you need to do to make it give you the flag (as a QR code).">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://starfleetcadet75.github.io/posts/flareon-2020-6-codeit/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2020-09-23T00:00:00+00:00">
+<meta property="article:modified_time" content="2020-09-23T00:00:00+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Flare-On CTF 2020 Challenge 6: codeit">
+<meta name=twitter:description content="Reverse engineer this little compiled script to figure out what you need to do to make it give you the flag (as a QR code).">
+<meta itemprop=name content="Flare-On CTF 2020 Challenge 6: codeit">
+<meta itemprop=description content="Reverse engineer this little compiled script to figure out what you need to do to make it give you the flag (as a QR code)."><meta itemprop=datePublished content="2020-09-23T00:00:00+00:00">
+<meta itemprop=dateModified content="2020-09-23T00:00:00+00:00">
+<meta itemprop=wordCount content="1547">
+<meta itemprop=keywords content="reversing,forensics,">
+<link rel=stylesheet href=/css/layout.css>
+<link rel=stylesheet href=/css/default-dark.css>
+<link rel=stylesheet href=/css/adoc-html5-extension.css>
+<title>
+Flare-On CTF 2020 Challenge 6: codeit
+</title>
+</head>
+<body>
+<div class=main>
+<header>
+<div class=header-bar>
+<nav>
+<div class=siteTitle>
+<a href=https://starfleetcadet75.github.io/>starfleetcadet75</a>
+</div>
+<a class=nav-item href=/about/><div class=nav-item-title>About</div></a>
+<a class=nav-item href=/readinglist/><div class=nav-item-title>Reading List</div></a>
+<a class="nav-item active" href=/posts/><div class=nav-item-title>Posts</div></a>
+</nav>
+<div class=social-links-header style=visibility:hidden;display:none>
+<a href=mailto:starfleetcadet75@gmail.com><div class=social-link>email</div></a>
+<a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>gh</div></a>
+<a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>gl</div></a>
+</div>
+</div>
+</header>
+<article class=post>
+<h1 class=title> Flare-On CTF 2020 Challenge 6: codeit </h1>
+<div class=content> <h2 id=challenge>Challenge</h2>
+<blockquote>
+<p>Reverse engineer this little compiled script to figure out what you need to do to make it give you the flag (as a QR code).</p>
+</blockquote>
+<h2 id=observations>Observations</h2>
+<p>We are provided with a UPX-packed executable that prompts us to enter text to be encoded as a QR code.</p>
+<p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/codeit/prompt.PNG alt=prompt></p>
+<h2 id=extracting-the-script>Extracting the Script</h2>
+<p>Loading the unpacked program into Binary Ninja, we can see that it is pretty large.
 Fortunately, the string &ldquo;This is a third-party compiled AutoIt script&rdquo; immediately indicates we do not have to continue looking at the assembly.
-<a href=https://www.autoitscript.com/site/autoit/>AutoIt</a> is a freeware scripting language for automating Windows GUI interaction that can be compiled into a runnable executable.</p><p>We can use the AutoIt Extractor tool that is provided by default inside Flare VM to extract the original AutoIt script.</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/codeit/exe2aut.png alt=exe2aut></p><p>The script can be found <a href=https://github.com/starfleetcadet75/writeups/blob/master/2020-Flareon-CTF/codeit/codeit.au3>here</a>.</p><h2 id=reversing-the-script>Reversing the Script</h2><p>The script is lightly obfuscated with many of the function and variable names having been changed to junk values.
+<a href=https://www.autoitscript.com/site/autoit/>AutoIt</a> is a freeware scripting language for automating Windows GUI interaction that can be compiled into a runnable executable.</p>
+<p>We can use the AutoIt Extractor tool that is provided by default inside Flare VM to extract the original AutoIt script.</p>
+<p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/codeit/exe2aut.png alt=exe2aut></p>
+<p>The script can be found <a href=https://github.com/starfleetcadet75/writeups/blob/master/2020-Flareon-CTF/codeit/codeit.au3>here</a>.</p>
+<h2 id=reversing-the-script>Reversing the Script</h2>
+<p>The script is lightly obfuscated with many of the function and variable names having been changed to junk values.
 At the end of the script there is a global variable named <code>$os</code> that contains an array of hex string values that are decoded by the last function.
-Whenever <code>$os[$somenum]</code> is called, the script gets the unobfuscated string value from the encoded array.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>decode</span>(enc):
+Whenever <code>$os[$somenum]</code> is called, the script gets the unobfuscated string value from the encoded array.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>decode</span>(enc):
     out <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;</span>
     <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(<span style=color:#ae81ff>0</span>, len(enc), <span style=color:#ae81ff>2</span>):
         out <span style=color:#f92672>+=</span> chr(int(enc[i: i <span style=color:#f92672>+</span> <span style=color:#ae81ff>2</span>], <span style=color:#ae81ff>16</span>))
@@ -82,7 +147,8 @@ os <span style=color:#f92672>=</span> dlit<span style=color:#f92672>.</span>spli
 
 <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(len(os)):
     print(str(i <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>) <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;: &#34;</span> <span style=color:#f92672>+</span> decode(os[i]))
-</code></pre></div><p>The unobfuscated strings, with indexing starting at 1, are included below:</p><pre><code class=language-none data-lang=none>1: struct;uint bfSize;uint bfReserved;uint bfOffBits;uint biSize;int biWidth;int biHeight;ushort biPlanes;ushort biBitCount;uint biCompression;uint biSizeImage;int biXPelsPerMeter;int biYPelsPerMeter;uint biClrUsed;uint biClrImportant;endstruct;
+</code></pre></div><p>The unobfuscated strings, with indexing starting at 1, are included below:</p>
+<pre tabindex=0><code class=language-none data-lang=none>1: struct;uint bfSize;uint bfReserved;uint bfOffBits;uint biSize;int biWidth;int biHeight;ushort biPlanes;ushort biBitCount;uint biCompression;uint biSizeImage;int biXPelsPerMeter;int biYPelsPerMeter;uint biClrUsed;uint biClrImportant;endstruct;
 2: bfSize
 3: bfReserved
 4: bfOffBits
@@ -242,7 +308,8 @@ os <span style=color:#f92672>=</span> dlit<span style=color:#f92672>.</span>spli
 158: GetFileSize
 </code></pre><p>Using the decoded strings, we can begin to go through the script and rename obfuscated locations.
 Inside the main GUI loop, the script passes our input to a third-party DLL that generates the QR code.
-It is only after the QR code has already been generated that the flag is added on.</p><pre><code class=language-none data-lang=none>Case $buttonEvent
+It is only after the QR code has already been generated that the flag is added on.</p>
+<pre tabindex=0><code class=language-none data-lang=none>Case $buttonEvent
     Local $input = GUICtrlRead($inputEvent)
 
     If $input Then
@@ -262,7 +329,8 @@ It is only after the QR code has already been generated that the flag is added o
             $fljfojrihf = DllCall($dllname, &quot;int:cdecl&quot;, &quot;justConvertQRSymbolToBitmapPixels&quot;, &quot;struct*&quot;, $qrstruct, &quot;struct*&quot;, $somestruct[1])
 ...
 </code></pre><p>The <code>GenerateFlag</code> function gets the computer name using <code>GetComputerNameA</code>.
-It is then modified in some way by <code>ChangeComputerName</code> before the script hashes it and checks whether it equals the correct hash value.</p><pre><code class=language-none data-lang=none>Func GenerateFlag(ByRef $qrstruct)
+It is then modified in some way by <code>ChangeComputerName</code> before the script hashes it and checks whether it equals the correct hash value.</p>
+<pre tabindex=0><code class=language-none data-lang=none>Func GenerateFlag(ByRef $qrstruct)
     Local $computername = GetComputerName()
 
     If $computername &lt;&gt; -1 Then
@@ -283,7 +351,8 @@ It is then modified in some way by <code>ChangeComputerName</code> before the sc
             DECODE($os[$fljhsdaeav]), 4026531840
         )
 ...
-</code></pre><p><code>ChangeComputerName</code> reads the contents of the embedded sprite.bmp file and uses it to add some constants to the calculated computer name.</p><pre><code class=language-none data-lang=none>Func ChangeComputerName(ByRef $computername)
+</code></pre><p><code>ChangeComputerName</code> reads the contents of the embedded sprite.bmp file and uses it to add some constants to the calculated computer name.</p>
+<pre tabindex=0><code class=language-none data-lang=none>Func ChangeComputerName(ByRef $computername)
     Local $spritefile = LoadEmbeddedFile(14)
     Local $file = CreateFile2($spritefile)
 
@@ -322,7 +391,8 @@ It is then modified in some way by <code>ChangeComputerName</code> before the sc
     EndIf
     DeleteFile($spritefile)
 EndFunc   ;==&gt;ChangeComputerName
-</code></pre><p>By rewriting this logic in Python, we can check what each constant value is before it is added to the computer name.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#75715e># Computer name must be lowercase ASCII</span>
+</code></pre><p>By rewriting this logic in Python, we can check what each constant value is before it is added to the computer name.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#75715e># Computer name must be lowercase ASCII</span>
 computername <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;a&#34;</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>13</span>
 computername <span style=color:#f92672>=</span> computername<span style=color:#f92672>.</span>lower()
 
@@ -350,5 +420,48 @@ computername <span style=color:#f92672>=</span> computername<span style=color:#f
                 count <span style=color:#f92672>+=</span> <span style=color:#ae81ff>1</span>
 
             print(<span style=color:#e6db74>&#34;Modified by constant: &#34;</span> <span style=color:#f92672>+</span> chr(c <span style=color:#f92672>-</span> origc))
-</code></pre></div><p>Putting the characters together gives us the expected computer name: <code>aut01tfan1999</code>.</p><p>We can now run the program and hook the call to <code>GetComputerNameA</code> with a debugger.
-The QR code contains the flag.</p><p><strong>Flag:</strong> <code>L00ks_L1k3_Y0u_D1dnt_Run_Aut0_Tim3_0n_Th1s_0ne!@flare-on.com</code></p></div><footer class=post-footer><div class=post-footer-data><div class=tags><div class=tag><a href=/tags/reversing>#reversing</a></div><div class=tag><a href=/tags/forensics>#forensics</a></div></div><div class=post-footer-meta>Permalink: <a href=https://starfleetcadet75.github.io/posts/flareon-2020-6-codeit/>/posts/flareon-2020-6-codeit/</a> | Date: 2020-09-23</div><hr><div class=categories>Published in:<div class=category><a href=/categories/writeups>writeups</a></div></div><div class=series></div></div></footer></article><footer><div class=social-links-footer><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>Email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>GitHub</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>GitLab</div></a><div class=social-link><a href=https://starfleetcadet75.github.io/index.xml target=_blank>RSS</a></div></div><div class=copyright></div><div class=poweredby>Powered by <a href=https://gohugo.io/>Hugo</a>.</div></footer></div></body></html>
+</code></pre></div><p>Putting the characters together gives us the expected computer name: <code>aut01tfan1999</code>.</p>
+<p>We can now run the program and hook the call to <code>GetComputerNameA</code> with a debugger.
+The QR code contains the flag.</p>
+<p><strong>Flag:</strong> <code>L00ks_L1k3_Y0u_D1dnt_Run_Aut0_Tim3_0n_Th1s_0ne!@flare-on.com</code></p>
+</div>
+<footer class=post-footer>
+<div class=post-footer-data>
+<div class=tags>
+<div class=tag>
+<a href=/tags/reversing>#reversing</a>
+</div>
+<div class=tag>
+<a href=/tags/forensics>#forensics</a>
+</div>
+</div>
+<div class=post-footer-meta>Permalink: <a href=https://starfleetcadet75.github.io/posts/flareon-2020-6-codeit/>/posts/flareon-2020-6-codeit/</a> | Date: 2020-09-23 </div>
+<hr>
+<div class=categories>
+Published in:
+<div class=category>
+<a href=/categories/writeups>writeups</a>
+</div>
+</div>
+<div class=series>
+</div>
+</div>
+</footer>
+</article>
+<footer>
+<div class=social-links-footer>
+<a href=mailto:starfleetcadet75@gmail.com><div class=social-link>Email</div></a>
+<a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>GitHub</div></a>
+<a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>GitLab</div></a>
+<div class=social-link>
+<a href=https://starfleetcadet75.github.io/index.xml target=_blank>RSS</a>
+</div>
+</div>
+<div class=copyright> </div>
+<div class=poweredby>
+Powered by <a href=https://gohugo.io/>Hugo</a>.
+</div>
+</footer>
+</div>
+</body>
+</html>

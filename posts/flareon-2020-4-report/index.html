@@ -1,6 +1,63 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=author content><meta name=description content><meta name=keywords content><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><meta name=generator content="Hugo 0.84.4"><link rel=canonical href=https://starfleetcadet75.github.io/posts/flareon-2020-4-report/><meta property="og:title" content="Flare-On CTF 2020 Challenge 4: report"><meta property="og:description" content="Nobody likes analysing infected documents, but it pays the bills. Reverse this macro thrill-ride to discover how to get it to show you the key."><meta property="og:type" content="article"><meta property="og:url" content="https://starfleetcadet75.github.io/posts/flareon-2020-4-report/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-09-21T00:00:00+00:00"><meta property="article:modified_time" content="2020-09-21T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Flare-On CTF 2020 Challenge 4: report"><meta name=twitter:description content="Nobody likes analysing infected documents, but it pays the bills. Reverse this macro thrill-ride to discover how to get it to show you the key."><meta itemprop=name content="Flare-On CTF 2020 Challenge 4: report"><meta itemprop=description content="Nobody likes analysing infected documents, but it pays the bills. Reverse this macro thrill-ride to discover how to get it to show you the key."><meta itemprop=datePublished content="2020-09-21T00:00:00+00:00"><meta itemprop=dateModified content="2020-09-21T00:00:00+00:00"><meta itemprop=wordCount content="1049"><meta itemprop=keywords content="reversing,forensics,vba,"><link rel=stylesheet href=/css/layout.css><link rel=stylesheet href=/css/default-dark.css><link rel=stylesheet href=/css/adoc-html5-extension.css><title>Flare-On CTF 2020 Challenge 4: report</title></head><body><div class=main><header><div class=header-bar><nav><div class=siteTitle><a href=https://starfleetcadet75.github.io/>starfleetcadet75</a></div><a class=nav-item href=/about/><div class=nav-item-title>About</div></a><a class=nav-item href=/readinglist/><div class=nav-item-title>Reading List</div></a><a class="nav-item active" href=/posts/><div class=nav-item-title>Posts</div></a></nav><div class=social-links-header style=visibility:hidden;display:none><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>gh</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>gl</div></a></div></div></header><article class=post><h1 class=title>Flare-On CTF 2020 Challenge 4: report</h1><div class=content><h2 id=challenge>Challenge</h2><blockquote><p>Nobody likes analysing infected documents, but it pays the bills.
-Reverse this macro thrill-ride to discover how to get it to show you the key.</p></blockquote><h2 id=observations>Observations</h2><p>This challenge provides us with an Excel file that obviously contains a macro.
-We can view the macro using the developer tab in Excel:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-vb data-lang=vb><span style=color:#66d9ef>Private</span> <span style=color:#66d9ef>Declare</span> <span style=color:#66d9ef>Function</span> <span style=color:#a6e22e>InternetGetConnectedState</span> <span style=color:#66d9ef>Lib</span> <span style=color:#e6db74>&#34;wininet.dll&#34;</span> _
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta name=author content>
+<meta name=description content>
+<meta name=keywords content>
+<meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name=generator content="Hugo 0.88.1">
+<link rel=canonical href=https://starfleetcadet75.github.io/posts/flareon-2020-4-report/>
+<meta property="og:title" content="Flare-On CTF 2020 Challenge 4: report">
+<meta property="og:description" content="Nobody likes analysing infected documents, but it pays the bills. Reverse this macro thrill-ride to discover how to get it to show you the key.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://starfleetcadet75.github.io/posts/flareon-2020-4-report/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2020-09-21T00:00:00+00:00">
+<meta property="article:modified_time" content="2020-09-21T00:00:00+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Flare-On CTF 2020 Challenge 4: report">
+<meta name=twitter:description content="Nobody likes analysing infected documents, but it pays the bills. Reverse this macro thrill-ride to discover how to get it to show you the key.">
+<meta itemprop=name content="Flare-On CTF 2020 Challenge 4: report">
+<meta itemprop=description content="Nobody likes analysing infected documents, but it pays the bills. Reverse this macro thrill-ride to discover how to get it to show you the key."><meta itemprop=datePublished content="2020-09-21T00:00:00+00:00">
+<meta itemprop=dateModified content="2020-09-21T00:00:00+00:00">
+<meta itemprop=wordCount content="1049">
+<meta itemprop=keywords content="reversing,forensics,vba,">
+<link rel=stylesheet href=/css/layout.css>
+<link rel=stylesheet href=/css/default-dark.css>
+<link rel=stylesheet href=/css/adoc-html5-extension.css>
+<title>
+Flare-On CTF 2020 Challenge 4: report
+</title>
+</head>
+<body>
+<div class=main>
+<header>
+<div class=header-bar>
+<nav>
+<div class=siteTitle>
+<a href=https://starfleetcadet75.github.io/>starfleetcadet75</a>
+</div>
+<a class=nav-item href=/about/><div class=nav-item-title>About</div></a>
+<a class=nav-item href=/readinglist/><div class=nav-item-title>Reading List</div></a>
+<a class="nav-item active" href=/posts/><div class=nav-item-title>Posts</div></a>
+</nav>
+<div class=social-links-header style=visibility:hidden;display:none>
+<a href=mailto:starfleetcadet75@gmail.com><div class=social-link>email</div></a>
+<a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>gh</div></a>
+<a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>gl</div></a>
+</div>
+</div>
+</header>
+<article class=post>
+<h1 class=title> Flare-On CTF 2020 Challenge 4: report </h1>
+<div class=content> <h2 id=challenge>Challenge</h2>
+<blockquote>
+<p>Nobody likes analysing infected documents, but it pays the bills.
+Reverse this macro thrill-ride to discover how to get it to show you the key.</p>
+</blockquote>
+<h2 id=observations>Observations</h2>
+<p>This challenge provides us with an Excel file that obviously contains a macro.
+We can view the macro using the developer tab in Excel:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-vb data-lang=vb><span style=color:#66d9ef>Private</span> <span style=color:#66d9ef>Declare</span> <span style=color:#66d9ef>Function</span> <span style=color:#a6e22e>InternetGetConnectedState</span> <span style=color:#66d9ef>Lib</span> <span style=color:#e6db74>&#34;wininet.dll&#34;</span> _
 (<span style=color:#66d9ef>ByRef</span> dwflags <span style=color:#f92672>As</span> <span style=color:#66d9ef>Long</span>, <span style=color:#66d9ef>ByVal</span> dwReserved <span style=color:#f92672>As</span> <span style=color:#66d9ef>Long</span>) <span style=color:#f92672>As</span> <span style=color:#66d9ef>Long</span>
 
 <span style=color:#66d9ef>Private</span> <span style=color:#66d9ef>Declare</span> PtrSafe <span style=color:#66d9ef>Function</span> <span style=color:#a6e22e>mciSendString</span> <span style=color:#66d9ef>Lib</span> <span style=color:#e6db74>&#34;winmm.dll&#34;</span> <span style=color:#66d9ef>Alias</span> _
@@ -81,8 +138,10 @@ We can view the macro using the developer tab in Excel:</p><div class=highlight>
     <span style=color:#66d9ef>Next</span> cattywampus
     canoodle <span style=color:#f92672>=</span> kerfuffle
 <span style=color:#66d9ef>End</span> <span style=color:#66d9ef>Function</span>
-</code></pre></div><h2 id=reversing-the-macro>Reversing the Macro</h2><p>The <code>rigmarole</code> function appears to deobfuscate the interesting strings for the script.
-We can rewrite it in Python and give it the constant data to decode.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>fl <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;9655B040B64667238524D15D6201.B95D4E01C55CC562C7557405A532D768C55FA12DD074DC697A06E172992CAF3F8A5C7306B7476B38.C555AC40A7469C234424.853FA85C470699477D3851249A4B9C4E.A855AF40B84695239D24895D2101D05CCA62BE5578055232D568C05F902DDC74D2697406D7724C2CA83FCF5C2606B547A73898246B4BC14E941F9121D464D263B947EB77D36E7F1B8254.853FA85C470699477D3851249A4B9C4E.9A55B240B84692239624.CC55A940B44690238B24CA5D7501CF5C9C62B15561056032C468D15F9C2DE374DD696206B572752C8C3FB25C3806.A8558540924668236724B15D2101AA5CC362C2556A055232AE68B15F7C2DC17489695D06DB729A2C723F8E5C65069747AA389324AE4BB34E921F9421.CB55A240B5469B23.AC559340A94695238D24CD5D75018A5CB062BA557905A932D768D15F982D.D074B6696F06D5729E2CAE3FCF5C7506AD47AC388024C14B7C4E8F1F8F21CB64&#34;</span>
+</code></pre></div><h2 id=reversing-the-macro>Reversing the Macro</h2>
+<p>The <code>rigmarole</code> function appears to deobfuscate the interesting strings for the script.
+We can rewrite it in Python and give it the constant data to decode.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>fl <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;9655B040B64667238524D15D6201.B95D4E01C55CC562C7557405A532D768C55FA12DD074DC697A06E172992CAF3F8A5C7306B7476B38.C555AC40A7469C234424.853FA85C470699477D3851249A4B9C4E.A855AF40B84695239D24895D2101D05CCA62BE5578055232D568C05F902DDC74D2697406D7724C2CA83FCF5C2606B547A73898246B4BC14E941F9121D464D263B947EB77D36E7F1B8254.853FA85C470699477D3851249A4B9C4E.9A55B240B84692239624.CC55A940B44690238B24CA5D7501CF5C9C62B15561056032C468D15F9C2DE374DD696206B572752C8C3FB25C3806.A8558540924668236724B15D2101AA5CC362C2556A055232AE68B15F7C2DC17489695D06DB729A2C723F8E5C65069747AA389324AE4BB34E921F9421.CB55A240B5469B23.AC559340A94695238D24CD5D75018A5CB062BA557905A932D768D15F982D.D074B6696F06D5729E2CAE3FCF5C7506AD47AC388024C14B7C4E8F1F8F21CB64&#34;</span>
 
 <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>rigmarole</span>(data):
     furphy <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;</span>
@@ -98,7 +157,8 @@ We can rewrite it in Python and give it the constant data to decode.</p><div cla
 onzo <span style=color:#f92672>=</span> fl<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#34;.&#34;</span>)
 <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(len(onzo)):
     print(<span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{}</span><span style=color:#e6db74>: </span><span style=color:#e6db74>{}</span><span style=color:#e6db74>&#34;</span><span style=color:#f92672>.</span>format(i, rigmarole(onzo[i])))
-</code></pre></div><p>The unobfuscated strings are:</p><pre><code class=language-none data-lang=none>0: AppData
+</code></pre></div><p>The unobfuscated strings are:</p>
+<pre tabindex=0><code class=language-none data-lang=none>0: AppData
 1: \Microsoft\stomp.mp3
 2: play
 3: FLARE-ON
@@ -111,7 +171,8 @@ onzo <span style=color:#f92672>=</span> fl<span style=color:#f92672>.</span>spli
 10: WScript.Network
 11: \Microsoft\v.png
 </code></pre><p>Cleaning up the <code>folderol</code> function, we can see that the script first searches for any processes that might indicate it is running inside a VM.
-It then uses the <code>canoodle</code> function to decode what appears to be the contents of an MP3 file and attempts to play it.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-vb data-lang=vb><span style=color:#66d9ef>Set</span> fudgel <span style=color:#f92672>=</span> GetObject(<span style=color:#e6db74>&#34;winmgmts:\\.\root\CIMV2&#34;</span>)
+It then uses the <code>canoodle</code> function to decode what appears to be the contents of an MP3 file and attempts to play it.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-vb data-lang=vb><span style=color:#66d9ef>Set</span> fudgel <span style=color:#f92672>=</span> GetObject(<span style=color:#e6db74>&#34;winmgmts:\\.\root\CIMV2&#34;</span>)
 <span style=color:#66d9ef>Set</span> twattling <span style=color:#f92672>=</span> fudgel.ExecQuery(<span style=color:#e6db74>&#34;SELECT Name FROM Win32_Process&#34;</span>, 48)
 <span style=color:#66d9ef>For</span> <span style=color:#66d9ef>Each</span> p <span style=color:#f92672>In</span> twattling
     <span style=color:#66d9ef>Dim</span> pos <span style=color:#f92672>As</span> <span style=color:#66d9ef>Integer</span>
@@ -131,7 +192,8 @@ Open mf <span style=color:#66d9ef>For</span> Binary Lock Read Write <span style=
 Close #fn
 
 mucolerd <span style=color:#f92672>=</span> mciSendString(<span style=color:#e6db74>&#34;play&#34;</span> <span style=color:#f92672>&amp;</span> mf, 0<span style=color:#f92672>&amp;</span>, 0, 0)
-</code></pre></div><p>We can rewrite the <code>canoodle</code> function in Python and manually decode the stomp.mp3 file.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ft <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;58c7661f00634702555f664b7756884c864edc4fef2d9c48881bac0911082214334e424f552f661d7752ce41d54deb70e9468949892db745545270fc333c44aa5525634f772d88699970983b8b18fe1eed3aba1d584c763201724431553e66295a2888269941aa20ef72a435b4359d36312b4b6f4048643d3b3b0927034ca846ee36c295da80b8d9fd3b97d37e51577113dc37cb3dd209a60246e43cfd488a42d938a953fd2a82ee7e8b4d9d582c2dc83b7101d057cee978ed008453950be22c89fdbea6548c106d33c344e4552e6ef87782880b9901fa5b95bcecc09e0c81ff75bd479033d24430558f66fe77b288b39961aabcbb9ccc42ddc5ee33112122e333d944ad55d4666277a78895998faaa6bbc5cca9dd12eeba112e22bf337844d9559066a077c288da998eaa3dbbb4cc38ddb9ee6011f2223233e3443d55f3664a77b2885699d4aa76bb2cccbfddeeeeda118122d0331b44bd552c66bf77af8845997baa32bb92cc7addadeebb11312211339944a855a6669577ec887699b6aab8bb8bccc0dd36ee03116f221833a344b655f366e17750882a9946aa82bbabccbdddb8eeb21152229233ed44de555766af7701888499d4aabbbb85ccb6dd37eebf11d1225833d244bf55ad66e8772e88ca99d3aaf6bb72cc49dd7ceedd1124229733bd443455fd661677b088a699f3aa87bb31ccdadd ...snip...&#34;</span>
+</code></pre></div><p>We can rewrite the <code>canoodle</code> function in Python and manually decode the stomp.mp3 file.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ft <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;58c7661f00634702555f664b7756884c864edc4fef2d9c48881bac0911082214334e424f552f661d7752ce41d54deb70e9468949892db745545270fc333c44aa5525634f772d88699970983b8b18fe1eed3aba1d584c763201724431553e66295a2888269941aa20ef72a435b4359d36312b4b6f4048643d3b3b0927034ca846ee36c295da80b8d9fd3b97d37e51577113dc37cb3dd209a60246e43cfd488a42d938a953fd2a82ee7e8b4d9d582c2dc83b7101d057cee978ed008453950be22c89fdbea6548c106d33c344e4552e6ef87782880b9901fa5b95bcecc09e0c81ff75bd479033d24430558f66fe77b288b39961aabcbb9ccc42ddc5ee33112122e333d944ad55d4666277a78895998faaa6bbc5cca9dd12eeba112e22bf337844d9559066a077c288da998eaa3dbbb4cc38ddb9ee6011f2223233e3443d55f3664a77b2885699d4aa76bb2cccbfddeeeeda118122d0331b44bd552c66bf77af8845997baa32bb92cc7addadeebb11312211339944a855a6669577ec887699b6aab8bb8bccc0dd36ee03116f221833a344b655f366e17750882a9946aa82bbabccbdddb8eeb21152229233ed44de555766af7701888499d4aabbbb85ccb6dd37eebf11d1225833d244bf55ad66e8772e88ca99d3aaf6bb72cc49dd7ceedd1124229733bd443455fd661677b088a699f3aa87bb31ccdadd ...snip...&#34;</span>
 
 <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>canoodle</span>(panjandrum, offset, s, bibble):
     kerfuffle <span style=color:#f92672>=</span> <span style=color:#e6db74>b</span><span style=color:#e6db74>&#34;&#34;</span>
@@ -155,9 +217,12 @@ wabbit <span style=color:#f92672>=</span> canoodle(ft, <span style=color:#ae81ff
 <span style=color:#66d9ef>with</span> open(<span style=color:#e6db74>&#34;stomp.mp3&#34;</span>, <span style=color:#e6db74>&#34;wb&#34;</span>) <span style=color:#66d9ef>as</span> f:
    f<span style=color:#f92672>.</span>write(wabbit)
 </code></pre></div><p><a href=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/report/stomp.mp3>stomp.mp3</a> contains a short audio clip of some stomping sounds.
-The title warns us that we are not looking in the right place.</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/report/stomp_msg.PNG alt=stomp_msg></p><p>The use of the phrase <em>stomp</em> is probably a hint that <a href=https://vbastomp.com/>VBA stomping</a> is present in this macro.
+The title warns us that we are not looking in the right place.</p>
+<p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/report/stomp_msg.PNG alt=stomp_msg></p>
+<p>The use of the phrase <em>stomp</em> is probably a hint that <a href=https://vbastomp.com/>VBA stomping</a> is present in this macro.
 VBA macros can exist in three different executable forms that can conceal some of its functionality.
-We can use <a href=https://github.com/bontchev/pcodedmp>pcodedmp.py</a> to view the p-code version.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-vb data-lang=vb>None
+We can use <a href=https://github.com/bontchev/pcodedmp>pcodedmp.py</a> to view the p-code version.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-vb data-lang=vb>None
 stream : _VBA_PROJECT_CUR<span style=color:#f92672>/</span>VBA<span style=color:#f92672>/</span>ThisWorkbook <span style=color:#f92672>-</span> 1785 bytes
 ########################################
 
@@ -205,10 +270,55 @@ stream : _VBA_PROJECT_CUR<span style=color:#f92672>/</span>VBA<span style=color:
 ########################################
 </code></pre></div><p>In this version of the macro, we can see that slightly different arguments are passed to the <code>canoodle</code> function.
 It also appears that the decoded binary data is now displayed as a picture.
-The image can be successfully decoded with some minor modifications to the <a href=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/report/soln.py>Python script</a>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>key <span style=color:#f92672>=</span> <span style=color:#e6db74>b</span><span style=color:#e6db74>&#34;FLARE-ON&#34;</span>
+The image can be successfully decoded with some minor modifications to the <a href=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/report/soln.py>Python script</a>.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>key <span style=color:#f92672>=</span> <span style=color:#e6db74>b</span><span style=color:#e6db74>&#34;FLARE-ON&#34;</span>
 buff <span style=color:#f92672>=</span> list(reversed(key))
 wabbit <span style=color:#f92672>=</span> canoodle(ft, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>285729</span>, buff)
 
 <span style=color:#66d9ef>with</span> open(<span style=color:#e6db74>&#34;flag.png&#34;</span>, <span style=color:#e6db74>&#34;wb&#34;</span>) <span style=color:#66d9ef>as</span> f:
     f<span style=color:#f92672>.</span>write(wabbit)
-</code></pre></div><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/report/flag.png alt=flag></p></div><footer class=post-footer><div class=post-footer-data><div class=tags><div class=tag><a href=/tags/reversing>#reversing</a></div><div class=tag><a href=/tags/forensics>#forensics</a></div><div class=tag><a href=/tags/vba>#vba</a></div></div><div class=post-footer-meta>Permalink: <a href=https://starfleetcadet75.github.io/posts/flareon-2020-4-report/>/posts/flareon-2020-4-report/</a> | Date: 2020-09-21</div><hr><div class=categories>Published in:<div class=category><a href=/categories/writeups>writeups</a></div></div><div class=series></div></div></footer></article><footer><div class=social-links-footer><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>Email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>GitHub</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>GitLab</div></a><div class=social-link><a href=https://starfleetcadet75.github.io/index.xml target=_blank>RSS</a></div></div><div class=copyright></div><div class=poweredby>Powered by <a href=https://gohugo.io/>Hugo</a>.</div></footer></div></body></html>
+</code></pre></div><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/report/flag.png alt=flag></p>
+</div>
+<footer class=post-footer>
+<div class=post-footer-data>
+<div class=tags>
+<div class=tag>
+<a href=/tags/reversing>#reversing</a>
+</div>
+<div class=tag>
+<a href=/tags/forensics>#forensics</a>
+</div>
+<div class=tag>
+<a href=/tags/vba>#vba</a>
+</div>
+</div>
+<div class=post-footer-meta>Permalink: <a href=https://starfleetcadet75.github.io/posts/flareon-2020-4-report/>/posts/flareon-2020-4-report/</a> | Date: 2020-09-21 </div>
+<hr>
+<div class=categories>
+Published in:
+<div class=category>
+<a href=/categories/writeups>writeups</a>
+</div>
+</div>
+<div class=series>
+</div>
+</div>
+</footer>
+</article>
+<footer>
+<div class=social-links-footer>
+<a href=mailto:starfleetcadet75@gmail.com><div class=social-link>Email</div></a>
+<a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>GitHub</div></a>
+<a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>GitLab</div></a>
+<div class=social-link>
+<a href=https://starfleetcadet75.github.io/index.xml target=_blank>RSS</a>
+</div>
+</div>
+<div class=copyright> </div>
+<div class=poweredby>
+Powered by <a href=https://gohugo.io/>Hugo</a>.
+</div>
+</footer>
+</div>
+</body>
+</html>

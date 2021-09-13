@@ -1,7 +1,76 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=author content><meta name=description content><meta name=keywords content><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><meta name=generator content="Hugo 0.84.4"><link rel=canonical href=https://starfleetcadet75.github.io/posts/cyberstakes-2020-say-what/><meta property="og:title" content="Cyberstakes CTF 2020: Say What?"><meta property="og:description" content="We intercepted some foreign documents. We think there&rsquo;s interesting information inside but the file is protected with a unique password algorithm"><meta property="og:type" content="article"><meta property="og:url" content="https://starfleetcadet75.github.io/posts/cyberstakes-2020-say-what/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-05-03T00:00:00+00:00"><meta property="article:modified_time" content="2020-05-03T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Cyberstakes CTF 2020: Say What?"><meta name=twitter:description content="We intercepted some foreign documents. We think there&rsquo;s interesting information inside but the file is protected with a unique password algorithm"><meta itemprop=name content="Cyberstakes CTF 2020: Say What?"><meta itemprop=description content="We intercepted some foreign documents. We think there&rsquo;s interesting information inside but the file is protected with a unique password algorithm"><meta itemprop=datePublished content="2020-05-03T00:00:00+00:00"><meta itemprop=dateModified content="2020-05-03T00:00:00+00:00"><meta itemprop=wordCount content="1496"><meta itemprop=keywords content="reversing,forensics,vba,"><link rel=stylesheet href=/css/layout.css><link rel=stylesheet href=/css/default-dark.css><link rel=stylesheet href=/css/adoc-html5-extension.css><title>Cyberstakes CTF 2020: Say What?</title></head><body><div class=main><header><div class=header-bar><nav><div class=siteTitle><a href=https://starfleetcadet75.github.io/>starfleetcadet75</a></div><a class=nav-item href=/about/><div class=nav-item-title>About</div></a><a class=nav-item href=/readinglist/><div class=nav-item-title>Reading List</div></a><a class="nav-item active" href=/posts/><div class=nav-item-title>Posts</div></a></nav><div class=social-links-header style=visibility:hidden;display:none><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>gh</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>gl</div></a></div></div></header><article class=post><h1 class=title>Cyberstakes CTF 2020: Say What?</h1><div class=content><p><strong>Category:</strong> Reverse Engineering<br><strong>Points:</strong> 200</p><h2 id=challenge>Challenge</h2><blockquote><p>We intercepted some foreign documents.
-We think there&rsquo;s interesting information inside but the file is protected with a unique password algorithm: <a href=https://github.com/starfleetcadet75/writeups/blob/master/2020-Cyberstakes/say-what/chall.docm>chall.docm</a></p></blockquote><h4 id=hints>Hints</h4><ul><li>Microsoft Office documents sometimes carry with them a powerful set of macros</li><li>Microsoft Office is not required to extract the malicious macro, or solve the challenge</li><li>There are a number of open source security tooling to script the extraction of Office macros</li><li>The macro&rsquo;s obfuscation is rather light, try inserting some MsgBox prints to make sense of what it is doing</li><li>If you&rsquo;re not careful, the document might &mldr; change itself.</li><li>Double check that your solution works against a &lsquo;fresh&rsquo; copy of the challenge.</li></ul><h2 id=observations>Observations</h2><p>We are provided with a Microsoft Word document that contains a Visual Basic macro.
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta name=author content>
+<meta name=description content>
+<meta name=keywords content>
+<meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name=generator content="Hugo 0.88.1">
+<link rel=canonical href=https://starfleetcadet75.github.io/posts/cyberstakes-2020-say-what/>
+<meta property="og:title" content="Cyberstakes CTF 2020: Say What?">
+<meta property="og:description" content="We intercepted some foreign documents. We think there&rsquo;s interesting information inside but the file is protected with a unique password algorithm">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://starfleetcadet75.github.io/posts/cyberstakes-2020-say-what/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2020-05-03T00:00:00+00:00">
+<meta property="article:modified_time" content="2020-05-03T00:00:00+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Cyberstakes CTF 2020: Say What?">
+<meta name=twitter:description content="We intercepted some foreign documents. We think there&rsquo;s interesting information inside but the file is protected with a unique password algorithm">
+<meta itemprop=name content="Cyberstakes CTF 2020: Say What?">
+<meta itemprop=description content="We intercepted some foreign documents. We think there&rsquo;s interesting information inside but the file is protected with a unique password algorithm"><meta itemprop=datePublished content="2020-05-03T00:00:00+00:00">
+<meta itemprop=dateModified content="2020-05-03T00:00:00+00:00">
+<meta itemprop=wordCount content="1496">
+<meta itemprop=keywords content="reversing,forensics,vba,">
+<link rel=stylesheet href=/css/layout.css>
+<link rel=stylesheet href=/css/default-dark.css>
+<link rel=stylesheet href=/css/adoc-html5-extension.css>
+<title>
+Cyberstakes CTF 2020: Say What?
+</title>
+</head>
+<body>
+<div class=main>
+<header>
+<div class=header-bar>
+<nav>
+<div class=siteTitle>
+<a href=https://starfleetcadet75.github.io/>starfleetcadet75</a>
+</div>
+<a class=nav-item href=/about/><div class=nav-item-title>About</div></a>
+<a class=nav-item href=/readinglist/><div class=nav-item-title>Reading List</div></a>
+<a class="nav-item active" href=/posts/><div class=nav-item-title>Posts</div></a>
+</nav>
+<div class=social-links-header style=visibility:hidden;display:none>
+<a href=mailto:starfleetcadet75@gmail.com><div class=social-link>email</div></a>
+<a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>gh</div></a>
+<a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>gl</div></a>
+</div>
+</div>
+</header>
+<article class=post>
+<h1 class=title> Cyberstakes CTF 2020: Say What? </h1>
+<div class=content> <p><strong>Category:</strong> Reverse Engineering<br>
+<strong>Points:</strong> 200</p>
+<h2 id=challenge>Challenge</h2>
+<blockquote>
+<p>We intercepted some foreign documents.
+We think there&rsquo;s interesting information inside but the file is protected with a unique password algorithm: <a href=https://github.com/starfleetcadet75/writeups/blob/master/2020-Cyberstakes/say-what/chall.docm>chall.docm</a></p>
+</blockquote>
+<h4 id=hints>Hints</h4>
+<ul>
+<li>Microsoft Office documents sometimes carry with them a powerful set of macros</li>
+<li>Microsoft Office is not required to extract the malicious macro, or solve the challenge</li>
+<li>There are a number of open source security tooling to script the extraction of Office macros</li>
+<li>The macro&rsquo;s obfuscation is rather light, try inserting some MsgBox prints to make sense of what it is doing</li>
+<li>If you&rsquo;re not careful, the document might &mldr; change itself.</li>
+<li>Double check that your solution works against a &lsquo;fresh&rsquo; copy of the challenge.</li>
+</ul>
+<h2 id=observations>Observations</h2>
+<p>We are provided with a Microsoft Word document that contains a Visual Basic macro.
 When we attempt to open the document, the macro executes and prompts us for a password.
-Searching for tools to extract VBA macros leads us to this <a href=https://www.decalage.info/vba_tools>post</a>, which points us to <a href=https://github.com/decalage2/oletools>oletools</a>.</p><p>Running <code>olevba</code> on the document provides the following output:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-vb data-lang=vb>olevba 0.55.1 <span style=color:#66d9ef>on</span> Python 3.8.2 <span style=color:#f92672>-</span> http:<span style=color:#f92672>//</span>decalage.info<span style=color:#f92672>/</span>python<span style=color:#f92672>/</span>oletools
+Searching for tools to extract VBA macros leads us to this <a href=https://www.decalage.info/vba_tools>post</a>, which points us to <a href=https://github.com/decalage2/oletools>oletools</a>.</p>
+<p>Running <code>olevba</code> on the document provides the following output:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-vb data-lang=vb>olevba 0.55.1 <span style=color:#66d9ef>on</span> Python 3.8.2 <span style=color:#f92672>-</span> http:<span style=color:#f92672>//</span>decalage.info<span style=color:#f92672>/</span>python<span style=color:#f92672>/</span>oletools
 <span style=color:#f92672>===============================================================================</span>
 FILE: chall.docm
 Type: OpenXML
@@ -122,12 +191,17 @@ VBA MACRO Module1.bas
 <span style=color:#960050;background-color:#1e0010>|</span>          <span style=color:#960050;background-color:#1e0010>|</span>                    <span style=color:#960050;background-color:#1e0010>|</span>used <span style=color:#66d9ef>to</span> obfuscate strings (<span style=color:#66d9ef>option</span> <span style=color:#f92672>--</span>decode <span style=color:#66d9ef>to</span><span style=color:#960050;background-color:#1e0010>|</span>
 <span style=color:#960050;background-color:#1e0010>|</span>          <span style=color:#960050;background-color:#1e0010>|</span>                    <span style=color:#960050;background-color:#1e0010>|</span>see all)                                     <span style=color:#960050;background-color:#1e0010>|</span>
 <span style=color:#f92672>+----------+--------------------+---------------------------------------------+</span>
-</code></pre></div><p>The macro seems to have been lightly obfuscated by renaming all of the variables to meaningless names.</p><h2 id=solution>Solution</h2><p>We can dump the contents of the macro to a file and start to rename the variables based on their usage.
+</code></pre></div><p>The macro seems to have been lightly obfuscated by renaming all of the variables to meaningless names.</p>
+<h2 id=solution>Solution</h2>
+<p>We can dump the contents of the macro to a file and start to rename the variables based on their usage.
 There is a base64 value at the beginning that is assigned to a variable called flag.
 Unfortunately, base64 decoding it only gives us the encoded bytes.
 The first function is called <code>GetPassword</code> and reads a value from <code>ThisDocument.Shapes(3).AlternativeText</code>.
 This seems to imply that one of the shapes in the document contains the password.
-Looking at the alternative text for the padlock image, we can see a base64 value which contains the password we need to enter:</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Cyberstakes/say-what/alttext.png alt=alttext.png></p><p>The cleaned up version of the macro appears as follows:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-vb data-lang=vb><span style=color:#66d9ef>Const</span> flag <span style=color:#f92672>As</span> <span style=color:#66d9ef>String</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;NmgvUlt8glilwTJa1vHPVfuIKUKY/dBIT2DZSlN0004=&#34;</span>
+Looking at the alternative text for the padlock image, we can see a base64 value which contains the password we need to enter:</p>
+<p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Cyberstakes/say-what/alttext.png alt=alttext.png></p>
+<p>The cleaned up version of the macro appears as follows:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-vb data-lang=vb><span style=color:#66d9ef>Const</span> flag <span style=color:#f92672>As</span> <span style=color:#66d9ef>String</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;NmgvUlt8glilwTJa1vHPVfuIKUKY/dBIT2DZSlN0004=&#34;</span>
 
 <span style=color:#66d9ef>Function</span> <span style=color:#a6e22e>GetPassword</span>() <span style=color:#f92672>As</span> <span style=color:#66d9ef>String</span>
     GetPassword <span style=color:#f92672>=</span> ThisDocument.Shapes(3).AlternativeText
@@ -196,9 +270,18 @@ Looking at the alternative text for the padlock image, we can see a base64 value
     <span style=color:#66d9ef>End</span> <span style=color:#66d9ef>If</span>
 <span style=color:#66d9ef>End</span> <span style=color:#66d9ef>Sub</span>
 </code></pre></div><p>The entered guess is passed to a function that encodes it and the result is compared against the encoded password.
-The encoding function operates on four characters at a time, performing a different operation on each one.</p><ol><li>The first character is incremented by a value modulo 256 to ensure that it stays within the size of a byte</li><li>The second character is swapped with the first character</li><li>The third character is multiplied and then divided by some value</li><li>The fourth character is xored with the third character</li></ol><p>After the individual character operations are completed, every character is xored by 32 plus its position.
-The input is then reversed and base64 encoded.</p><p>All of the encoding operations are invertible, which means that we can write a script that will perform the same operations in reverse to recover the password.
-For our purposes, the <code>Mid</code> operation is equivalent to accessing the current element from an array.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>import</span> binascii
+The encoding function operates on four characters at a time, performing a different operation on each one.</p>
+<ol>
+<li>The first character is incremented by a value modulo 256 to ensure that it stays within the size of a byte</li>
+<li>The second character is swapped with the first character</li>
+<li>The third character is multiplied and then divided by some value</li>
+<li>The fourth character is xored with the third character</li>
+</ol>
+<p>After the individual character operations are completed, every character is xored by 32 plus its position.
+The input is then reversed and base64 encoded.</p>
+<p>All of the encoding operations are invertible, which means that we can write a script that will perform the same operations in reverse to recover the password.
+For our purposes, the <code>Mid</code> operation is equivalent to accessing the current element from an array.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>import</span> binascii
 <span style=color:#f92672>import</span> string
 <span style=color:#f92672>import</span> base64
 
@@ -232,4 +315,48 @@ password <span style=color:#f92672>=</span> bytearray(base64<span style=color:#f
         password[i <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> (password[i <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>16</span>) <span style=color:#f92672>%</span> <span style=color:#ae81ff>256</span> <span style=color:#f92672>+</span> int(password[i <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>/</span> <span style=color:#ae81ff>16</span>)
 
 print(<span style=color:#e6db74>&#34;Decoded: </span><span style=color:#e6db74>{}</span><span style=color:#e6db74>&#34;</span><span style=color:#f92672>.</span>format(password))
-</code></pre></div><p><strong>Flag:</strong> <code>ACI{699801c58c20d8da33d957a91fd}</code></p></div><footer class=post-footer><div class=post-footer-data><div class=tags><div class=tag><a href=/tags/reversing>#reversing</a></div><div class=tag><a href=/tags/forensics>#forensics</a></div><div class=tag><a href=/tags/vba>#vba</a></div></div><div class=post-footer-meta>Permalink: <a href=https://starfleetcadet75.github.io/posts/cyberstakes-2020-say-what/>/posts/cyberstakes-2020-say-what/</a> | Date: 2020-05-03</div><hr><div class=categories>Published in:<div class=category><a href=/categories/writeups>writeups</a></div></div><div class=series></div></div></footer></article><footer><div class=social-links-footer><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>Email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>GitHub</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>GitLab</div></a><div class=social-link><a href=https://starfleetcadet75.github.io/index.xml target=_blank>RSS</a></div></div><div class=copyright></div><div class=poweredby>Powered by <a href=https://gohugo.io/>Hugo</a>.</div></footer></div></body></html>
+</code></pre></div><p><strong>Flag:</strong> <code>ACI{699801c58c20d8da33d957a91fd}</code></p>
+</div>
+<footer class=post-footer>
+<div class=post-footer-data>
+<div class=tags>
+<div class=tag>
+<a href=/tags/reversing>#reversing</a>
+</div>
+<div class=tag>
+<a href=/tags/forensics>#forensics</a>
+</div>
+<div class=tag>
+<a href=/tags/vba>#vba</a>
+</div>
+</div>
+<div class=post-footer-meta>Permalink: <a href=https://starfleetcadet75.github.io/posts/cyberstakes-2020-say-what/>/posts/cyberstakes-2020-say-what/</a> | Date: 2020-05-03 </div>
+<hr>
+<div class=categories>
+Published in:
+<div class=category>
+<a href=/categories/writeups>writeups</a>
+</div>
+</div>
+<div class=series>
+</div>
+</div>
+</footer>
+</article>
+<footer>
+<div class=social-links-footer>
+<a href=mailto:starfleetcadet75@gmail.com><div class=social-link>Email</div></a>
+<a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>GitHub</div></a>
+<a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>GitLab</div></a>
+<div class=social-link>
+<a href=https://starfleetcadet75.github.io/index.xml target=_blank>RSS</a>
+</div>
+</div>
+<div class=copyright> </div>
+<div class=poweredby>
+Powered by <a href=https://gohugo.io/>Hugo</a>.
+</div>
+</footer>
+</div>
+</body>
+</html>
