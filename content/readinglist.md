@@ -19,6 +19,8 @@ Sorted by recommended reading order:
 - [Introduction to Modern Cryptography](https://www.cs.umd.edu/~jkatz/imc.html)
 - [Security Engineering](https://www.cl.cam.ac.uk/~rja14/book.html)
 - [Windows Internals](https://docs.microsoft.com/en-us/sysinternals/learn/windows-internals)
+- [Windows Kernel Programming](https://leanpub.com/windowskernelprogramming)
+- [Windows 10 System Programming](https://leanpub.com/windows10systemprogramming)
 - [A Guide to Kernel Exploitation](https://www.oreilly.com/library/view/a-guide-to/9781597494861/)
 - [Rootkits and Bootkits](https://nostarch.com/rootkits)
 
