@@ -1,297 +1,186 @@
-<!doctype html><html lang=en-us>
-<head>
-<meta charset=utf-8>
-<meta name=author content>
-<meta name=description content>
-<meta name=keywords content>
-<meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1">
-<meta name=generator content="Hugo 0.88.1">
-<link rel=canonical href=https://starfleetcadet75.github.io/posts/flareon-2020-5-tkapp/>
-<meta property="og:title" content="Flare-On CTF 2020 Challenge 5: TKApp">
-<meta property="og:description" content="This is the mobile device challenge for 2020 and features a pedometer app for the Tizen operating system.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://starfleetcadet75.github.io/posts/flareon-2020-5-tkapp/"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2020-09-22T00:00:00+00:00">
-<meta property="article:modified_time" content="2020-09-22T00:00:00+00:00">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="Flare-On CTF 2020 Challenge 5: TKApp">
-<meta name=twitter:description content="This is the mobile device challenge for 2020 and features a pedometer app for the Tizen operating system.">
-<meta itemprop=name content="Flare-On CTF 2020 Challenge 5: TKApp">
-<meta itemprop=description content="This is the mobile device challenge for 2020 and features a pedometer app for the Tizen operating system."><meta itemprop=datePublished content="2020-09-22T00:00:00+00:00">
-<meta itemprop=dateModified content="2020-09-22T00:00:00+00:00">
-<meta itemprop=wordCount content="860">
-<meta itemprop=keywords content="reversing,mobile,dotnet,">
-<link rel=stylesheet href=/css/layout.css>
-<link rel=stylesheet href=/css/default-dark.css>
-<link rel=stylesheet href=/css/adoc-html5-extension.css>
-<title>
-Flare-On CTF 2020 Challenge 5: TKApp
-</title>
-</head>
-<body>
-<div class=main>
-<header>
-<div class=header-bar>
-<nav>
-<div class=siteTitle>
-<a href=https://starfleetcadet75.github.io/>starfleetcadet75</a>
-</div>
-<a class=nav-item href=/about/><div class=nav-item-title>About</div></a>
-<a class=nav-item href=/readinglist/><div class=nav-item-title>Reading List</div></a>
-<a class="nav-item active" href=/posts/><div class=nav-item-title>Posts</div></a>
-</nav>
-<div class=social-links-header style=visibility:hidden;display:none>
-<a href=mailto:starfleetcadet75@gmail.com><div class=social-link>email</div></a>
-<a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>gh</div></a>
-<a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>gl</div></a>
-</div>
-</div>
-</header>
-<article class=post>
-<h1 class=title> Flare-On CTF 2020 Challenge 5: TKApp </h1>
-<div class=content> <h2 id=challenge>Challenge</h2>
-<blockquote>
-<p>Now you can play Flare-On on your watch!
-As long as you still have an arm left to put a watch on, or emulate the watch&rsquo;s operating system with sophisticated developer tools.</p>
-</blockquote>
-<h2 id=observations>Observations</h2>
-<p>This is the mobile device challenge for 2020 and features a pedometer app for the Tizen operating system.
-We are provided with a TPK file which is really just a zip file that contains all of the application contents.</p>
-<p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/TKApp/app_extract.PNG alt=app_extract></p>
-<p>The Xamarin DLLs hint that this application was written in C# so we can import the TKApp.dll into dnSpy and begin reversing it.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#66d9ef>using</span> System;
-<span style=color:#66d9ef>using</span> System.Diagnostics;
-<span style=color:#66d9ef>using</span> System.Reflection;
-<span style=color:#66d9ef>using</span> System.Runtime.CompilerServices;
-<span style=color:#66d9ef>using</span> System.Runtime.Versioning;
-<span style=color:#66d9ef>using</span> TKApp;
-<span style=color:#66d9ef>using</span> Xamarin.Forms.Xaml;
-<span style=color:#a6e22e>
-</span><span style=color:#a6e22e>[assembly: AssemblyVersion(&#34;1.0.0.0&#34;)]</span>
-<span style=color:#a6e22e>[assembly: CompilationRelaxations(8)]</span>
-<span style=color:#a6e22e>[assembly: RuntimeCompatibility(WrapNonExceptionThrows = true)]</span>
-<span style=color:#a6e22e>[assembly: Debuggable(DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]</span>
-<span style=color:#a6e22e>[assembly: TargetFramework(&#34;Tizen,Version=v6.0&#34;, FrameworkDisplayName = &#34;&#34;)]</span>
-<span style=color:#a6e22e>[assembly: XamlResourceId(&#34;TKApp.App.xaml&#34;, &#34;App.xaml&#34;, typeof(App))]</span>
-<span style=color:#a6e22e>[assembly: XamlResourceId(&#34;TKApp.GalleryPage.xaml&#34;, &#34;GalleryPage.xaml&#34;, typeof(GalleryPage))]</span>
-<span style=color:#a6e22e>[assembly: XamlResourceId(&#34;TKApp.MainPage.xaml&#34;, &#34;MainPage.xaml&#34;, typeof(MainPage))]</span>
-<span style=color:#a6e22e>[assembly: XamlResourceId(&#34;TKApp.TodoPage.xaml&#34;, &#34;TodoPage.xaml&#34;, typeof(TodoPage))]</span>
-<span style=color:#a6e22e>[assembly: XamlResourceId(&#34;TKApp.UnlockPage.xaml&#34;, &#34;UnlockPage.xaml&#34;, typeof(UnlockPage))]</span>
-<span style=color:#a6e22e>[assembly: AssemblyCompany(&#34;TKApp&#34;)]</span>
-<span style=color:#a6e22e>[assembly: AssemblyConfiguration(&#34;Release&#34;)]</span>
-<span style=color:#a6e22e>[assembly: AssemblyFileVersion(&#34;1.0.0.0&#34;)]</span>
-<span style=color:#a6e22e>[assembly: AssemblyInformationalVersion(&#34;1.0.0&#34;)]</span>
-<span style=color:#a6e22e>[assembly: AssemblyProduct(&#34;TKApp&#34;)]</span>
-<span style=color:#a6e22e>[assembly: AssemblyTitle(&#34;TKApp&#34;)]</span>
-</code></pre></div><p>The app appears to contain four different pages.
-The <code>GetImage</code> function in the main page appears to be where the flag is decrypted.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#66d9ef>private</span> <span style=color:#66d9ef>bool</span> GetImage(<span style=color:#66d9ef>object</span> sender, EventArgs e)
-{
-  <span style=color:#66d9ef>if</span> (<span style=color:#66d9ef>string</span>.IsNullOrEmpty(App.Password) || <span style=color:#66d9ef>string</span>.IsNullOrEmpty(App.Note) || <span style=color:#66d9ef>string</span>.IsNullOrEmpty(App.Step) || <span style=color:#66d9ef>string</span>.IsNullOrEmpty(App.Desc))
-  {
-    <span style=color:#66d9ef>this</span>.btn.Source = <span style=color:#e6db74>&#34;img/tiger1.png&#34;</span>;
-    <span style=color:#66d9ef>this</span>.btn.Clicked -= <span style=color:#66d9ef>this</span>.Clicked;
-    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span>;
-  }
-  <span style=color:#66d9ef>string</span> text = <span style=color:#66d9ef>new</span> <span style=color:#66d9ef>string</span>(<span style=color:#66d9ef>new</span> <span style=color:#66d9ef>char</span>[]
-  {
-    App.Desc[<span style=color:#ae81ff>2</span>],
-    App.Password[<span style=color:#ae81ff>6</span>],
-    App.Password[<span style=color:#ae81ff>4</span>],
-    App.Note[<span style=color:#ae81ff>4</span>],
-    App.Note[<span style=color:#ae81ff>0</span>],
-    App.Note[<span style=color:#ae81ff>17</span>],
-    App.Note[<span style=color:#ae81ff>18</span>],
-    App.Note[<span style=color:#ae81ff>16</span>],
-    App.Note[<span style=color:#ae81ff>11</span>],
-    App.Note[<span style=color:#ae81ff>13</span>],
-    App.Note[<span style=color:#ae81ff>12</span>],
-    App.Note[<span style=color:#ae81ff>15</span>],
-    App.Step[<span style=color:#ae81ff>4</span>],
-    App.Password[<span style=color:#ae81ff>6</span>],
-    App.Desc[<span style=color:#ae81ff>1</span>],
-    App.Password[<span style=color:#ae81ff>2</span>],
-    App.Password[<span style=color:#ae81ff>2</span>],
-    App.Password[<span style=color:#ae81ff>4</span>],
-    App.Note[<span style=color:#ae81ff>18</span>],
-    App.Step[<span style=color:#ae81ff>2</span>],
-    App.Password[<span style=color:#ae81ff>4</span>],
-    App.Note[<span style=color:#ae81ff>5</span>],
-    App.Note[<span style=color:#ae81ff>4</span>],
-    App.Desc[<span style=color:#ae81ff>0</span>],
-    App.Desc[<span style=color:#ae81ff>3</span>],
-    App.Note[<span style=color:#ae81ff>15</span>],
-    App.Note[<span style=color:#ae81ff>8</span>],
-    App.Desc[<span style=color:#ae81ff>4</span>],
-    App.Desc[<span style=color:#ae81ff>3</span>],
-    App.Note[<span style=color:#ae81ff>4</span>],
-    App.Step[<span style=color:#ae81ff>2</span>],
-    App.Note[<span style=color:#ae81ff>13</span>],
-    App.Note[<span style=color:#ae81ff>18</span>],
-    App.Note[<span style=color:#ae81ff>18</span>],
-    App.Note[<span style=color:#ae81ff>8</span>],
-    App.Note[<span style=color:#ae81ff>4</span>],
-    App.Password[<span style=color:#ae81ff>0</span>],
-    App.Password[<span style=color:#ae81ff>7</span>],
-    App.Note[<span style=color:#ae81ff>0</span>],
-    App.Password[<span style=color:#ae81ff>4</span>],
-    App.Note[<span style=color:#ae81ff>11</span>],
-    App.Password[<span style=color:#ae81ff>6</span>],
-    App.Password[<span style=color:#ae81ff>4</span>],
-    App.Desc[<span style=color:#ae81ff>4</span>],
-    App.Desc[<span style=color:#ae81ff>3</span>]
-  });
-  <span style=color:#66d9ef>byte</span>[] key = SHA256.Create().ComputeHash(Encoding.ASCII.GetBytes(text));
-  <span style=color:#66d9ef>byte</span>[] bytes = Encoding.ASCII.GetBytes(<span style=color:#e6db74>&#34;NoSaltOfTheEarth&#34;</span>);
-  <span style=color:#66d9ef>try</span>
-  {
-    App.ImgData = Convert.FromBase64String(Util.GetString(Runtime.Runtime_dll, key, bytes));
-    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span>;
-  }
-  <span style=color:#66d9ef>catch</span> (Exception ex)
-  {
-    Toast.DisplayText(<span style=color:#e6db74>&#34;Failed: &#34;</span> + ex.Message, <span style=color:#ae81ff>1000</span>);
-  }
-  <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span>;
-}
-</code></pre></div><p>If the <code>App.Password</code>, <code>App.Note</code>, <code>App.Step</code>, and <code>App.Desc</code> fields are not empty, the function will attempt to decrypt and display an image.
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=author content><meta name=description content><meta name=keywords content><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><meta name=generator content="Hugo 0.99.1"><link rel=canonical href=https://starfleetcadet75.github.io/posts/flareon-2020-5-tkapp/><meta property="og:title" content="Flare-On CTF 2020 Challenge 5: TKApp"><meta property="og:description" content="This is the mobile device challenge for 2020 and features a pedometer app for the Tizen operating system."><meta property="og:type" content="article"><meta property="og:url" content="https://starfleetcadet75.github.io/posts/flareon-2020-5-tkapp/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-09-22T00:00:00+00:00"><meta property="article:modified_time" content="2020-09-22T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Flare-On CTF 2020 Challenge 5: TKApp"><meta name=twitter:description content="This is the mobile device challenge for 2020 and features a pedometer app for the Tizen operating system."><meta itemprop=name content="Flare-On CTF 2020 Challenge 5: TKApp"><meta itemprop=description content="This is the mobile device challenge for 2020 and features a pedometer app for the Tizen operating system."><meta itemprop=datePublished content="2020-09-22T00:00:00+00:00"><meta itemprop=dateModified content="2020-09-22T00:00:00+00:00"><meta itemprop=wordCount content="860"><meta itemprop=keywords content="reversing,mobile,dotnet,"><link rel=stylesheet href=/css/layout.css><link rel=stylesheet href=/css/default-dark.css><link rel=stylesheet href=/css/adoc-html5-extension.css><title>Flare-On CTF 2020 Challenge 5: TKApp</title></head><body><div class=main><header><div class=header-bar><nav><div class=siteTitle><a href=https://starfleetcadet75.github.io/>starfleetcadet75</a></div><a class=nav-item href=/about/><div class=nav-item-title>About</div></a><a class=nav-item href=/readinglist/><div class=nav-item-title>Reading List</div></a><a class="nav-item active" href=/posts/><div class=nav-item-title>Posts</div></a></nav><div class=social-links-header style=visibility:hidden;display:none><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>gh</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>gl</div></a></div></div></header><article class=post><h1 class=title>Flare-On CTF 2020 Challenge 5: TKApp</h1><div class=content><h2 id=challenge>Challenge</h2><blockquote><p>Now you can play Flare-On on your watch!
+As long as you still have an arm left to put a watch on, or emulate the watch&rsquo;s operating system with sophisticated developer tools.</p></blockquote><h2 id=observations>Observations</h2><p>This is the mobile device challenge for 2020 and features a pedometer app for the Tizen operating system.
+We are provided with a TPK file which is really just a zip file that contains all of the application contents.</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/TKApp/app_extract.PNG alt=app_extract></p><p>The Xamarin DLLs hint that this application was written in C# so we can import the TKApp.dll into dnSpy and begin reversing it.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#66d9ef>using</span> System;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>using</span> System.Diagnostics;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>using</span> System.Reflection;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>using</span> System.Runtime.CompilerServices;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>using</span> System.Runtime.Versioning;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>using</span> TKApp;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>using</span> Xamarin.Forms.Xaml;
+</span></span><span style=display:flex><span><span style=color:#a6e22e>
+</span></span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: AssemblyVersion(&#34;1.0.0.0&#34;)]</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: CompilationRelaxations(8)]</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: RuntimeCompatibility(WrapNonExceptionThrows = true)]</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: Debuggable(DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: TargetFramework(&#34;Tizen,Version=v6.0&#34;, FrameworkDisplayName = &#34;&#34;)]</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: XamlResourceId(&#34;TKApp.App.xaml&#34;, &#34;App.xaml&#34;, typeof(App))]</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: XamlResourceId(&#34;TKApp.GalleryPage.xaml&#34;, &#34;GalleryPage.xaml&#34;, typeof(GalleryPage))]</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: XamlResourceId(&#34;TKApp.MainPage.xaml&#34;, &#34;MainPage.xaml&#34;, typeof(MainPage))]</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: XamlResourceId(&#34;TKApp.TodoPage.xaml&#34;, &#34;TodoPage.xaml&#34;, typeof(TodoPage))]</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: XamlResourceId(&#34;TKApp.UnlockPage.xaml&#34;, &#34;UnlockPage.xaml&#34;, typeof(UnlockPage))]</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: AssemblyCompany(&#34;TKApp&#34;)]</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: AssemblyConfiguration(&#34;Release&#34;)]</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: AssemblyFileVersion(&#34;1.0.0.0&#34;)]</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: AssemblyInformationalVersion(&#34;1.0.0&#34;)]</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: AssemblyProduct(&#34;TKApp&#34;)]</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>[assembly: AssemblyTitle(&#34;TKApp&#34;)]</span>
+</span></span></code></pre></div><p>The app appears to contain four different pages.
+The <code>GetImage</code> function in the main page appears to be where the flag is decrypted.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#66d9ef>private</span> <span style=color:#66d9ef>bool</span> GetImage(<span style=color:#66d9ef>object</span> sender, EventArgs e)
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (<span style=color:#66d9ef>string</span>.IsNullOrEmpty(App.Password) || <span style=color:#66d9ef>string</span>.IsNullOrEmpty(App.Note) || <span style=color:#66d9ef>string</span>.IsNullOrEmpty(App.Step) || <span style=color:#66d9ef>string</span>.IsNullOrEmpty(App.Desc))
+</span></span><span style=display:flex><span>  {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>this</span>.btn.Source = <span style=color:#e6db74>&#34;img/tiger1.png&#34;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>this</span>.btn.Clicked -= <span style=color:#66d9ef>this</span>.Clicked;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span>;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>string</span> text = <span style=color:#66d9ef>new</span> <span style=color:#66d9ef>string</span>(<span style=color:#66d9ef>new</span> <span style=color:#66d9ef>char</span>[]
+</span></span><span style=display:flex><span>  {
+</span></span><span style=display:flex><span>    App.Desc[<span style=color:#ae81ff>2</span>],
+</span></span><span style=display:flex><span>    App.Password[<span style=color:#ae81ff>6</span>],
+</span></span><span style=display:flex><span>    App.Password[<span style=color:#ae81ff>4</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>4</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>0</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>17</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>18</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>16</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>11</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>13</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>12</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>15</span>],
+</span></span><span style=display:flex><span>    App.Step[<span style=color:#ae81ff>4</span>],
+</span></span><span style=display:flex><span>    App.Password[<span style=color:#ae81ff>6</span>],
+</span></span><span style=display:flex><span>    App.Desc[<span style=color:#ae81ff>1</span>],
+</span></span><span style=display:flex><span>    App.Password[<span style=color:#ae81ff>2</span>],
+</span></span><span style=display:flex><span>    App.Password[<span style=color:#ae81ff>2</span>],
+</span></span><span style=display:flex><span>    App.Password[<span style=color:#ae81ff>4</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>18</span>],
+</span></span><span style=display:flex><span>    App.Step[<span style=color:#ae81ff>2</span>],
+</span></span><span style=display:flex><span>    App.Password[<span style=color:#ae81ff>4</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>5</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>4</span>],
+</span></span><span style=display:flex><span>    App.Desc[<span style=color:#ae81ff>0</span>],
+</span></span><span style=display:flex><span>    App.Desc[<span style=color:#ae81ff>3</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>15</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>8</span>],
+</span></span><span style=display:flex><span>    App.Desc[<span style=color:#ae81ff>4</span>],
+</span></span><span style=display:flex><span>    App.Desc[<span style=color:#ae81ff>3</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>4</span>],
+</span></span><span style=display:flex><span>    App.Step[<span style=color:#ae81ff>2</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>13</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>18</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>18</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>8</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>4</span>],
+</span></span><span style=display:flex><span>    App.Password[<span style=color:#ae81ff>0</span>],
+</span></span><span style=display:flex><span>    App.Password[<span style=color:#ae81ff>7</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>0</span>],
+</span></span><span style=display:flex><span>    App.Password[<span style=color:#ae81ff>4</span>],
+</span></span><span style=display:flex><span>    App.Note[<span style=color:#ae81ff>11</span>],
+</span></span><span style=display:flex><span>    App.Password[<span style=color:#ae81ff>6</span>],
+</span></span><span style=display:flex><span>    App.Password[<span style=color:#ae81ff>4</span>],
+</span></span><span style=display:flex><span>    App.Desc[<span style=color:#ae81ff>4</span>],
+</span></span><span style=display:flex><span>    App.Desc[<span style=color:#ae81ff>3</span>]
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>byte</span>[] key = SHA256.Create().ComputeHash(Encoding.ASCII.GetBytes(text));
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>byte</span>[] bytes = Encoding.ASCII.GetBytes(<span style=color:#e6db74>&#34;NoSaltOfTheEarth&#34;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>try</span>
+</span></span><span style=display:flex><span>  {
+</span></span><span style=display:flex><span>    App.ImgData = Convert.FromBase64String(Util.GetString(Runtime.Runtime_dll, key, bytes));
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>catch</span> (Exception ex)
+</span></span><span style=display:flex><span>  {
+</span></span><span style=display:flex><span>    Toast.DisplayText(<span style=color:#e6db74>&#34;Failed: &#34;</span> + ex.Message, <span style=color:#ae81ff>1000</span>);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span>;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>If the <code>App.Password</code>, <code>App.Note</code>, <code>App.Step</code>, and <code>App.Desc</code> fields are not empty, the function will attempt to decrypt and display an image.
 A SHA256 hash is created using values that are extracted from those four fields.
-The <code>Util.GetString</code> function uses AES to decrypt the contents of <code>Runtime.dll</code> using the hash as the key and a constant IV of &ldquo;NoSaltOfTheEarth&rdquo;.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#66d9ef>internal</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>byte</span>[] Runtime_dll {
-  <span style=color:#66d9ef>get</span> {
-    <span style=color:#66d9ef>return</span> (<span style=color:#66d9ef>byte</span>[])Runtime.ResourceManager.GetObject(<span style=color:#e6db74>&#34;Runtime.dll&#34;</span>, Runtime.resourceCulture);
-  }
-}
-</code></pre></div><p><code>Runtime.dll</code> is a resource embedded inside the DLL file and we can extract its contents using dnSpy.
-In order to decrypt the image, we need to determine the correct values for the four inputs.</p>
-<h2 id=solution>Solution</h2>
-<p>The UnlockPage prompts the user to enter a password and checks that it is equal to some encoded string.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>byte</span>[] Password = <span style=color:#66d9ef>new</span> <span style=color:#66d9ef>byte</span>[] { <span style=color:#ae81ff>62</span>, <span style=color:#ae81ff>38</span>, <span style=color:#ae81ff>63</span>, <span style=color:#ae81ff>63</span>, <span style=color:#ae81ff>54</span>, <span style=color:#ae81ff>39</span>, <span style=color:#ae81ff>59</span>, <span style=color:#ae81ff>50</span>, <span style=color:#ae81ff>39</span> };
-
-<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>string</span> Decode(<span style=color:#66d9ef>byte</span>[] e)
-{
-  <span style=color:#66d9ef>string</span> text = <span style=color:#e6db74>&#34;&#34;</span>;
-  <span style=color:#66d9ef>foreach</span> (<span style=color:#66d9ef>byte</span> b <span style=color:#66d9ef>in</span> e)
-  {
-    text += Convert.ToChar((<span style=color:#66d9ef>int</span>)(b ^ <span style=color:#ae81ff>83</span>)).ToString();
-  }
-  <span style=color:#66d9ef>return</span> text;
-}
-</code></pre></div><p>The <code>App.Step</code> field is set in the MainPage to a value taken from the <code>tizen-manifest.xml</code> file.
-The &ldquo;its&rdquo; metadata key is assigned the value &ldquo;magic&rdquo;.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#66d9ef>private</span> <span style=color:#66d9ef>void</span> PedDataUpdate(<span style=color:#66d9ef>object</span> sender, PedometerDataUpdatedEventArgs e)
-{
-  <span style=color:#66d9ef>if</span> (e.StepCount &gt; <span style=color:#ae81ff>50</span>u &amp;&amp; <span style=color:#66d9ef>string</span>.IsNullOrEmpty(App.Step))
-  {
-    App.Step = Application.Current.ApplicationInfo.Metadata[<span style=color:#e6db74>&#34;its&#34;</span>];
-  }
-
-  ...snip...
-}
-</code></pre></div><p>The <code>App.Desc</code> field is set in the GalleryPage to the value of the image description field taken from the EXIF data of the 05.jpg image.
-We can determine using an EXIF viewer that the value is &ldquo;water&rdquo;.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#66d9ef>private</span> <span style=color:#66d9ef>void</span> IndexPage_CurrentPageChanged(<span style=color:#66d9ef>object</span> sender, EventArgs e)
-{
-  <span style=color:#66d9ef>if</span> (<span style=color:#66d9ef>base</span>.Children.IndexOf(<span style=color:#66d9ef>base</span>.CurrentPage) == <span style=color:#ae81ff>4</span>)
-  {
-    <span style=color:#66d9ef>using</span> (ExifReader exifReader = <span style=color:#66d9ef>new</span> ExifReader(Path.Combine(Application.Current.DirectoryInfo.Resource, <span style=color:#e6db74>&#34;gallery&#34;</span>, <span style=color:#e6db74>&#34;05.jpg&#34;</span>)))
-    {
-      <span style=color:#66d9ef>string</span> desc;
-      <span style=color:#66d9ef>if</span> (exifReader.GetTagValue&lt;<span style=color:#66d9ef>string</span>&gt;(ExifTags.ImageDescription, <span style=color:#66d9ef>out</span> desc))
-      {
-        App.Desc = desc;
-      }
-      <span style=color:#66d9ef>return</span>;
-    }
-  }
-  App.Desc = <span style=color:#e6db74>&#34;&#34;</span>;
-}
-</code></pre></div><p>Through an entirely static analysis of the code, we have determined the required inputs for three of the four values.
+The <code>Util.GetString</code> function uses AES to decrypt the contents of <code>Runtime.dll</code> using the hash as the key and a constant IV of &ldquo;NoSaltOfTheEarth&rdquo;.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#66d9ef>internal</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>byte</span>[] Runtime_dll {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>get</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> (<span style=color:#66d9ef>byte</span>[])Runtime.ResourceManager.GetObject(<span style=color:#e6db74>&#34;Runtime.dll&#34;</span>, Runtime.resourceCulture);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><code>Runtime.dll</code> is a resource embedded inside the DLL file and we can extract its contents using dnSpy.
+In order to decrypt the image, we need to determine the correct values for the four inputs.</p><h2 id=solution>Solution</h2><p>The UnlockPage prompts the user to enter a password and checks that it is equal to some encoded string.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>byte</span>[] Password = <span style=color:#66d9ef>new</span> <span style=color:#66d9ef>byte</span>[] { <span style=color:#ae81ff>62</span>, <span style=color:#ae81ff>38</span>, <span style=color:#ae81ff>63</span>, <span style=color:#ae81ff>63</span>, <span style=color:#ae81ff>54</span>, <span style=color:#ae81ff>39</span>, <span style=color:#ae81ff>59</span>, <span style=color:#ae81ff>50</span>, <span style=color:#ae81ff>39</span> };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>string</span> Decode(<span style=color:#66d9ef>byte</span>[] e)
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>string</span> text = <span style=color:#e6db74>&#34;&#34;</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>foreach</span> (<span style=color:#66d9ef>byte</span> b <span style=color:#66d9ef>in</span> e)
+</span></span><span style=display:flex><span>  {
+</span></span><span style=display:flex><span>    text += Convert.ToChar((<span style=color:#66d9ef>int</span>)(b ^ <span style=color:#ae81ff>83</span>)).ToString();
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> text;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>The <code>App.Step</code> field is set in the MainPage to a value taken from the <code>tizen-manifest.xml</code> file.
+The &ldquo;its&rdquo; metadata key is assigned the value &ldquo;magic&rdquo;.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#66d9ef>private</span> <span style=color:#66d9ef>void</span> PedDataUpdate(<span style=color:#66d9ef>object</span> sender, PedometerDataUpdatedEventArgs e)
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (e.StepCount &gt; <span style=color:#ae81ff>50</span>u &amp;&amp; <span style=color:#66d9ef>string</span>.IsNullOrEmpty(App.Step))
+</span></span><span style=display:flex><span>  {
+</span></span><span style=display:flex><span>    App.Step = Application.Current.ApplicationInfo.Metadata[<span style=color:#e6db74>&#34;its&#34;</span>];
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  ...snip...
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>The <code>App.Desc</code> field is set in the GalleryPage to the value of the image description field taken from the EXIF data of the 05.jpg image.
+We can determine using an EXIF viewer that the value is &ldquo;water&rdquo;.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#66d9ef>private</span> <span style=color:#66d9ef>void</span> IndexPage_CurrentPageChanged(<span style=color:#66d9ef>object</span> sender, EventArgs e)
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (<span style=color:#66d9ef>base</span>.Children.IndexOf(<span style=color:#66d9ef>base</span>.CurrentPage) == <span style=color:#ae81ff>4</span>)
+</span></span><span style=display:flex><span>  {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>using</span> (ExifReader exifReader = <span style=color:#66d9ef>new</span> ExifReader(Path.Combine(Application.Current.DirectoryInfo.Resource, <span style=color:#e6db74>&#34;gallery&#34;</span>, <span style=color:#e6db74>&#34;05.jpg&#34;</span>)))
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>string</span> desc;
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>if</span> (exifReader.GetTagValue&lt;<span style=color:#66d9ef>string</span>&gt;(ExifTags.ImageDescription, <span style=color:#66d9ef>out</span> desc))
+</span></span><span style=display:flex><span>      {
+</span></span><span style=display:flex><span>        App.Desc = desc;
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>return</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  App.Desc = <span style=color:#e6db74>&#34;&#34;</span>;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Through an entirely static analysis of the code, we have determined the required inputs for three of the four values.
 <code>App.Note</code> has only six possible values so we can simply try each one to determine that &ldquo;keep steaks for dinner&rdquo; is correct.
-We can now decrypt the contents of <code>Runtime.dll</code> by reimplementing the decryption function in Python.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>import</span> base64
-<span style=color:#f92672>import</span> hashlib
-<span style=color:#f92672>from</span> Crypto.Cipher <span style=color:#f92672>import</span> AES
-
-<span style=color:#75715e># Decode the password</span>
-password <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;</span>
-<span style=color:#66d9ef>for</span> c <span style=color:#f92672>in</span> [<span style=color:#ae81ff>62</span>, <span style=color:#ae81ff>38</span>, <span style=color:#ae81ff>63</span>, <span style=color:#ae81ff>63</span>, <span style=color:#ae81ff>54</span>, <span style=color:#ae81ff>39</span>, <span style=color:#ae81ff>59</span>, <span style=color:#ae81ff>50</span>, <span style=color:#ae81ff>39</span>]:
-    password <span style=color:#f92672>+=</span> chr(c <span style=color:#f92672>^</span> <span style=color:#ae81ff>83</span>)
-
-<span style=color:#75715e># Possible values for app_note</span>
-notes <span style=color:#f92672>=</span> [
-    <span style=color:#e6db74>&#34;and enable GPS&#34;</span>, <span style=color:#e6db74>&#34;and survive&#34;</span>, <span style=color:#e6db74>&#34;keep steaks for dinner&#34;</span>, <span style=color:#e6db74>&#34;maybe fire someone&#34;</span>,
-    <span style=color:#e6db74>&#34;unless it&#39;s a drinking day&#34;</span>, <span style=color:#e6db74>&#34;https://youtu.be/kTmZnQOfAF8&#34;</span>
-]
-note <span style=color:#f92672>=</span> notes[<span style=color:#ae81ff>2</span>]
-
-<span style=color:#75715e># Taken from &#34;tizen-manifest.xml&#34; file &lt;metadata key=&#34;its&#34; value=&#34;magic&#34; /&gt;</span>
-step <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;magic&#34;</span>
-
-<span style=color:#75715e># Image description data from 5.jpg by putting into exifviewer</span>
-desc <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;water&#34;</span>
-
-text <span style=color:#f92672>=</span> desc[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>6</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>17</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>18</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>16</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>11</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>13</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>12</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>15</span>] <span style=color:#f92672>+</span> step[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>6</span>] <span style=color:#f92672>+</span> desc[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>18</span>] <span style=color:#f92672>+</span> step[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>5</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> desc[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>+</span> desc[<span style=color:#ae81ff>3</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>15</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>8</span>] <span style=color:#f92672>+</span> desc[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> desc[<span style=color:#ae81ff>3</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> step[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>13</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>18</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>18</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>8</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>7</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>11</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>6</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> desc[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> desc[<span style=color:#ae81ff>3</span>]
-
-<span style=color:#75715e># Text is &#34;the kind of challenges we are gonna make here&#34;</span>
-print(text)
-
-m <span style=color:#f92672>=</span> hashlib<span style=color:#f92672>.</span>sha256()
-m<span style=color:#f92672>.</span>update(text<span style=color:#f92672>.</span>encode())
-key <span style=color:#f92672>=</span> m<span style=color:#f92672>.</span>digest()
-iv <span style=color:#f92672>=</span> <span style=color:#e6db74>b</span><span style=color:#e6db74>&#34;NoSaltOfTheEarth&#34;</span>
-
-<span style=color:#66d9ef>with</span> open(<span style=color:#e6db74>&#34;Runtime.dll&#34;</span>, <span style=color:#e6db74>&#34;rb&#34;</span>) <span style=color:#66d9ef>as</span> f:
-    ct <span style=color:#f92672>=</span> f<span style=color:#f92672>.</span>read()
-
-cipher <span style=color:#f92672>=</span> AES<span style=color:#f92672>.</span>new(key, AES<span style=color:#f92672>.</span>MODE_CBC, iv)
-imgdata <span style=color:#f92672>=</span> cipher<span style=color:#f92672>.</span>decrypt(ct)
-imgdata <span style=color:#f92672>=</span> base64<span style=color:#f92672>.</span>b64decode(imgdata)
-
-<span style=color:#66d9ef>with</span> open(<span style=color:#e6db74>&#34;flag.png&#34;</span>, <span style=color:#e6db74>&#34;wb&#34;</span>) <span style=color:#66d9ef>as</span> f:
-    f<span style=color:#f92672>.</span>write(data)
-</code></pre></div><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/TKApp/flag.png alt=flag></p>
-</div>
-<footer class=post-footer>
-<div class=post-footer-data>
-<div class=tags>
-<div class=tag>
-<a href=/tags/reversing>#reversing</a>
-</div>
-<div class=tag>
-<a href=/tags/mobile>#mobile</a>
-</div>
-<div class=tag>
-<a href=/tags/dotnet>#dotnet</a>
-</div>
-</div>
-<div class=post-footer-meta>Permalink: <a href=https://starfleetcadet75.github.io/posts/flareon-2020-5-tkapp/>/posts/flareon-2020-5-tkapp/</a> | Date: 2020-09-22 </div>
-<hr>
-<div class=categories>
-Published in:
-<div class=category>
-<a href=/categories/writeups>writeups</a>
-</div>
-</div>
-<div class=series>
-</div>
-</div>
-</footer>
-</article>
-<footer>
-<div class=social-links-footer>
-<a href=mailto:starfleetcadet75@gmail.com><div class=social-link>Email</div></a>
-<a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>GitHub</div></a>
-<a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>GitLab</div></a>
-<div class=social-link>
-<a href=https://starfleetcadet75.github.io/index.xml target=_blank>RSS</a>
-</div>
-</div>
-<div class=copyright> </div>
-<div class=poweredby>
-Powered by <a href=https://gohugo.io/>Hugo</a>.
-</div>
-</footer>
-</div>
-</body>
-</html>
+We can now decrypt the contents of <code>Runtime.dll</code> by reimplementing the decryption function in Python.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> base64
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> hashlib
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> Crypto.Cipher <span style=color:#f92672>import</span> AES
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Decode the password</span>
+</span></span><span style=display:flex><span>password <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> c <span style=color:#f92672>in</span> [<span style=color:#ae81ff>62</span>, <span style=color:#ae81ff>38</span>, <span style=color:#ae81ff>63</span>, <span style=color:#ae81ff>63</span>, <span style=color:#ae81ff>54</span>, <span style=color:#ae81ff>39</span>, <span style=color:#ae81ff>59</span>, <span style=color:#ae81ff>50</span>, <span style=color:#ae81ff>39</span>]:
+</span></span><span style=display:flex><span>    password <span style=color:#f92672>+=</span> chr(c <span style=color:#f92672>^</span> <span style=color:#ae81ff>83</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Possible values for app_note</span>
+</span></span><span style=display:flex><span>notes <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;and enable GPS&#34;</span>, <span style=color:#e6db74>&#34;and survive&#34;</span>, <span style=color:#e6db74>&#34;keep steaks for dinner&#34;</span>, <span style=color:#e6db74>&#34;maybe fire someone&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;unless it&#39;s a drinking day&#34;</span>, <span style=color:#e6db74>&#34;https://youtu.be/kTmZnQOfAF8&#34;</span>
+</span></span><span style=display:flex><span>]
+</span></span><span style=display:flex><span>note <span style=color:#f92672>=</span> notes[<span style=color:#ae81ff>2</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Taken from &#34;tizen-manifest.xml&#34; file &lt;metadata key=&#34;its&#34; value=&#34;magic&#34; /&gt;</span>
+</span></span><span style=display:flex><span>step <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;magic&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Image description data from 5.jpg by putting into exifviewer</span>
+</span></span><span style=display:flex><span>desc <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;water&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>text <span style=color:#f92672>=</span> desc[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>6</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>17</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>18</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>16</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>11</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>13</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>12</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>15</span>] <span style=color:#f92672>+</span> step[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>6</span>] <span style=color:#f92672>+</span> desc[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>18</span>] <span style=color:#f92672>+</span> step[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>5</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> desc[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>+</span> desc[<span style=color:#ae81ff>3</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>15</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>8</span>] <span style=color:#f92672>+</span> desc[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> desc[<span style=color:#ae81ff>3</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> step[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>13</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>18</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>18</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>8</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>7</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> note[<span style=color:#ae81ff>11</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>6</span>] <span style=color:#f92672>+</span> password[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> desc[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>+</span> desc[<span style=color:#ae81ff>3</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Text is &#34;the kind of challenges we are gonna make here&#34;</span>
+</span></span><span style=display:flex><span>print(text)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>m <span style=color:#f92672>=</span> hashlib<span style=color:#f92672>.</span>sha256()
+</span></span><span style=display:flex><span>m<span style=color:#f92672>.</span>update(text<span style=color:#f92672>.</span>encode())
+</span></span><span style=display:flex><span>key <span style=color:#f92672>=</span> m<span style=color:#f92672>.</span>digest()
+</span></span><span style=display:flex><span>iv <span style=color:#f92672>=</span> <span style=color:#e6db74>b</span><span style=color:#e6db74>&#34;NoSaltOfTheEarth&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>with</span> open(<span style=color:#e6db74>&#34;Runtime.dll&#34;</span>, <span style=color:#e6db74>&#34;rb&#34;</span>) <span style=color:#66d9ef>as</span> f:
+</span></span><span style=display:flex><span>    ct <span style=color:#f92672>=</span> f<span style=color:#f92672>.</span>read()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cipher <span style=color:#f92672>=</span> AES<span style=color:#f92672>.</span>new(key, AES<span style=color:#f92672>.</span>MODE_CBC, iv)
+</span></span><span style=display:flex><span>imgdata <span style=color:#f92672>=</span> cipher<span style=color:#f92672>.</span>decrypt(ct)
+</span></span><span style=display:flex><span>imgdata <span style=color:#f92672>=</span> base64<span style=color:#f92672>.</span>b64decode(imgdata)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>with</span> open(<span style=color:#e6db74>&#34;flag.png&#34;</span>, <span style=color:#e6db74>&#34;wb&#34;</span>) <span style=color:#66d9ef>as</span> f:
+</span></span><span style=display:flex><span>    f<span style=color:#f92672>.</span>write(data)
+</span></span></code></pre></div><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Flareon-CTF/TKApp/flag.png alt=flag></p></div><footer class=post-footer><div class=post-footer-data><div class=tags><div class=tag><a href=/tags/reversing>#reversing</a></div><div class=tag><a href=/tags/mobile>#mobile</a></div><div class=tag><a href=/tags/dotnet>#dotnet</a></div></div><div class=post-footer-meta>Permalink: <a href=https://starfleetcadet75.github.io/posts/flareon-2020-5-tkapp/>/posts/flareon-2020-5-tkapp/</a> | Date: 2020-09-22</div><hr><div class=categories>Published in:<div class=category><a href=/categories/writeups>writeups</a></div></div><div class=series></div></div></footer></article><footer><div class=social-links-footer><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>Email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>GitHub</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>GitLab</div></a><div class=social-link><a href=https://starfleetcadet75.github.io/index.xml target=_blank>RSS</a></div></div><div class=copyright></div><div class=poweredby>Powered by <a href=https://gohugo.io/>Hugo</a>.</div></footer></div></body></html>

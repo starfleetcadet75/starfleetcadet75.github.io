@@ -1,268 +1,85 @@
-<!doctype html><html lang=en-us>
-<head>
-<meta charset=utf-8>
-<meta name=author content>
-<meta name=description content>
-<meta name=keywords content>
-<meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1">
-<meta name=generator content="Hugo 0.88.1">
-<link rel=canonical href=https://starfleetcadet75.github.io/posts/cyberstakes-2020-into-the-metaverse/>
-<meta property="og:title" content="Cyberstakes CTF 2020: Into the Metaverse">
-<meta property="og:description" content="We extracted the DRM module from a target device but haven&rsquo;t been able to reverse engineer its validation logic.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://starfleetcadet75.github.io/posts/cyberstakes-2020-into-the-metaverse/"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2020-05-03T00:00:00+00:00">
-<meta property="article:modified_time" content="2020-05-03T00:00:00+00:00">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="Cyberstakes CTF 2020: Into the Metaverse">
-<meta name=twitter:description content="We extracted the DRM module from a target device but haven&rsquo;t been able to reverse engineer its validation logic.">
-<meta itemprop=name content="Cyberstakes CTF 2020: Into the Metaverse">
-<meta itemprop=description content="We extracted the DRM module from a target device but haven&rsquo;t been able to reverse engineer its validation logic."><meta itemprop=datePublished content="2020-05-03T00:00:00+00:00">
-<meta itemprop=dateModified content="2020-05-03T00:00:00+00:00">
-<meta itemprop=wordCount content="1594">
-<meta itemprop=keywords content="reversing,">
-<link rel=stylesheet href=/css/layout.css>
-<link rel=stylesheet href=/css/default-dark.css>
-<link rel=stylesheet href=/css/adoc-html5-extension.css>
-<title>
-Cyberstakes CTF 2020: Into the Metaverse
-</title>
-</head>
-<body>
-<div class=main>
-<header>
-<div class=header-bar>
-<nav>
-<div class=siteTitle>
-<a href=https://starfleetcadet75.github.io/>starfleetcadet75</a>
-</div>
-<a class=nav-item href=/about/><div class=nav-item-title>About</div></a>
-<a class=nav-item href=/readinglist/><div class=nav-item-title>Reading List</div></a>
-<a class="nav-item active" href=/posts/><div class=nav-item-title>Posts</div></a>
-</nav>
-<div class=social-links-header style=visibility:hidden;display:none>
-<a href=mailto:starfleetcadet75@gmail.com><div class=social-link>email</div></a>
-<a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>gh</div></a>
-<a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>gl</div></a>
-</div>
-</div>
-</header>
-<article class=post>
-<h1 class=title> Cyberstakes CTF 2020: Into the Metaverse </h1>
-<div class=content> <p><strong>Category:</strong> Reverse Engineering<br>
-<strong>Points:</strong> 450</p>
-<h2 id=challenge>Challenge</h2>
-<blockquote>
-<p>We extracted the DRM module from a target device but haven&rsquo;t been able to reverse engineer its validation logic.
-See what you can do: <a href=https://github.com/starfleetcadet75/writeups/raw/master/2020-Cyberstakes/into-the-metaverse/metaverse>metaverse</a></p>
-</blockquote>
-<h4 id=hints>Hints</h4>
-<ul>
-<li>Have you heard of &lsquo;virtualization obfuscation&rsquo;?</li>
-<li>The custom VM architecture is based on a &lsquo;stack machine cpu&rsquo;</li>
-<li>Debugging a virtualized obfuscator can be hard&mldr; it might be best to extract the VM &lsquo;logic&rsquo; and emulate it!</li>
-</ul>
-<h2 id=background>Background</h2>
-<p>Opening the metaverse program in Binary Ninja, we notice what looks like a fetch-decode-execute cycle in the main function.
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=author content><meta name=description content><meta name=keywords content><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><meta name=generator content="Hugo 0.99.1"><link rel=canonical href=https://starfleetcadet75.github.io/posts/cyberstakes-2020-into-the-metaverse/><meta property="og:title" content="Cyberstakes CTF 2020: Into the Metaverse"><meta property="og:description" content="We extracted the DRM module from a target device but haven&rsquo;t been able to reverse engineer its validation logic."><meta property="og:type" content="article"><meta property="og:url" content="https://starfleetcadet75.github.io/posts/cyberstakes-2020-into-the-metaverse/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-05-03T00:00:00+00:00"><meta property="article:modified_time" content="2020-05-03T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Cyberstakes CTF 2020: Into the Metaverse"><meta name=twitter:description content="We extracted the DRM module from a target device but haven&rsquo;t been able to reverse engineer its validation logic."><meta itemprop=name content="Cyberstakes CTF 2020: Into the Metaverse"><meta itemprop=description content="We extracted the DRM module from a target device but haven&rsquo;t been able to reverse engineer its validation logic."><meta itemprop=datePublished content="2020-05-03T00:00:00+00:00"><meta itemprop=dateModified content="2020-05-03T00:00:00+00:00"><meta itemprop=wordCount content="1594"><meta itemprop=keywords content="reversing,"><link rel=stylesheet href=/css/layout.css><link rel=stylesheet href=/css/default-dark.css><link rel=stylesheet href=/css/adoc-html5-extension.css><title>Cyberstakes CTF 2020: Into the Metaverse</title></head><body><div class=main><header><div class=header-bar><nav><div class=siteTitle><a href=https://starfleetcadet75.github.io/>starfleetcadet75</a></div><a class=nav-item href=/about/><div class=nav-item-title>About</div></a><a class=nav-item href=/readinglist/><div class=nav-item-title>Reading List</div></a><a class="nav-item active" href=/posts/><div class=nav-item-title>Posts</div></a></nav><div class=social-links-header style=visibility:hidden;display:none><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>gh</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>gl</div></a></div></div></header><article class=post><h1 class=title>Cyberstakes CTF 2020: Into the Metaverse</h1><div class=content><p><strong>Category:</strong> Reverse Engineering<br><strong>Points:</strong> 450</p><h2 id=challenge>Challenge</h2><blockquote><p>We extracted the DRM module from a target device but haven&rsquo;t been able to reverse engineer its validation logic.
+See what you can do: <a href=https://github.com/starfleetcadet75/writeups/raw/master/2020-Cyberstakes/into-the-metaverse/metaverse>metaverse</a></p></blockquote><h4 id=hints>Hints</h4><ul><li>Have you heard of &lsquo;virtualization obfuscation&rsquo;?</li><li>The custom VM architecture is based on a &lsquo;stack machine cpu&rsquo;</li><li>Debugging a virtualized obfuscator can be hard&mldr; it might be best to extract the VM &rsquo;logic&rsquo; and emulate it!</li></ul><h2 id=background>Background</h2><p>Opening the metaverse program in Binary Ninja, we notice what looks like a fetch-decode-execute cycle in the main function.
 This makes sense given the hint that the program is obfuscated using a virtualization obfuscator.
 <a href=https://www.usenix.org/legacy/events/woot09/tech/full_papers/rolles.pdf>Virtualization obfuscators</a> are employed to protect software from being reverse engineered by converting a program&rsquo;s original code into an undocumented bytecode that gets executed at runtime by an interpreter.
-Since the actual program logic is &ldquo;packed&rdquo; in an unknown representation, it cannot be analyzed using traditional tools without time-consuming manual effort.</p>
-<h2 id=reversing-main>Reversing main</h2>
-<p>The program starts with a call to some kind of <code>setup</code> function that initializes the virtual machine&rsquo;s state and returns a pointer to what I&rsquo;ve named a <code>CPU</code> structure.
+Since the actual program logic is &ldquo;packed&rdquo; in an unknown representation, it cannot be analyzed using traditional tools without time-consuming manual effort.</p><h2 id=reversing-main>Reversing main</h2><p>The program starts with a call to some kind of <code>setup</code> function that initializes the virtual machine&rsquo;s state and returns a pointer to what I&rsquo;ve named a <code>CPU</code> structure.
 The user&rsquo;s password input is then read into a buffer by fgets.
 Lastly, the program enters a while loop where it fetches the next opcode from instruction memory, decodes it to find the correct instruction handler function, and then executes it.
-This while loop is the interpreter that actually executes the real program over our input.</p>
-<p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Cyberstakes/into-the-metaverse/main_function.png alt=main_function></p>
-<h2 id=reversing-setup>Reversing setup</h2>
-<p>Reversing the <code>setup</code> function reveals the layout of the virtual machine in memory and the fields of the <code>CPU</code> structure.
+This while loop is the interpreter that actually executes the real program over our input.</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Cyberstakes/into-the-metaverse/main_function.png alt=main_function></p><h2 id=reversing-setup>Reversing setup</h2><p>Reversing the <code>setup</code> function reveals the layout of the virtual machine in memory and the fields of the <code>CPU</code> structure.
 First, the <code>CPU</code> struct is created on the heap with a call to <code>malloc</code>.
 The function then allocates a region of 0x800 bytes where it stores contents starting from address 0x202020 of the data section.
-Given what we know about virtualization obfuscators, we can assume that these bytes are the virtualized instructions to be executed by the interpreter.</p>
-<p>Next, the function allocates another region of 0x800 bytes but this time it explicitly zeroes out the memory.
+Given what we know about virtualization obfuscators, we can assume that these bytes are the virtualized instructions to be executed by the interpreter.</p><p>Next, the function allocates another region of 0x800 bytes but this time it explicitly zeroes out the memory.
 One of the hints indicated that the VM uses a <a href=https://igor.io/2013/08/28/stack-machines-fundamentals.html>stack machine</a>.
 This means that we should expect to see two memory regions; one for instructions and one for the stack.
-Since the previously allocated space appears to contain the bytecode, we can safely label this region as the stack.</p>
-<p>For registers, stack machines typically contain only a program counter and a stack pointer.
-We can see that these are both initialized at the end of <code>setup</code>.</p>
-<p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Cyberstakes/into-the-metaverse/setup_function.png alt=setup_function></p>
-<p>Our final definition for the <code>CPU</code> structure is as follows:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>struct</span> CPU {
-    <span style=color:#66d9ef>uint16_t</span><span style=color:#f92672>*</span> pc;
-    <span style=color:#66d9ef>uint16_t</span><span style=color:#f92672>*</span> sp;
-    <span style=color:#66d9ef>uint16_t</span><span style=color:#f92672>*</span> code;
-    <span style=color:#66d9ef>uint16_t</span><span style=color:#f92672>*</span> stack;
-};
-</code></pre></div><h2 id=instruction-handlers>Instruction Handlers</h2>
-<p>The remaining functions in the program are instruction handlers.
+Since the previously allocated space appears to contain the bytecode, we can safely label this region as the stack.</p><p>For registers, stack machines typically contain only a program counter and a stack pointer.
+We can see that these are both initialized at the end of <code>setup</code>.</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Cyberstakes/into-the-metaverse/setup_function.png alt=setup_function></p><p>Our final definition for the <code>CPU</code> structure is as follows:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#66d9ef>struct</span> CPU {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>uint16_t</span><span style=color:#f92672>*</span> pc;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>uint16_t</span><span style=color:#f92672>*</span> sp;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>uint16_t</span><span style=color:#f92672>*</span> code;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>uint16_t</span><span style=color:#f92672>*</span> stack;
+</span></span><span style=display:flex><span>};
+</span></span></code></pre></div><h2 id=instruction-handlers>Instruction Handlers</h2><p>The remaining functions in the program are instruction handlers.
 Each one implements the execution logic for a different opcode from the virtualized instruction set.
-We can identify which opcode maps to each handler by looking at the interpreter loop in <code>main</code>.</p>
-<p>Comparing the handler functions, we can easily identify the add, sub, xor, and cmp instructions by looking at the operator that differs between them.
-Each of these handlers uses the same logic to pop two arguments from the stack, perform the operation on them, push the result to the stack, and then increment the program counter.</p>
-<p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Cyberstakes/into-the-metaverse/cmp_function.png alt=cmp_function></p>
-<p>It is reasonable to assume that this compare instruction is what checks each character of our input against the flag.
+We can identify which opcode maps to each handler by looking at the interpreter loop in <code>main</code>.</p><p>Comparing the handler functions, we can easily identify the add, sub, xor, and cmp instructions by looking at the operator that differs between them.
+Each of these handlers uses the same logic to pop two arguments from the stack, perform the operation on them, push the result to the stack, and then increment the program counter.</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Cyberstakes/into-the-metaverse/cmp_function.png alt=cmp_function></p><p>It is reasonable to assume that this compare instruction is what checks each character of our input against the flag.
 To test this assumption, we can run the program in a debugger and set a breakpoint on the cmp instruction.
-Since the competition&rsquo;s flag format is <code>ACI{flag}</code>, we will use the ACI prefix in our input.</p>
-<p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Cyberstakes/into-the-metaverse/debugging_cmp.png alt=debugging_cmp></p>
-<p>The comparison returns true for its first execution implying that the &ldquo;A&rdquo; is correct, however it is not directly comparing ASCII characters but a 16-bit value of 0x30f2.
+Since the competition&rsquo;s flag format is <code>ACI{flag}</code>, we will use the ACI prefix in our input.</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-Cyberstakes/into-the-metaverse/debugging_cmp.png alt=debugging_cmp></p><p>The comparison returns true for its first execution implying that the &ldquo;A&rdquo; is correct, however it is not directly comparing ASCII characters but a 16-bit value of 0x30f2.
 This means that our input is being encoded in some way before being compared with the encoded flag.
-If we look back at the bytecode array in the data section, we can see that there is a group of 0x20 bytes starting at offset 0x500 into the array that begins with the value 0x30f2.</p>
-<p>We have located the encoded flag and we have identified where the comparisons take place.</p>
-<p>If we continue to the next compare instructions in GDB, we note that the program does not exit early upon a failed comparison but simply continues until it reaches the halt instruction (opcode 0x62).
-This is interesting to note because it means the program is not vulnerable to a side-channel attack where we could track the number of instructions it executes.</p>
-<h4 id=opcodes>Opcodes</h4>
-<p>The final opcode table looks something like this:</p>
-<table>
-<thead>
-<tr>
-<th>Opcode</th>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0x22</td>
-<td>enc1</td>
-<td>Swaps the lower nibbles of a word</td>
-</tr>
-<tr>
-<td>0xd7</td>
-<td>enc2</td>
-<td>Swaps the upper nibbles of a word</td>
-</tr>
-<tr>
-<td>0xf0</td>
-<td>xor</td>
-<td>Xors two args</td>
-</tr>
-<tr>
-<td>0xc1</td>
-<td>store</td>
-<td>Write arg1 to [arg2 * 2]</td>
-</tr>
-<tr>
-<td>0x93</td>
-<td>pop</td>
-<td>Stores a word from stack into instruction memory</td>
-</tr>
-<tr>
-<td>0xa4</td>
-<td>cmp</td>
-<td>Compares two args</td>
-</tr>
-<tr>
-<td>0x90</td>
-<td>nop</td>
-<td>No operation</td>
-</tr>
-<tr>
-<td>0x38</td>
-<td>swap</td>
-<td>Swaps two args</td>
-</tr>
-<tr>
-<td>0x43</td>
-<td>add</td>
-<td>Adds two args</td>
-</tr>
-<tr>
-<td>0x51</td>
-<td>sub</td>
-<td>Subtracts two args</td>
-</tr>
-<tr>
-<td>0x62</td>
-<td>halt</td>
-<td>Prints either &ldquo;Flag Captured!&rdquo; or &ldquo;Wrong!&rdquo; and exits</td>
-</tr>
-<tr>
-<td>0x12</td>
-<td>copy?</td>
-<td>Copies word from stack and shifts it right</td>
-</tr>
-<tr>
-<td>0x02</td>
-<td>ld</td>
-<td>Load word from instruction memory onto stack</td>
-</tr>
-<tr>
-<td>0x8a</td>
-<td>loop</td>
-<td>Runs the encoding loop</td>
-</tr>
-<tr>
-<td>0xb2</td>
-<td>jmp2?</td>
-<td>Something control flow related</td>
-</tr>
-</tbody>
-</table>
-<h2 id=solution>Solution</h2>
-<p>There are three approaches we could take:</p>
-<ol>
-<li>Write a custom emulator for the virtualized instruction set to debug the bytecode</li>
-<li>Use Unicorn to bruteforce it by emulating up to the cmp instruction and testing whether the value is encoded correctly</li>
-<li><a href=https://github.com/welchbj/ctf/blob/master/writeups/2020/CyberStakes/into-the-metaverse/solve.py>See if Angr can handle finding a path to the halt function</a></li>
-</ol>
-<p>Proceeding with the first option, we can write a script that executes the same interpreter loop but in a way that allows us to easily debug it.
-We begin by performing the same logic as the <code>setup</code> function to initialize the CPU state:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#75715e># The constant bytecode array extracted from the metaverse program</span>
-BYTECODE <span style=color:#f92672>=</span> bytearray([
-    <span style=color:#ae81ff>0x90</span>, <span style=color:#ae81ff>0x93</span>, <span style=color:#ae81ff>0x2e</span>, <span style=color:#ae81ff>0x00</span>, <span style=color:#ae81ff>0x8a</span>, <span style=color:#ae81ff>0x1a</span>, <span style=color:#ae81ff>0x93</span>, <span style=color:#ae81ff>0x00</span>, <span style=color:#ae81ff>0x03</span>, <span style=color:#ae81ff>0x02</span>, <span style=color:#ae81ff>0x93</span>, <span style=color:#ae81ff>0x14</span>, <span style=color:#ae81ff>0x00</span>, <span style=color:#ae81ff>0x43</span>, <span style=color:#ae81ff>0x12</span>, <span style=color:#ae81ff>0x02</span>,
-    <span style=color:#f92672>...</span> snip <span style=color:#f92672>...</span>
-])
-
-<span style=color:#66d9ef>class</span> <span style=color:#a6e22e>CPU</span>:
-    <span style=color:#66d9ef>def</span> __init__(self, flag):
-        <span style=color:#75715e># Mimics the setup function from the actual program</span>
-        self<span style=color:#f92672>.</span>code <span style=color:#f92672>=</span> BYTECODE
-        self<span style=color:#f92672>.</span>stack <span style=color:#f92672>=</span> bytearray([<span style=color:#ae81ff>0</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>0x800</span>)
-        self<span style=color:#f92672>.</span>pc <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
-        self<span style=color:#f92672>.</span>sp <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
-
-        <span style=color:#75715e># Write the user input into memory at the expected location</span>
-        flag <span style=color:#f92672>+=</span> <span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>
-        <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(len(flag)):
-            self<span style=color:#f92672>.</span>code[<span style=color:#ae81ff>0x400</span> <span style=color:#f92672>+</span> i] <span style=color:#f92672>=</span> ord(flag[i])
-</code></pre></div><p>Next we need to implement the interpreter itself.
+If we look back at the bytecode array in the data section, we can see that there is a group of 0x20 bytes starting at offset 0x500 into the array that begins with the value 0x30f2.</p><p>We have located the encoded flag and we have identified where the comparisons take place.</p><p>If we continue to the next compare instructions in GDB, we note that the program does not exit early upon a failed comparison but simply continues until it reaches the halt instruction (opcode 0x62).
+This is interesting to note because it means the program is not vulnerable to a side-channel attack where we could track the number of instructions it executes.</p><h4 id=opcodes>Opcodes</h4><p>The final opcode table looks something like this:</p><table><thead><tr><th>Opcode</th><th>Name</th><th>Description</th></tr></thead><tbody><tr><td>0x22</td><td>enc1</td><td>Swaps the lower nibbles of a word</td></tr><tr><td>0xd7</td><td>enc2</td><td>Swaps the upper nibbles of a word</td></tr><tr><td>0xf0</td><td>xor</td><td>Xors two args</td></tr><tr><td>0xc1</td><td>store</td><td>Write arg1 to [arg2 * 2]</td></tr><tr><td>0x93</td><td>pop</td><td>Stores a word from stack into instruction memory</td></tr><tr><td>0xa4</td><td>cmp</td><td>Compares two args</td></tr><tr><td>0x90</td><td>nop</td><td>No operation</td></tr><tr><td>0x38</td><td>swap</td><td>Swaps two args</td></tr><tr><td>0x43</td><td>add</td><td>Adds two args</td></tr><tr><td>0x51</td><td>sub</td><td>Subtracts two args</td></tr><tr><td>0x62</td><td>halt</td><td>Prints either &ldquo;Flag Captured!&rdquo; or &ldquo;Wrong!&rdquo; and exits</td></tr><tr><td>0x12</td><td>copy?</td><td>Copies word from stack and shifts it right</td></tr><tr><td>0x02</td><td>ld</td><td>Load word from instruction memory onto stack</td></tr><tr><td>0x8a</td><td>loop</td><td>Runs the encoding loop</td></tr><tr><td>0xb2</td><td>jmp2?</td><td>Something control flow related</td></tr></tbody></table><h2 id=solution>Solution</h2><p>There are three approaches we could take:</p><ol><li>Write a custom emulator for the virtualized instruction set to debug the bytecode</li><li>Use Unicorn to bruteforce it by emulating up to the cmp instruction and testing whether the value is encoded correctly</li><li><a href=https://github.com/welchbj/ctf/blob/master/writeups/2020/CyberStakes/into-the-metaverse/solve.py>See if Angr can handle finding a path to the halt function</a></li></ol><p>Proceeding with the first option, we can write a script that executes the same interpreter loop but in a way that allows us to easily debug it.
+We begin by performing the same logic as the <code>setup</code> function to initialize the CPU state:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># The constant bytecode array extracted from the metaverse program</span>
+</span></span><span style=display:flex><span>BYTECODE <span style=color:#f92672>=</span> bytearray([
+</span></span><span style=display:flex><span>    <span style=color:#ae81ff>0x90</span>, <span style=color:#ae81ff>0x93</span>, <span style=color:#ae81ff>0x2e</span>, <span style=color:#ae81ff>0x00</span>, <span style=color:#ae81ff>0x8a</span>, <span style=color:#ae81ff>0x1a</span>, <span style=color:#ae81ff>0x93</span>, <span style=color:#ae81ff>0x00</span>, <span style=color:#ae81ff>0x03</span>, <span style=color:#ae81ff>0x02</span>, <span style=color:#ae81ff>0x93</span>, <span style=color:#ae81ff>0x14</span>, <span style=color:#ae81ff>0x00</span>, <span style=color:#ae81ff>0x43</span>, <span style=color:#ae81ff>0x12</span>, <span style=color:#ae81ff>0x02</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>...</span> snip <span style=color:#f92672>...</span>
+</span></span><span style=display:flex><span>])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>CPU</span>:
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, flag):
+</span></span><span style=display:flex><span>        <span style=color:#75715e># Mimics the setup function from the actual program</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>code <span style=color:#f92672>=</span> BYTECODE
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>stack <span style=color:#f92672>=</span> bytearray([<span style=color:#ae81ff>0</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>0x800</span>)
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>pc <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>sp <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># Write the user input into memory at the expected location</span>
+</span></span><span style=display:flex><span>        flag <span style=color:#f92672>+=</span> <span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(len(flag)):
+</span></span><span style=display:flex><span>            self<span style=color:#f92672>.</span>code[<span style=color:#ae81ff>0x400</span> <span style=color:#f92672>+</span> i] <span style=color:#f92672>=</span> ord(flag[i])
+</span></span></code></pre></div><p>Next we need to implement the interpreter itself.
 To do this, we need to copy over each instruction handler and ensure that it outputs the same results as the actual program.
 Binary Ninja&rsquo;s HLIL provides excellent decompilation of these functions, which makes it fairly straight forward to copy/paste them into our script.
-Obviously this still requires a bit of work to remove things like pointers and convert the array accesses to work with our Python arrays.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>run</span>(self):
-    <span style=color:#66d9ef>while</span> <span style=color:#66d9ef>True</span>:
-        opcode <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>code[self<span style=color:#f92672>.</span>pc]
-        print(<span style=color:#e6db74>&#34;[PC: </span><span style=color:#e6db74>{:04x}</span><span style=color:#e6db74> | SP: </span><span style=color:#e6db74>{:04x}</span><span style=color:#e6db74> | Opcode: </span><span style=color:#e6db74>{:04x}</span><span style=color:#e6db74>]&#34;</span><span style=color:#f92672>.</span>format(self<span style=color:#f92672>.</span>pc, self<span style=color:#f92672>.</span>sp, opcode))
-
-        <span style=color:#66d9ef>if</span> opcode <span style=color:#f92672>==</span> <span style=color:#ae81ff>0x43</span>:  <span style=color:#75715e># add</span>
-            op1 <span style=color:#f92672>=</span> (self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>&lt;&lt;</span> <span style=color:#ae81ff>8</span>) <span style=color:#f92672>|</span> self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp]
-            op2 <span style=color:#f92672>=</span> (self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>&lt;&lt;</span> <span style=color:#ae81ff>8</span>) <span style=color:#f92672>|</span> self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp <span style=color:#f92672>-</span> <span style=color:#ae81ff>2</span>]
-            self<span style=color:#f92672>.</span>sp <span style=color:#f92672>-=</span> <span style=color:#ae81ff>2</span>
-
-            result <span style=color:#f92672>=</span> (op1 <span style=color:#f92672>+</span> op2)
-            print(<span style=color:#e6db74>&#34;add </span><span style=color:#e6db74>{:04x}</span><span style=color:#e6db74>, </span><span style=color:#e6db74>{:04x}</span><span style=color:#e6db74> = </span><span style=color:#e6db74>{:04x}</span><span style=color:#e6db74>&#34;</span><span style=color:#f92672>.</span>format(op1, op2, result))
-
-            self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp] <span style=color:#f92672>=</span> result <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xff</span>
-            self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> (result <span style=color:#f92672>&gt;&gt;</span> <span style=color:#ae81ff>8</span>) <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xff</span>
-            self<span style=color:#f92672>.</span>pc <span style=color:#f92672>+=</span> <span style=color:#ae81ff>1</span>
-
-        <span style=color:#66d9ef>elif</span> opcode <span style=color:#f92672>==</span> <span style=color:#ae81ff>0xa4</span>:  <span style=color:#75715e># cmp</span>
-            op1 <span style=color:#f92672>=</span> (self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>&lt;&lt;</span> <span style=color:#ae81ff>8</span>) <span style=color:#f92672>|</span> self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp]
-            op2 <span style=color:#f92672>=</span> (self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>&lt;&lt;</span> <span style=color:#ae81ff>8</span>) <span style=color:#f92672>|</span> self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp <span style=color:#f92672>-</span> <span style=color:#ae81ff>2</span>]
-            self<span style=color:#f92672>.</span>sp <span style=color:#f92672>-=</span> <span style=color:#ae81ff>2</span>
-
-            result <span style=color:#f92672>=</span> int(op1 <span style=color:#f92672>==</span> op2)
-            print(<span style=color:#e6db74>&#34;cmp </span><span style=color:#e6db74>{:04x}</span><span style=color:#e6db74>, </span><span style=color:#e6db74>{:04x}</span><span style=color:#e6db74> = </span><span style=color:#e6db74>{:04x}</span><span style=color:#e6db74>&#34;</span><span style=color:#f92672>.</span>format(op1, op2, bool(result)))
-
-            self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp] <span style=color:#f92672>=</span> result <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xff</span>
-            self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> (result <span style=color:#f92672>&gt;&gt;</span> <span style=color:#ae81ff>8</span>)
-            self<span style=color:#f92672>.</span>pc <span style=color:#f92672>+=</span> <span style=color:#ae81ff>1</span>
-        <span style=color:#66d9ef>elif</span> <span style=color:#f92672>...</span> snip <span style=color:#f92672>...</span>
-</code></pre></div><p>The full emulator script can be found <a href=https://github.com/starfleetcadet75/writeups/blob/master/2020-Cyberstakes/into-the-metaverse/soln.py>here</a>.</p>
-<p>As we implement each handler, it is important to verify with GDB that the values on the stack before and after the function calls are the same otherwise we will have headaches tracing back incorrect outputs later on.</p>
-<p>Using our emulator, we can now run the bytecode program on our input and trace what virtualized instructions get called.
+Obviously this still requires a bit of work to remove things like pointers and convert the array accesses to work with our Python arrays.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>run</span>(self):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>while</span> <span style=color:#66d9ef>True</span>:
+</span></span><span style=display:flex><span>        opcode <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>code[self<span style=color:#f92672>.</span>pc]
+</span></span><span style=display:flex><span>        print(<span style=color:#e6db74>&#34;[PC: </span><span style=color:#e6db74>{:04x}</span><span style=color:#e6db74> | SP: </span><span style=color:#e6db74>{:04x}</span><span style=color:#e6db74> | Opcode: </span><span style=color:#e6db74>{:04x}</span><span style=color:#e6db74>]&#34;</span><span style=color:#f92672>.</span>format(self<span style=color:#f92672>.</span>pc, self<span style=color:#f92672>.</span>sp, opcode))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> opcode <span style=color:#f92672>==</span> <span style=color:#ae81ff>0x43</span>:  <span style=color:#75715e># add</span>
+</span></span><span style=display:flex><span>            op1 <span style=color:#f92672>=</span> (self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>&lt;&lt;</span> <span style=color:#ae81ff>8</span>) <span style=color:#f92672>|</span> self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp]
+</span></span><span style=display:flex><span>            op2 <span style=color:#f92672>=</span> (self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>&lt;&lt;</span> <span style=color:#ae81ff>8</span>) <span style=color:#f92672>|</span> self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp <span style=color:#f92672>-</span> <span style=color:#ae81ff>2</span>]
+</span></span><span style=display:flex><span>            self<span style=color:#f92672>.</span>sp <span style=color:#f92672>-=</span> <span style=color:#ae81ff>2</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            result <span style=color:#f92672>=</span> (op1 <span style=color:#f92672>+</span> op2)
+</span></span><span style=display:flex><span>            print(<span style=color:#e6db74>&#34;add </span><span style=color:#e6db74>{:04x}</span><span style=color:#e6db74>, </span><span style=color:#e6db74>{:04x}</span><span style=color:#e6db74> = </span><span style=color:#e6db74>{:04x}</span><span style=color:#e6db74>&#34;</span><span style=color:#f92672>.</span>format(op1, op2, result))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp] <span style=color:#f92672>=</span> result <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xff</span>
+</span></span><span style=display:flex><span>            self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> (result <span style=color:#f92672>&gt;&gt;</span> <span style=color:#ae81ff>8</span>) <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xff</span>
+</span></span><span style=display:flex><span>            self<span style=color:#f92672>.</span>pc <span style=color:#f92672>+=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>elif</span> opcode <span style=color:#f92672>==</span> <span style=color:#ae81ff>0xa4</span>:  <span style=color:#75715e># cmp</span>
+</span></span><span style=display:flex><span>            op1 <span style=color:#f92672>=</span> (self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>&lt;&lt;</span> <span style=color:#ae81ff>8</span>) <span style=color:#f92672>|</span> self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp]
+</span></span><span style=display:flex><span>            op2 <span style=color:#f92672>=</span> (self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>&lt;&lt;</span> <span style=color:#ae81ff>8</span>) <span style=color:#f92672>|</span> self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp <span style=color:#f92672>-</span> <span style=color:#ae81ff>2</span>]
+</span></span><span style=display:flex><span>            self<span style=color:#f92672>.</span>sp <span style=color:#f92672>-=</span> <span style=color:#ae81ff>2</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            result <span style=color:#f92672>=</span> int(op1 <span style=color:#f92672>==</span> op2)
+</span></span><span style=display:flex><span>            print(<span style=color:#e6db74>&#34;cmp </span><span style=color:#e6db74>{:04x}</span><span style=color:#e6db74>, </span><span style=color:#e6db74>{:04x}</span><span style=color:#e6db74> = </span><span style=color:#e6db74>{:04x}</span><span style=color:#e6db74>&#34;</span><span style=color:#f92672>.</span>format(op1, op2, bool(result)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp] <span style=color:#f92672>=</span> result <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xff</span>
+</span></span><span style=display:flex><span>            self<span style=color:#f92672>.</span>stack[self<span style=color:#f92672>.</span>sp <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> (result <span style=color:#f92672>&gt;&gt;</span> <span style=color:#ae81ff>8</span>)
+</span></span><span style=display:flex><span>            self<span style=color:#f92672>.</span>pc <span style=color:#f92672>+=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>elif</span> <span style=color:#f92672>...</span> snip <span style=color:#f92672>...</span>
+</span></span></code></pre></div><p>The full emulator script can be found <a href=https://github.com/starfleetcadet75/writeups/blob/master/2020-Cyberstakes/into-the-metaverse/soln.py>here</a>.</p><p>As we implement each handler, it is important to verify with GDB that the values on the stack before and after the function calls are the same otherwise we will have headaches tracing back incorrect outputs later on.</p><p>Using our emulator, we can now run the bytecode program on our input and trace what virtualized instructions get called.
 The user input is placed at 0x400 in instruction memory and the encoded flag is stored at 0x500.
-The program seems to perform quite a bit of setup at the start, so we grep for our user input.</p>
-<pre tabindex=0><code class=language-none data-lang=none>ld [0400]
+The program seems to perform quite a bit of setup at the start, so we grep for our user input.</p><pre tabindex=0><code class=language-none data-lang=none>ld [0400]
 enc1 4341 = 4314          ; Swap the lower nibbles of the first two characters
 pop c0de
 add c0de, 4314 = 103f2    ; Add the word 0xc0de to the value
@@ -270,70 +87,30 @@ enc2 03f2 = 30f2          ; Swap the upper nibbles
 store [0400], 30f2        ; Write the encoded value back to instruction memory
 </code></pre><p>A word of the user input is read from address 0x400, encoded, and then placed back at the same location.
 This process is repeated over the entire input.
-The compare instructions are then used to check whether each word of the encoded input equals the encoded flag.</p>
-<p>Using our understanding of the encoding algorithm, we can easily perform the reverse operations on the actual encoded flag itself.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>flag <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;</span>
-flaghash <span style=color:#f92672>=</span> BYTECODE[<span style=color:#ae81ff>0x500</span>:<span style=color:#ae81ff>0x520</span>]  <span style=color:#75715e># Extract the encoded flag from the instruction memory</span>
-
-<span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(<span style=color:#ae81ff>0</span>, len(flaghash), <span style=color:#ae81ff>2</span>):
-    op1 <span style=color:#f92672>=</span> flaghash[i]
-    op2 <span style=color:#f92672>=</span> flaghash[i <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>]
-
-    <span style=color:#75715e># Undo the second swap</span>
-    op2 <span style=color:#f92672>=</span> (op2 <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xff00</span>) <span style=color:#f92672>|</span> (op2 <span style=color:#f92672>&lt;&lt;</span> <span style=color:#ae81ff>4</span>) <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xf0</span> <span style=color:#f92672>|</span> (op2 <span style=color:#f92672>&gt;&gt;</span> <span style=color:#ae81ff>4</span>) <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xf</span>
-
-    <span style=color:#75715e># Subtract the word 0xc0de</span>
-    result <span style=color:#f92672>=</span> (op2 <span style=color:#f92672>&lt;&lt;</span> <span style=color:#ae81ff>8</span> <span style=color:#f92672>|</span> op1)
-    <span style=color:#66d9ef>if</span> result <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>0xc0de</span>:
-        result <span style=color:#f92672>+=</span> <span style=color:#ae81ff>0x10000</span>
-
-    result <span style=color:#f92672>-=</span> <span style=color:#ae81ff>0xc0de</span>
-    op1 <span style=color:#f92672>=</span> result <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xff</span>
-    op2 <span style=color:#f92672>=</span> result <span style=color:#f92672>&gt;&gt;</span> <span style=color:#ae81ff>8</span>
-
-    <span style=color:#75715e># Undo the first swap</span>
-    op1 <span style=color:#f92672>=</span> (op1 <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xff00</span>) <span style=color:#f92672>|</span> (op1 <span style=color:#f92672>&lt;&lt;</span> <span style=color:#ae81ff>4</span>) <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xf0</span> <span style=color:#f92672>|</span> (op1 <span style=color:#f92672>&gt;&gt;</span> <span style=color:#ae81ff>4</span>) <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xf</span>
-
-    flag <span style=color:#f92672>+=</span> chr(op1)
-    flag <span style=color:#f92672>+=</span> chr(op2)
-
-print(<span style=color:#e6db74>&#34;FLAG: </span><span style=color:#e6db74>{}</span><span style=color:#e6db74>&#34;</span><span style=color:#f92672>.</span>format(flag))
-</code></pre></div><p><strong>Flag:</strong> <code>ACI{2d54f989577bcfc823471412d0e}</code></p>
-</div>
-<footer class=post-footer>
-<div class=post-footer-data>
-<div class=tags>
-<div class=tag>
-<a href=/tags/reversing>#reversing</a>
-</div>
-</div>
-<div class=post-footer-meta>Permalink: <a href=https://starfleetcadet75.github.io/posts/cyberstakes-2020-into-the-metaverse/>/posts/cyberstakes-2020-into-the-metaverse/</a> | Date: 2020-05-03 </div>
-<hr>
-<div class=categories>
-Published in:
-<div class=category>
-<a href=/categories/writeups>writeups</a>
-</div>
-</div>
-<div class=series>
-</div>
-</div>
-</footer>
-</article>
-<footer>
-<div class=social-links-footer>
-<a href=mailto:starfleetcadet75@gmail.com><div class=social-link>Email</div></a>
-<a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>GitHub</div></a>
-<a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>GitLab</div></a>
-<div class=social-link>
-<a href=https://starfleetcadet75.github.io/index.xml target=_blank>RSS</a>
-</div>
-</div>
-<div class=copyright> </div>
-<div class=poweredby>
-Powered by <a href=https://gohugo.io/>Hugo</a>.
-</div>
-</footer>
-</div>
-</body>
-</html>
+The compare instructions are then used to check whether each word of the encoded input equals the encoded flag.</p><p>Using our understanding of the encoding algorithm, we can easily perform the reverse operations on the actual encoded flag itself.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>flag <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;</span>
+</span></span><span style=display:flex><span>flaghash <span style=color:#f92672>=</span> BYTECODE[<span style=color:#ae81ff>0x500</span>:<span style=color:#ae81ff>0x520</span>]  <span style=color:#75715e># Extract the encoded flag from the instruction memory</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(<span style=color:#ae81ff>0</span>, len(flaghash), <span style=color:#ae81ff>2</span>):
+</span></span><span style=display:flex><span>    op1 <span style=color:#f92672>=</span> flaghash[i]
+</span></span><span style=display:flex><span>    op2 <span style=color:#f92672>=</span> flaghash[i <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Undo the second swap</span>
+</span></span><span style=display:flex><span>    op2 <span style=color:#f92672>=</span> (op2 <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xff00</span>) <span style=color:#f92672>|</span> (op2 <span style=color:#f92672>&lt;&lt;</span> <span style=color:#ae81ff>4</span>) <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xf0</span> <span style=color:#f92672>|</span> (op2 <span style=color:#f92672>&gt;&gt;</span> <span style=color:#ae81ff>4</span>) <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xf</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Subtract the word 0xc0de</span>
+</span></span><span style=display:flex><span>    result <span style=color:#f92672>=</span> (op2 <span style=color:#f92672>&lt;&lt;</span> <span style=color:#ae81ff>8</span> <span style=color:#f92672>|</span> op1)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> result <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>0xc0de</span>:
+</span></span><span style=display:flex><span>        result <span style=color:#f92672>+=</span> <span style=color:#ae81ff>0x10000</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    result <span style=color:#f92672>-=</span> <span style=color:#ae81ff>0xc0de</span>
+</span></span><span style=display:flex><span>    op1 <span style=color:#f92672>=</span> result <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xff</span>
+</span></span><span style=display:flex><span>    op2 <span style=color:#f92672>=</span> result <span style=color:#f92672>&gt;&gt;</span> <span style=color:#ae81ff>8</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Undo the first swap</span>
+</span></span><span style=display:flex><span>    op1 <span style=color:#f92672>=</span> (op1 <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xff00</span>) <span style=color:#f92672>|</span> (op1 <span style=color:#f92672>&lt;&lt;</span> <span style=color:#ae81ff>4</span>) <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xf0</span> <span style=color:#f92672>|</span> (op1 <span style=color:#f92672>&gt;&gt;</span> <span style=color:#ae81ff>4</span>) <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0xf</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    flag <span style=color:#f92672>+=</span> chr(op1)
+</span></span><span style=display:flex><span>    flag <span style=color:#f92672>+=</span> chr(op2)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>print(<span style=color:#e6db74>&#34;FLAG: </span><span style=color:#e6db74>{}</span><span style=color:#e6db74>&#34;</span><span style=color:#f92672>.</span>format(flag))
+</span></span></code></pre></div><p><strong>Flag:</strong> <code>ACI{2d54f989577bcfc823471412d0e}</code></p></div><footer class=post-footer><div class=post-footer-data><div class=tags><div class=tag><a href=/tags/reversing>#reversing</a></div></div><div class=post-footer-meta>Permalink: <a href=https://starfleetcadet75.github.io/posts/cyberstakes-2020-into-the-metaverse/>/posts/cyberstakes-2020-into-the-metaverse/</a> | Date: 2020-05-03</div><hr><div class=categories>Published in:<div class=category><a href=/categories/writeups>writeups</a></div></div><div class=series></div></div></footer></article><footer><div class=social-links-footer><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>Email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>GitHub</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>GitLab</div></a><div class=social-link><a href=https://starfleetcadet75.github.io/index.xml target=_blank>RSS</a></div></div><div class=copyright></div><div class=poweredby>Powered by <a href=https://gohugo.io/>Hugo</a>.</div></footer></div></body></html>

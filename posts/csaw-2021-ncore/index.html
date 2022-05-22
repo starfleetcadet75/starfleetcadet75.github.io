@@ -1,156 +1,81 @@
-<!doctype html><html lang=en-us>
-<head>
-<meta charset=utf-8>
-<meta name=author content>
-<meta name=description content>
-<meta name=keywords content>
-<meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1">
-<meta name=generator content="Hugo 0.88.1">
-<link rel=canonical href=https://starfleetcadet75.github.io/posts/csaw-2021-ncore/>
-<meta property="og:title" content="CSAW 2021: ncore">
-<meta property="og:description" content="We have a very safe core with a very safe enclave.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://starfleetcadet75.github.io/posts/csaw-2021-ncore/"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2021-09-12T00:00:00+00:00">
-<meta property="article:modified_time" content="2021-09-12T00:00:00+00:00">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="CSAW 2021: ncore">
-<meta name=twitter:description content="We have a very safe core with a very safe enclave.">
-<meta itemprop=name content="CSAW 2021: ncore">
-<meta itemprop=description content="We have a very safe core with a very safe enclave."><meta itemprop=datePublished content="2021-09-12T00:00:00+00:00">
-<meta itemprop=dateModified content="2021-09-12T00:00:00+00:00">
-<meta itemprop=wordCount content="883">
-<meta itemprop=keywords content="reversing,verilog,">
-<link rel=stylesheet href=/css/layout.css>
-<link rel=stylesheet href=/css/default-dark.css>
-<link rel=stylesheet href=/css/adoc-html5-extension.css>
-<title>
-CSAW 2021: ncore
-</title>
-</head>
-<body>
-<div class=main>
-<header>
-<div class=header-bar>
-<nav>
-<div class=siteTitle>
-<a href=https://starfleetcadet75.github.io/>starfleetcadet75</a>
-</div>
-<a class=nav-item href=/about/><div class=nav-item-title>About</div></a>
-<a class=nav-item href=/readinglist/><div class=nav-item-title>Reading List</div></a>
-<a class="nav-item active" href=/posts/><div class=nav-item-title>Posts</div></a>
-</nav>
-<div class=social-links-header style=visibility:hidden;display:none>
-<a href=mailto:starfleetcadet75@gmail.com><div class=social-link>email</div></a>
-<a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>gh</div></a>
-<a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>gl</div></a>
-</div>
-</div>
-</header>
-<article class=post>
-<h1 class=title> CSAW 2021: ncore </h1>
-<div class=content> <p><strong>Category:</strong> Reversing<br>
-<strong>Points:</strong> 484<br>
-<strong>Provided:</strong></p>
-<ul>
-<li><a href="https://github.com/starfleetcadet75/writeups/blob/master/2021-CSAW/ncore/ncore_tb.v?raw=true">ncore_tb.v</a></li>
-<li><a href="https://github.com/starfleetcadet75/writeups/blob/master/2021-CSAW/ncore/server.py?raw=true">server.py</a></li>
-</ul>
-<h2 id=challenge>Challenge</h2>
-<blockquote>
-<p>We have a very safe core with a very safe enclave.</p>
-<p><code>nc rev.chal.csaw.io 5002</code></p>
-</blockquote>
-<h2 id=observations>Observations</h2>
-<p>The challenge provides us with a Verilog file along with a short Python script that is used to run the service.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>import</span> os
-<span style=color:#f92672>import</span> shutil
-<span style=color:#f92672>import</span> subprocess
-
-<span style=color:#66d9ef>def</span> <span style=color:#a6e22e>main</span>():
-    print(<span style=color:#e6db74>&#34;WELCOME&#34;</span>)
-    txt <span style=color:#f92672>=</span> input()
-    print(txt)
-    addr <span style=color:#f92672>=</span> os<span style=color:#f92672>.</span>environ<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#34;SOCAT_PEERADDR&#34;</span>)
-    <span style=color:#66d9ef>if</span>(os<span style=color:#f92672>.</span>path<span style=color:#f92672>.</span>exists(addr)):
-        shutil<span style=color:#f92672>.</span>rmtree(addr)
-    os<span style=color:#f92672>.</span>mkdir(addr)
-    shutil<span style=color:#f92672>.</span>copy(<span style=color:#e6db74>&#34;flag.hex&#34;</span>,<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>addr<span style=color:#e6db74>}</span><span style=color:#e6db74>/flag.hex&#34;</span>)
-    shutil<span style=color:#f92672>.</span>copy(<span style=color:#e6db74>&#34;nco&#34;</span>,<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>addr<span style=color:#e6db74>}</span><span style=color:#e6db74>/nco&#34;</span>)
-    ramf <span style=color:#f92672>=</span> open(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>addr<span style=color:#e6db74>}</span><span style=color:#e6db74>/ram.hex&#34;</span>,<span style=color:#e6db74>&#34;w&#34;</span>)
-    ramf<span style=color:#f92672>.</span>write(txt)
-    ramf<span style=color:#f92672>.</span>close()
-    p <span style=color:#f92672>=</span> subprocess<span style=color:#f92672>.</span>Popen([<span style=color:#e6db74>&#34;vvp&#34;</span>,<span style=color:#e6db74>&#34;nco&#34;</span>],stdout<span style=color:#f92672>=</span>subprocess<span style=color:#f92672>.</span>PIPE,cwd<span style=color:#f92672>=</span><span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;./</span><span style=color:#e6db74>{</span>addr<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
-    out <span style=color:#f92672>=</span> p<span style=color:#f92672>.</span>communicate()[<span style=color:#ae81ff>0</span>]
-    print(out)
-    shutil<span style=color:#f92672>.</span>rmtree(addr)
-    <span style=color:#66d9ef>return</span>
-
-<span style=color:#66d9ef>if</span> __name__ <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;__main__&#34;</span>:
-    main()
-</code></pre></div><p>The script runs a program named <code>nco</code> using the <a href=https://www.systutorials.com/docs/linux/man/1-vvp/>Icarus Verilog runtime engine</a>.
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=author content><meta name=description content><meta name=keywords content><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><meta name=generator content="Hugo 0.99.1"><link rel=canonical href=https://starfleetcadet75.github.io/posts/csaw-2021-ncore/><meta property="og:title" content="CSAW 2021: ncore"><meta property="og:description" content="We have a very safe core with a very safe enclave."><meta property="og:type" content="article"><meta property="og:url" content="https://starfleetcadet75.github.io/posts/csaw-2021-ncore/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-09-12T00:00:00+00:00"><meta property="article:modified_time" content="2021-09-12T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="CSAW 2021: ncore"><meta name=twitter:description content="We have a very safe core with a very safe enclave."><meta itemprop=name content="CSAW 2021: ncore"><meta itemprop=description content="We have a very safe core with a very safe enclave."><meta itemprop=datePublished content="2021-09-12T00:00:00+00:00"><meta itemprop=dateModified content="2021-09-12T00:00:00+00:00"><meta itemprop=wordCount content="883"><meta itemprop=keywords content="reversing,verilog,"><link rel=stylesheet href=/css/layout.css><link rel=stylesheet href=/css/default-dark.css><link rel=stylesheet href=/css/adoc-html5-extension.css><title>CSAW 2021: ncore</title></head><body><div class=main><header><div class=header-bar><nav><div class=siteTitle><a href=https://starfleetcadet75.github.io/>starfleetcadet75</a></div><a class=nav-item href=/about/><div class=nav-item-title>About</div></a><a class=nav-item href=/readinglist/><div class=nav-item-title>Reading List</div></a><a class="nav-item active" href=/posts/><div class=nav-item-title>Posts</div></a></nav><div class=social-links-header style=visibility:hidden;display:none><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>gh</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>gl</div></a></div></div></header><article class=post><h1 class=title>CSAW 2021: ncore</h1><div class=content><p><strong>Category:</strong> Reversing<br><strong>Points:</strong> 484<br><strong>Provided:</strong></p><ul><li><a href="https://github.com/starfleetcadet75/writeups/blob/master/2021-CSAW/ncore/ncore_tb.v?raw=true">ncore_tb.v</a></li><li><a href="https://github.com/starfleetcadet75/writeups/blob/master/2021-CSAW/ncore/server.py?raw=true">server.py</a></li></ul><h2 id=challenge>Challenge</h2><blockquote><p>We have a very safe core with a very safe enclave.</p><p><code>nc rev.chal.csaw.io 5002</code></p></blockquote><h2 id=observations>Observations</h2><p>The challenge provides us with a Verilog file along with a short Python script that is used to run the service.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> os
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> shutil
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> subprocess
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>main</span>():
+</span></span><span style=display:flex><span>    print(<span style=color:#e6db74>&#34;WELCOME&#34;</span>)
+</span></span><span style=display:flex><span>    txt <span style=color:#f92672>=</span> input()
+</span></span><span style=display:flex><span>    print(txt)
+</span></span><span style=display:flex><span>    addr <span style=color:#f92672>=</span> os<span style=color:#f92672>.</span>environ<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#34;SOCAT_PEERADDR&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span>(os<span style=color:#f92672>.</span>path<span style=color:#f92672>.</span>exists(addr)):
+</span></span><span style=display:flex><span>        shutil<span style=color:#f92672>.</span>rmtree(addr)
+</span></span><span style=display:flex><span>    os<span style=color:#f92672>.</span>mkdir(addr)
+</span></span><span style=display:flex><span>    shutil<span style=color:#f92672>.</span>copy(<span style=color:#e6db74>&#34;flag.hex&#34;</span>,<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>addr<span style=color:#e6db74>}</span><span style=color:#e6db74>/flag.hex&#34;</span>)
+</span></span><span style=display:flex><span>    shutil<span style=color:#f92672>.</span>copy(<span style=color:#e6db74>&#34;nco&#34;</span>,<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>addr<span style=color:#e6db74>}</span><span style=color:#e6db74>/nco&#34;</span>)
+</span></span><span style=display:flex><span>    ramf <span style=color:#f92672>=</span> open(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>addr<span style=color:#e6db74>}</span><span style=color:#e6db74>/ram.hex&#34;</span>,<span style=color:#e6db74>&#34;w&#34;</span>)
+</span></span><span style=display:flex><span>    ramf<span style=color:#f92672>.</span>write(txt)
+</span></span><span style=display:flex><span>    ramf<span style=color:#f92672>.</span>close()
+</span></span><span style=display:flex><span>    p <span style=color:#f92672>=</span> subprocess<span style=color:#f92672>.</span>Popen([<span style=color:#e6db74>&#34;vvp&#34;</span>,<span style=color:#e6db74>&#34;nco&#34;</span>],stdout<span style=color:#f92672>=</span>subprocess<span style=color:#f92672>.</span>PIPE,cwd<span style=color:#f92672>=</span><span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;./</span><span style=color:#e6db74>{</span>addr<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>    out <span style=color:#f92672>=</span> p<span style=color:#f92672>.</span>communicate()[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>    print(out)
+</span></span><span style=display:flex><span>    shutil<span style=color:#f92672>.</span>rmtree(addr)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> __name__ <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;__main__&#34;</span>:
+</span></span><span style=display:flex><span>    main()
+</span></span></code></pre></div><p>The script runs a program named <code>nco</code> using the <a href=https://www.systutorials.com/docs/linux/man/1-vvp/>Icarus Verilog runtime engine</a>.
 We can create this program by compiling the provided Verilog file with <code>iverilog -g2012 -o nco ncore_tb.v</code>.
-The server script provides the program with the flag and writes the user&rsquo;s input to the initial contents of the simulated CPU&rsquo;s RAM.</p>
-<p>The Verilog program simulates a simple CPU with two-byte instructions.
+The server script provides the program with the flag and writes the user&rsquo;s input to the initial contents of the simulated CPU&rsquo;s RAM.</p><p>The Verilog program simulates a simple CPU with two-byte instructions.
 The first four bits is the opcode and the second byte is the address used by certain instructions.
-The list of possible opcodes is defined at the top of the file:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-verilog data-lang=verilog><span style=color:#75715e>`define ADD  4&#39;d0
-</span><span style=color:#75715e>`define SUB  4&#39;d1
-</span><span style=color:#75715e>`define AND  4&#39;d2
-</span><span style=color:#75715e>`define OR   4&#39;d3
-</span><span style=color:#75715e>`define RES 4&#39;d4
-</span><span style=color:#75715e>`define MOVF 4&#39;d5
-</span><span style=color:#75715e>`define MOVT 4&#39;d6
-</span><span style=color:#75715e>`define ENT  4&#39;d7
-</span><span style=color:#75715e>`define EXT  4&#39;d8 
-</span><span style=color:#75715e>`define JGT  4&#39;d9
-</span><span style=color:#75715e>`define JEQ  4&#39;d10
-</span><span style=color:#75715e>`define JMP  4&#39;d11
-</span><span style=color:#75715e>`define INC  4&#39;d12
-</span><span style=color:#75715e>`define MOVFS 4&#39;d13
-</span></code></pre></div><p>The module includes four 32-bit registers in addition to a <code>safe_rom</code> and <code>ram</code> memory regions.
+The list of possible opcodes is defined at the top of the file:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-verilog data-lang=verilog><span style=display:flex><span><span style=color:#75715e>`define ADD  4&#39;d0
+</span></span></span><span style=display:flex><span><span style=color:#75715e>`define SUB  4&#39;d1
+</span></span></span><span style=display:flex><span><span style=color:#75715e>`define AND  4&#39;d2
+</span></span></span><span style=display:flex><span><span style=color:#75715e>`define OR   4&#39;d3
+</span></span></span><span style=display:flex><span><span style=color:#75715e>`define RES 4&#39;d4
+</span></span></span><span style=display:flex><span><span style=color:#75715e>`define MOVF 4&#39;d5
+</span></span></span><span style=display:flex><span><span style=color:#75715e>`define MOVT 4&#39;d6
+</span></span></span><span style=display:flex><span><span style=color:#75715e>`define ENT  4&#39;d7
+</span></span></span><span style=display:flex><span><span style=color:#75715e>`define EXT  4&#39;d8 
+</span></span></span><span style=display:flex><span><span style=color:#75715e>`define JGT  4&#39;d9
+</span></span></span><span style=display:flex><span><span style=color:#75715e>`define JEQ  4&#39;d10
+</span></span></span><span style=display:flex><span><span style=color:#75715e>`define JMP  4&#39;d11
+</span></span></span><span style=display:flex><span><span style=color:#75715e>`define INC  4&#39;d12
+</span></span></span><span style=display:flex><span><span style=color:#75715e>`define MOVFS 4&#39;d13
+</span></span></span></code></pre></div><p>The module includes four 32-bit registers in addition to a <code>safe_rom</code> and <code>ram</code> memory regions.
 The <code>safe_rom</code> is initialized with the flag and the user&rsquo;s input is stored in the <code>ram</code>.
-There is also a 32-bit random key that is initialized from <code>/dev/urandom</code> and a flag indicating whether the CPU is running in a certain mode.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-verilog data-lang=verilog><span style=color:#66d9ef>module</span> ncore_tb;
-  <span style=color:#66d9ef>reg</span> [<span style=color:#ae81ff>7</span><span style=color:#f92672>:</span><span style=color:#ae81ff>0</span>] safe_rom [<span style=color:#ae81ff>0</span><span style=color:#f92672>:</span><span style=color:#ae81ff>255</span>];
-  <span style=color:#66d9ef>reg</span> [<span style=color:#ae81ff>7</span><span style=color:#f92672>:</span><span style=color:#ae81ff>0</span>] ram [<span style=color:#ae81ff>0</span><span style=color:#f92672>:</span><span style=color:#ae81ff>255</span>];
-  <span style=color:#66d9ef>reg</span> [<span style=color:#ae81ff>31</span><span style=color:#f92672>:</span><span style=color:#ae81ff>0</span>] regfile [<span style=color:#ae81ff>0</span><span style=color:#f92672>:</span><span style=color:#ae81ff>3</span>];
-  <span style=color:#66d9ef>reg</span> [<span style=color:#ae81ff>31</span><span style=color:#f92672>:</span><span style=color:#ae81ff>0</span>] key [<span style=color:#ae81ff>0</span><span style=color:#f92672>:</span><span style=color:#ae81ff>0</span>];
-  <span style=color:#66d9ef>reg</span> emode;
-  <span style=color:#66d9ef>wire</span> [<span style=color:#ae81ff>3</span><span style=color:#f92672>:</span><span style=color:#ae81ff>0</span>] opcode;
-</code></pre></div><p>The main execution loop continously reads the next opcode from <code>ram</code> and executes each instruction.
+There is also a 32-bit random key that is initialized from <code>/dev/urandom</code> and a flag indicating whether the CPU is running in a certain mode.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-verilog data-lang=verilog><span style=display:flex><span><span style=color:#66d9ef>module</span> ncore_tb;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>reg</span> [<span style=color:#ae81ff>7</span><span style=color:#f92672>:</span><span style=color:#ae81ff>0</span>] safe_rom [<span style=color:#ae81ff>0</span><span style=color:#f92672>:</span><span style=color:#ae81ff>255</span>];
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>reg</span> [<span style=color:#ae81ff>7</span><span style=color:#f92672>:</span><span style=color:#ae81ff>0</span>] ram [<span style=color:#ae81ff>0</span><span style=color:#f92672>:</span><span style=color:#ae81ff>255</span>];
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>reg</span> [<span style=color:#ae81ff>31</span><span style=color:#f92672>:</span><span style=color:#ae81ff>0</span>] regfile [<span style=color:#ae81ff>0</span><span style=color:#f92672>:</span><span style=color:#ae81ff>3</span>];
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>reg</span> [<span style=color:#ae81ff>31</span><span style=color:#f92672>:</span><span style=color:#ae81ff>0</span>] key [<span style=color:#ae81ff>0</span><span style=color:#f92672>:</span><span style=color:#ae81ff>0</span>];
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>reg</span> emode;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>wire</span> [<span style=color:#ae81ff>3</span><span style=color:#f92672>:</span><span style=color:#ae81ff>0</span>] opcode;
+</span></span></code></pre></div><p>The main execution loop continously reads the next opcode from <code>ram</code> and executes each instruction.
 The MOVFS instruction looks interesting since it is the only one that touches <code>safe_rom</code>.
-If the <code>emode</code> flag is set, MOVFS will read a single byte from <code>safe_rom</code> at the given address.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-verilog data-lang=verilog><span style=color:#66d9ef>`MOVFS</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>begin</span>
-  <span style=color:#66d9ef>if</span>(emode) <span style=color:#66d9ef>begin</span>
-    regfile[ram[pc][<span style=color:#ae81ff>5</span><span style=color:#f92672>:</span><span style=color:#ae81ff>4</span>]] <span style=color:#f92672>&lt;=</span> safe_rom[ram[pc<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>]];
-  <span style=color:#66d9ef>end</span>
-  increment_pc();
-<span style=color:#66d9ef>end</span>
-</code></pre></div><p>To summarize the challenge, we are provided with a simulation of some custom CPU that will execute arbitrary code in RAM that is submitted to the server.
-The flag is stored in a protected ROM region of memory and we will need to disable the protection flag in order to read it.</p>
-<h2 id=solution>Solution</h2>
-<p>In order to access the flag, we need to set <code>emode</code>.
-Calling the ENT instruction will set it if the first 14-bits of the key match the value of register R0.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-verilog data-lang=verilog><span style=color:#66d9ef>`ENT</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>begin</span>
-  <span style=color:#75715e>// $display(&#34;%d | %d&#34;,regfile[0],key[0][13:0]);
-</span><span style=color:#75715e></span>  <span style=color:#66d9ef>if</span>(key[<span style=color:#ae81ff>0</span>][<span style=color:#ae81ff>13</span><span style=color:#f92672>:</span><span style=color:#ae81ff>0</span>]<span style=color:#f92672>==</span>regfile[<span style=color:#ae81ff>0</span>]) <span style=color:#66d9ef>begin</span>
-    emode <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>1</span>;
-    regfile[<span style=color:#ae81ff>3</span>] <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>0</span>;
-    $display(<span style=color:#e6db74>&#34;ENT&#34;</span>);
-  <span style=color:#66d9ef>end</span> <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>begin</span>
-    regfile[<span style=color:#ae81ff>3</span>] <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>1</span>;
-  <span style=color:#66d9ef>end</span>
-  increment_pc();
-<span style=color:#66d9ef>end</span>
-</code></pre></div><p>The value of key is randomized each time the simulation is run.
+If the <code>emode</code> flag is set, MOVFS will read a single byte from <code>safe_rom</code> at the given address.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-verilog data-lang=verilog><span style=display:flex><span><span style=color:#66d9ef>`MOVFS</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>begin</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span>(emode) <span style=color:#66d9ef>begin</span>
+</span></span><span style=display:flex><span>    regfile[ram[pc][<span style=color:#ae81ff>5</span><span style=color:#f92672>:</span><span style=color:#ae81ff>4</span>]] <span style=color:#f92672>&lt;=</span> safe_rom[ram[pc<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>]];
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>  increment_pc();
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span></code></pre></div><p>To summarize the challenge, we are provided with a simulation of some custom CPU that will execute arbitrary code in RAM that is submitted to the server.
+The flag is stored in a protected ROM region of memory and we will need to disable the protection flag in order to read it.</p><h2 id=solution>Solution</h2><p>In order to access the flag, we need to set <code>emode</code>.
+Calling the ENT instruction will set it if the first 14-bits of the key match the value of register R0.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-verilog data-lang=verilog><span style=display:flex><span><span style=color:#66d9ef>`ENT</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>begin</span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// $display(&#34;%d | %d&#34;,regfile[0],key[0][13:0]);
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#66d9ef>if</span>(key[<span style=color:#ae81ff>0</span>][<span style=color:#ae81ff>13</span><span style=color:#f92672>:</span><span style=color:#ae81ff>0</span>]<span style=color:#f92672>==</span>regfile[<span style=color:#ae81ff>0</span>]) <span style=color:#66d9ef>begin</span>
+</span></span><span style=display:flex><span>    emode <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>1</span>;
+</span></span><span style=display:flex><span>    regfile[<span style=color:#ae81ff>3</span>] <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>    $display(<span style=color:#e6db74>&#34;ENT&#34;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span> <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>begin</span>
+</span></span><span style=display:flex><span>    regfile[<span style=color:#ae81ff>3</span>] <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>1</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>  increment_pc();
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span></code></pre></div><p>The value of key is randomized each time the simulation is run.
 However, only the first 14-bits of the key are actually used, which reduces the range of possible values.
-We can also execute arbitrary code including performing control flow operations without any constraints.</p>
-<p>Using the INC instruction (0xc), we can continously increment the R0 register and try executing ENT.
-We can then use JEQ (0xa) to either continue the bruteforce attempt or breakout of it once the <code>emode</code> flag is changed.</p>
-<p>Once we have disabled the read protections, we can execute a MOVFS instruction to read a single byte from <code>safe_rom</code> into register R0.
-The program prints the contents of RAM when it finishes so we will write the flag character from R0 to memory using the MOVT instruction (0x6).</p>
-<pre tabindex=0><code class=language-none data-lang=none>// Brute force the 14-bit key and check if emode is set
+We can also execute arbitrary code including performing control flow operations without any constraints.</p><p>Using the INC instruction (0xc), we can continously increment the R0 register and try executing ENT.
+We can then use JEQ (0xa) to either continue the bruteforce attempt or breakout of it once the <code>emode</code> flag is changed.</p><p>Once we have disabled the read protections, we can execute a MOVFS instruction to read a single byte from <code>safe_rom</code> into register R0.
+The program prints the contents of RAM when it finishes so we will write the flag character from R0 to memory using the MOVT instruction (0x6).</p><pre tabindex=0><code class=language-none data-lang=none>// Brute force the 14-bit key and check if emode is set
 2c 00  // Set R2 = 1 for JEQ to test against
 0c 00  // INC R0
 07 00  // ENT
@@ -165,59 +90,17 @@ ea 02  // JEQ R2, R3, 2
 06 fd  // MOVT R0, 0xfd
 ...
 </code></pre><p>The Verilog file includes a number of commented out display statements that are useful for debugging the custom code.
-Submitting these hex strings to the server yields the flag:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>from</span> pwn <span style=color:#f92672>import</span> <span style=color:#f92672>*</span>
-
-ram <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;2c 00 0c 00 07 00 ea 02 0d 00 06 ff 0d 01 06 fe 0d 02 06 fd 0d 03 06 fc 0d 04 06 fb 0d 05 06 fa 0d 06 06 f9 0d 07 06 f8 0d 08 06 f7 0d 09 06 f6 0d 0a 06 f5 0d 0b 06 f4 0d 0c 06 f3 0d 0d 06 f2 0d 0e 06 f1 0d 0f 06 f0 0d 10 06 ef 0d 11 06 ee 0d 12 06 ed 0d 13 06 ec 0d 14 06 eb 0d 15 06 ea 0d 16 06 e9 0d 17 06 e8 0d 18 06 e7 0d 19 06 e6 0d 1a 06 e5 0d 1b 06 e4 0d 1c 06 e3 0d 1d 06 e2 0d 1e 06 e1 0d 1f 06 e0&#34;</span>
-
-r <span style=color:#f92672>=</span> remote(<span style=color:#e6db74>&#34;rev.chal.csaw.io&#34;</span>, <span style=color:#ae81ff>5002</span>)
-print(r<span style=color:#f92672>.</span>recvuntil(<span style=color:#e6db74>b</span><span style=color:#e6db74>&#34;WELCOME</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>))
-r<span style=color:#f92672>.</span>sendline(ram)
-
-r<span style=color:#f92672>.</span>recvuntil(<span style=color:#e6db74>&#34;ENT</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>n&#34;</span>)
-flag <span style=color:#f92672>=</span> r<span style=color:#f92672>.</span>recvuntil(<span style=color:#e6db74>&#34;xx&#34;</span>)
-flag <span style=color:#f92672>=</span> flag<span style=color:#f92672>.</span>decode()[:<span style=color:#f92672>-</span><span style=color:#ae81ff>3</span>]<span style=color:#f92672>.</span>split()
-flag <span style=color:#f92672>=</span> [ chr(int(c, <span style=color:#ae81ff>16</span>)) <span style=color:#66d9ef>for</span> c <span style=color:#f92672>in</span> flag ]
-print(<span style=color:#e6db74>&#34;&#34;</span><span style=color:#f92672>.</span>join(flag))
-</code></pre></div><p><strong>Flag:</strong> <code>flag{d0nT_mESs_wiTh_tHe_sChLAmi}</code></p>
-</div>
-<footer class=post-footer>
-<div class=post-footer-data>
-<div class=tags>
-<div class=tag>
-<a href=/tags/reversing>#reversing</a>
-</div>
-<div class=tag>
-<a href=/tags/verilog>#verilog</a>
-</div>
-</div>
-<div class=post-footer-meta>Permalink: <a href=https://starfleetcadet75.github.io/posts/csaw-2021-ncore/>/posts/csaw-2021-ncore/</a> | Date: 2021-09-12 </div>
-<hr>
-<div class=categories>
-Published in:
-<div class=category>
-<a href=/categories/writeups>writeups</a>
-</div>
-</div>
-<div class=series>
-</div>
-</div>
-</footer>
-</article>
-<footer>
-<div class=social-links-footer>
-<a href=mailto:starfleetcadet75@gmail.com><div class=social-link>Email</div></a>
-<a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>GitHub</div></a>
-<a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>GitLab</div></a>
-<div class=social-link>
-<a href=https://starfleetcadet75.github.io/index.xml target=_blank>RSS</a>
-</div>
-</div>
-<div class=copyright> </div>
-<div class=poweredby>
-Powered by <a href=https://gohugo.io/>Hugo</a>.
-</div>
-</footer>
-</div>
-</body>
-</html>
+Submitting these hex strings to the server yields the flag:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>from</span> pwn <span style=color:#f92672>import</span> <span style=color:#f92672>*</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ram <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;2c 00 0c 00 07 00 ea 02 0d 00 06 ff 0d 01 06 fe 0d 02 06 fd 0d 03 06 fc 0d 04 06 fb 0d 05 06 fa 0d 06 06 f9 0d 07 06 f8 0d 08 06 f7 0d 09 06 f6 0d 0a 06 f5 0d 0b 06 f4 0d 0c 06 f3 0d 0d 06 f2 0d 0e 06 f1 0d 0f 06 f0 0d 10 06 ef 0d 11 06 ee 0d 12 06 ed 0d 13 06 ec 0d 14 06 eb 0d 15 06 ea 0d 16 06 e9 0d 17 06 e8 0d 18 06 e7 0d 19 06 e6 0d 1a 06 e5 0d 1b 06 e4 0d 1c 06 e3 0d 1d 06 e2 0d 1e 06 e1 0d 1f 06 e0&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>r <span style=color:#f92672>=</span> remote(<span style=color:#e6db74>&#34;rev.chal.csaw.io&#34;</span>, <span style=color:#ae81ff>5002</span>)
+</span></span><span style=display:flex><span>print(r<span style=color:#f92672>.</span>recvuntil(<span style=color:#e6db74>b</span><span style=color:#e6db74>&#34;WELCOME</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>))
+</span></span><span style=display:flex><span>r<span style=color:#f92672>.</span>sendline(ram)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>r<span style=color:#f92672>.</span>recvuntil(<span style=color:#e6db74>&#34;ENT</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>n&#34;</span>)
+</span></span><span style=display:flex><span>flag <span style=color:#f92672>=</span> r<span style=color:#f92672>.</span>recvuntil(<span style=color:#e6db74>&#34;xx&#34;</span>)
+</span></span><span style=display:flex><span>flag <span style=color:#f92672>=</span> flag<span style=color:#f92672>.</span>decode()[:<span style=color:#f92672>-</span><span style=color:#ae81ff>3</span>]<span style=color:#f92672>.</span>split()
+</span></span><span style=display:flex><span>flag <span style=color:#f92672>=</span> [ chr(int(c, <span style=color:#ae81ff>16</span>)) <span style=color:#66d9ef>for</span> c <span style=color:#f92672>in</span> flag ]
+</span></span><span style=display:flex><span>print(<span style=color:#e6db74>&#34;&#34;</span><span style=color:#f92672>.</span>join(flag))
+</span></span></code></pre></div><p><strong>Flag:</strong> <code>flag{d0nT_mESs_wiTh_tHe_sChLAmi}</code></p></div><footer class=post-footer><div class=post-footer-data><div class=tags><div class=tag><a href=/tags/reversing>#reversing</a></div><div class=tag><a href=/tags/verilog>#verilog</a></div></div><div class=post-footer-meta>Permalink: <a href=https://starfleetcadet75.github.io/posts/csaw-2021-ncore/>/posts/csaw-2021-ncore/</a> | Date: 2021-09-12</div><hr><div class=categories>Published in:<div class=category><a href=/categories/writeups>writeups</a></div></div><div class=series></div></div></footer></article><footer><div class=social-links-footer><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>Email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>GitHub</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>GitLab</div></a><div class=social-link><a href=https://starfleetcadet75.github.io/index.xml target=_blank>RSS</a></div></div><div class=copyright></div><div class=poweredby>Powered by <a href=https://gohugo.io/>Hugo</a>.</div></footer></div></body></html>

